@@ -1,0 +1,3 @@
+[submodule "vendor/glium-glyph"]
+	path = vendor/glium-glyph
+	url = https://github.com/InfiniteCoder01/glium-glyph.git
