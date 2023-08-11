@@ -90,8 +90,7 @@ impl WindowHandler for Overlay {
 impl Overlay {
     fn draw_chat(&self, space: &mut OverlaySpace, graphics: &mut Graphics2D) {
         let text_color = Color::WHITE;
-        let font_size = 24.0;
-        let author_font_size = 26.0;
+        let font_size = 21.0;
 
         let chat_size = IVec2::new(350, self.size.y as i32 - 120);
         let mut position = IVec2::new(
@@ -100,7 +99,7 @@ impl Overlay {
         );
         for message in &space.chat {
             let author = format!("{}: ", message.author());
-            let author = self.layout_text(&author, author_font_size, TextOptions::new());
+            let author = self.layout_text(&author, font_size, TextOptions::new());
             let text = self.layout_text(
                 message.content(),
                 font_size,
