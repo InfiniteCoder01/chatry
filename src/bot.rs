@@ -1,5 +1,3 @@
-use map_macro::hash_map;
-
 use crate::config::*;
 use std::time::{Duration, Instant};
 
@@ -34,19 +32,6 @@ pub fn on_message(
                         )?
                     }
                 }
-                "!setprogress" => {
-                    if let Some(progress) = args.get(0) {
-                        state.progress = progress.to_owned();
-                        writer.say(&pm, &format!("Ok, we are now at '{}'!", progress))?
-                    }
-                }
-                "!setstate" => {
-                    if let (Some(wyd), Some(progress)) = (args.get(0), args.get(1)) {
-                        state.wyd = wyd.to_owned();
-                        state.progress = progress.to_owned();
-                        writer.say(&pm, &format!("Ok, we are now {} at '{}'!", wyd, progress))?
-                    }
-                }
                 "!party" => {
                     state.party = true;
                     writer.say(&pm, "Let's spam!!!")?;
@@ -69,12 +54,11 @@ pub fn on_message(
         }
         match cmd.as_str() {
             "!wyd" => writer.say(&pm, &format!("We are {}!", state.wyd))?,
-            "!progress" => writer.say(&pm, &format!("We are at '{}'!", state.progress))?,
             "!qotd" => writer.say(&pm, &format!("The question of the day: {}", config.qotd))?,
             "!ferris" => {
                 space.plushies.push(Plushie::new(
                     "Ferris",
-                    Vec2::new(rand::thread_rng().gen_range(0..1920 - 230), 1080),
+                    UVec2::new(rand::thread_rng().gen_range(0..1920 - 230), 0).into_f32(),
                 ));
                 writer.say(&pm, "Ferris joined the party!")?;
             }
@@ -151,7 +135,6 @@ impl CommandCooldown {
 // * ------------------------------------- State ------------------------------------ * //
 pub struct State {
     pub wyd: String,
-    pub progress: String,
     pub party: bool,
 
     pub cooldowns: std::collections::HashMap<&'static str, CommandCooldown>,
@@ -161,7 +144,6 @@ impl State {
     pub fn new() -> Self {
         Self {
             wyd: "not doing anything yet".to_owned(),
-            progress: "choosing what to do".to_owned(),
             party: false,
             cooldowns: hash_map! {
                 "!wyd" => CommandCooldown::new(Duration::from_secs(10), Duration::from_secs(10)),

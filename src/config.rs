@@ -1,6 +1,7 @@
-pub use crate::math::*;
 pub use anyhow::*;
+pub use map_macro::*;
 pub use rand::Rng;
+pub use speedy2d::dimen::*;
 pub use twitchchat::{
     messages::Privmsg,
     writer::{AsyncWriter, MpscWriter},
@@ -28,23 +29,22 @@ pub struct OverlaySpace {
 pub struct ChatMessage {
     author: String,
     content: String,
-    username_color: [f32; 4],
+    author_color: speedy2d::color::Color,
     time: std::time::Instant,
 }
 
 impl ChatMessage {
-    pub fn new(author: &str, content: &str, username_color: twitchchat::twitch::Color) -> Self {
-        let username_color = [
-            username_color.rgb.0 as f32 / 255.0,
-            username_color.rgb.1 as f32 / 255.0,
-            username_color.rgb.2 as f32 / 255.0,
-            1.0,
-        ];
+    pub fn new(author: &str, content: &str, author_color: twitchchat::twitch::Color) -> Self {
+        let author_color = speedy2d::color::Color::from_int_rgb(
+            author_color.rgb.0,
+            author_color.rgb.1,
+            author_color.rgb.2,
+        );
 
         Self {
             author: author.to_owned(),
             content: content.to_owned(),
-            username_color,
+            author_color,
             time: std::time::Instant::now(),
         }
     }
@@ -57,8 +57,8 @@ impl ChatMessage {
         &self.content
     }
 
-    pub fn username_color(&self) -> [f32; 4] {
-        self.username_color
+    pub fn author_color(&self) -> speedy2d::color::Color {
+        self.author_color
     }
 
     pub fn since_sent(&self) -> u64 {
@@ -68,16 +68,32 @@ impl ChatMessage {
 
 pub struct Plushie {
     name: String,
-    pub position: Vec2<f32>,
-    pub velocity: Vec2<f32>,
+    pub position: Vec2,
+    pub velocity: Vec2,
 }
 
 impl Plushie {
-    pub fn new(name: &str, position: impl Into<Vec2<f32>>) -> Self {
+    pub fn new(name: &str, position: Vec2) -> Self {
         Self {
             name: name.to_owned(),
-            position: position.into(),
-            velocity: Vec2::new(400.0, 0.0),
+            position,
+            velocity: Vec2::new(rand::thread_rng().gen_range(-400.0..400.0), 0.0),
+        }
+    }
+
+    pub fn update(&mut self, delta_time: f32, size: UVec2, screen_size: UVec2) {
+        self.velocity.y += delta_time * 1000.0;
+
+        let motion = self.velocity * delta_time;
+        self.position += motion;
+
+        if self.position.x < 0.0 || self.position.x as u32 + size.x > screen_size.x {
+            self.position.x -= motion.x;
+            self.velocity.x *= -1.0;
+        }
+        if self.position.y as u32 + size.y > screen_size.y {
+            self.position.y -= motion.y;
+            self.velocity.y *= -0.8;
         }
     }
 

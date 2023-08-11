@@ -1,14 +1,8 @@
 pub mod bot;
 pub mod config;
-pub mod gl;
-pub mod math;
 pub mod overlay;
 
-#[macro_use]
-extern crate glium;
-
 use config::*;
-
 use twitchchat::{
     messages::Commands,
     runner::{AsyncRunner, Status},
@@ -34,15 +28,7 @@ fn main() -> Result<()> {
         .build()?;
     let connector = twitchchat::connector::smol::Connector::twitch()?;
 
-    smol::block_on(async move {
-        smol::spawn(async move {
-            match overlay::create_overlay() {
-                Result::Ok(overlay) => overlay::run_overlay(overlay),
-                Err(err) => println!("Overlay not initialized: '{}'", err),
-            }
-        })
-        .detach();
-
+    smol::spawn(async move {
         let mut runner = AsyncRunner::connect(connector, &user_config).await?;
         runner.join(&private.channel).await?;
         let mut writer = runner.writer();
@@ -59,5 +45,11 @@ fn main() -> Result<()> {
         }
 
         Ok(())
-    })
+    }).detach();
+
+    if let Err(err) = overlay::run_overlay() {
+        println!("Overlay not initialized: '{}'", err);
+    }
+
+    Ok(())
 }

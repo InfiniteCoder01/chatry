@@ -1,216 +1,152 @@
-use std::collections::HashMap;
-use std::time::Instant;
-
 use crate::config::*;
-use crate::gl::*;
-use glium::{glutin::surface::WindowSurface, Display, Surface};
-use glium_glyph::{glyph_brush::ab_glyph::FontRef, GlyphBrushBuilder};
-use map_macro::*;
-use winit::{event_loop::EventLoop, window::Window};
+use speedy2d::{color::Color, font::*, image::*, window::*, Graphics2D};
+use std::{rc::Rc, time::Instant};
 
-pub struct Overlay {
-    window: Window,
-    display: Display<WindowSurface>,
-    event_loop: EventLoop<()>,
-    program: glium::Program,
-    textures: HashMap<String, Texture>,
-    image_object: GraphicsObject,
-    glyph_brush: glium_glyph::GlyphBrush<'static, FontRef<'static>>,
-}
+pub fn run_overlay() -> Result<()> {
+    let window = speedy2d::Window::new_with_options(
+        "Chatry Overlay",
+        WindowCreationOptions::new_windowed(WindowSize::MarginPhysicalPixels(0), None)
+            .with_always_on_top(true)
+            .with_decorations(false)
+            .with_maximized(true)
+            .with_mouse_passthrough(true)
+            .with_transparent(true),
+    )
+    .map_err(|err| anyhow!(err.to_string()))?;
 
-pub fn create_overlay() -> Result<Overlay> {
-    // * Platform Dependent:
-    use winit::platform::wayland::EventLoopBuilderExtWayland;
-    let event_loop = winit::event_loop::EventLoopBuilder::new()
-        .with_any_thread(true)
-        .build();
-    let (window, display) = glium::backend::glutin::SimpleWindowBuilder::new()
-        .window_builder(
-            winit::window::WindowBuilder::new()
-                .with_title("Chatry Overlay")
-                .with_decorations(false)
-                .with_transparent(true)
-                .with_fullscreen(Some(winit::window::Fullscreen::Borderless(None)))
-                .with_window_level(winit::window::WindowLevel::AlwaysOnTop),
-        )
-        .build(&event_loop);
-    window.set_cursor_hittest(false)?;
+    let font = Font::new(include_bytes!("../Assets/Roobert+NotoEmoji.ttf"))
+        .map_err(|err| anyhow!(err.to_string()))?;
+    let bg_font = Font::new(include_bytes!("../Assets/FontOutlinedBG.ttf"))
+        .map_err(|err| anyhow!(err.to_string()))?;
 
-    let program = glium::Program::from_source(
-        &display,
-        include_str!("shaders/vert.glsl"),
-        include_str!("shaders/frag.glsl"),
-        None,
-    )?;
-
-    let font = FontRef::try_from_slice(include_bytes!("../Assets/Roobert+NotoEmoji.ttf")).unwrap();
-    let bg_font = FontRef::try_from_slice(include_bytes!("../Assets/FontOutlinedBG.ttf")).unwrap();
-    let textures = hash_map! {
-        "Ferris".to_owned() => Texture::load(&display, include_bytes!("../Assets/Ferris.png"))?,
-    };
-
-    let image_object = GraphicsObject::new(&display)?;
-    let mut glyph_brush = GlyphBrushBuilder::using_font(font);
-    glyph_brush.add_font(bg_font);
-    let glyph_brush = glyph_brush.build(&display);
-    Ok(Overlay {
-        window,
-        display,
-        event_loop,
-        program,
-        textures,
-        image_object,
-        glyph_brush,
-    })
-}
-
-pub fn run_overlay(mut overlay: Overlay) {
-    let mut last_frame = Instant::now();
-    overlay.event_loop.run(move |ev, _, control_flow| {
-        let mut space = OVERLAY_SPACE.lock().unwrap();
-        match ev {
-            winit::event::Event::WindowEvent { event, .. } => match event {
-                winit::event::WindowEvent::CloseRequested => {
-                    *control_flow = winit::event_loop::ControlFlow::Exit;
-                }
-                winit::event::WindowEvent::Resized(size) => {
-                    overlay.display.resize((size.width, size.height))
-                }
-                _ => (),
-            },
-            winit::event::Event::RedrawRequested(_) => {
-                let mut target = overlay.display.draw();
-                let delta_time = last_frame.elapsed().as_secs_f32();
-                last_frame = Instant::now();
-                let mut image_objects = HashMap::<String, Vec<Instance>>::new();
-
-                update(
-                    &mut space,
-                    &overlay.textures,
-                    overlay.display.get_framebuffer_dimensions().into(),
-                    delta_time,
-                    &mut overlay.glyph_brush,
-                    &mut image_objects,
-                );
-
-                target.clear_color(0.0, 0.0, 0.0, 0.0);
-                for (texture, instances) in image_objects {
-                    overlay.image_object.draw(
-                        &overlay.display,
-                        &mut target,
-                        &overlay.program,
-                        &overlay.textures[&texture],
-                        &instances,
-                    );
-                }
-                overlay
-                    .glyph_brush
-                    .draw_queued(&overlay.display, &mut target);
-                target.finish().unwrap();
-                overlay.window.request_redraw();
-            }
-            _ => (),
-        }
+    window.run_loop(Overlay {
+        textures: std::collections::HashMap::new(),
+        font,
+        bg_font,
+        size: UVec2::ZERO,
+        last_frame: std::time::Instant::now(),
     });
 }
 
-fn update(
-    space: &mut OverlaySpace,
-    textures: &HashMap<String, Texture>,
-    screen_size: Vec2<u32>,
-    delta_time: f32,
-    glyph_brush: &mut glium_glyph::GlyphBrush<'_, FontRef<'_>>,
-    image_objects: &mut HashMap<String, Vec<Instance>>,
-) {
-    for plushie in &mut space.plushies {
-        plushie.velocity.y -= delta_time * 1000.0;
-
-        let motion = plushie.velocity * delta_time;
-        plushie.position += motion;
-
-        if plushie.position.x < 0.0
-            || plushie.position.x as u32 + textures[plushie.name()].size().x > screen_size.x
-        {
-            plushie.position.x -= motion.x;
-            plushie.velocity.x *= -1.0;
-        }
-        if plushie.position.y < 0.0 {
-            plushie.position.y -= motion.y;
-            plushie.velocity.y *= -0.8;
-        }
-
-        image_objects
-            .entry(plushie.name().clone())
-            .or_default()
-            .push(Instance {
-                position: plushie.position.into(),
-            });
-    }
-    space
-        .plushies
-        .retain(|plushie| !(plushie.position.y < 10.0 && plushie.velocity.y.abs() < 10.0));
-
-    draw_chat_overlay(space, screen_size, glyph_brush);
+struct Overlay {
+    textures: std::collections::HashMap<String, speedy2d::image::ImageHandle>,
+    font: Font,
+    bg_font: Font,
+    size: UVec2,
+    last_frame: std::time::Instant,
 }
 
-fn draw_chat_overlay(
-    space: &mut OverlaySpace,
-    screen_size: Vec2<u32>,
-    glyph_brush: &mut glium_glyph::GlyphBrush<'_, FontRef<'_>>,
-) {
-    let chat_size = Vec2::new(350, screen_size.y - 120);
-    let chat_position = Vec2::new(screen_size.x - chat_size.x - 20, 80);
-    let author_font_size = 22.0;
-    let font_size = 18.0;
-    let text_color = [1.0, 1.0, 1.0, 1.0];
-    let background_color = [0.0, 0.0, 0.0, 1.0];
-
-    let mut chat_text = glium_glyph::glyph_brush::Section::default();
-    for message in &space.chat {
-        chat_text = chat_text.add_text(
-            glium_glyph::glyph_brush::Text::new(" ")
-                .with_scale(font_size)
-                .with_color(text_color),
-        );
-        chat_text = chat_text.add_text(
-            glium_glyph::glyph_brush::Text::new(message.author())
-                .with_scale(author_font_size)
-                .with_color(message.username_color()),
-        );
-        chat_text = chat_text.add_text(
-            glium_glyph::glyph_brush::Text::new(" ")
-                .with_scale(font_size)
-                .with_color(text_color),
-        );
-        chat_text = chat_text.add_text(
-            glium_glyph::glyph_brush::Text::new(message.content())
-                .with_scale(font_size)
-                .with_color(text_color),
-        );
-        chat_text = chat_text.add_text(
-            glium_glyph::glyph_brush::Text::new("\n")
-                .with_scale(font_size)
-                .with_color(text_color),
-        );
+impl WindowHandler for Overlay {
+    fn on_start(&mut self, _helper: &mut WindowHelper<()>, info: WindowStartupInfo) {
+        self.size = *info.viewport_size_pixels()
     }
 
-    // * Draw text
-    chat_text = chat_text
-        .with_bounds(chat_size.casted::<Vec2<f32>>())
-        .with_screen_position((
-            chat_position.x as f32,
-            screen_size.y as f32 - chat_position.y as f32,
-        ))
-        .with_layout(
-            glium_glyph::glyph_brush::Layout::default_wrap()
-                .v_align(glium_glyph::glyph_brush::VerticalAlign::Bottom),
-        );
-    let text_fg = chat_text.clone();
-    for text in &mut chat_text.text {
-        text.font_id.0 += 1;
-        text.extra.color = background_color;
+    fn on_draw(&mut self, helper: &mut WindowHelper, graphics: &mut Graphics2D) {
+        helper.set_fullscreen_mode(WindowFullscreenMode::FullscreenBorderless);
+        graphics.clear_screen(Color::TRANSPARENT);
+
+        if self.textures.is_empty() {
+            macro_rules! load_image {
+                ($name: literal) => {
+                    graphics
+                        .create_image_from_file_bytes(
+                            Some(ImageFileFormat::PNG),
+                            ImageSmoothingMode::Linear,
+                            std::io::Cursor::new(include_bytes!(concat!(
+                                "../Assets/",
+                                $name,
+                                ".png"
+                            ))),
+                        )
+                        .unwrap()
+                };
+            }
+
+            self.textures = hash_map! {
+                "Ferris".to_owned() => load_image!("Ferris"),
+            };
+        }
+
+        let mut space = OVERLAY_SPACE.lock().unwrap();
+        let delta_time = self.last_frame.elapsed().as_secs_f32();
+        self.last_frame = Instant::now();
+
+        for plushie in &mut space.plushies {
+            let texture = &self.textures[plushie.name()];
+            plushie.update(delta_time, *texture.size(), self.size);
+            graphics.draw_image(plushie.position, texture);
+        }
+        space.plushies.retain(|plushie| {
+            !(plushie.position.y as u32 + self.textures[plushie.name()].size().y > self.size.y - 10
+                && plushie.velocity.y.abs() < 10.0)
+        });
+
+        self.draw_chat(&mut space, graphics);
+        self.overlay_text(graphics, IVec2::new(10, 10), "Overlay is active 🖥️", 24.0);
+        helper.request_redraw();
     }
-    glyph_brush.queue(chat_text);
-    glyph_brush.queue(text_fg);
-    space.chat.retain(|message| message.since_sent() < 10);
+}
+
+impl Overlay {
+    fn draw_chat(&self, space: &mut OverlaySpace, graphics: &mut Graphics2D) {
+        let text_color = Color::WHITE;
+        let font_size = 24.0;
+        let author_font_size = 26.0;
+
+        let chat_size = IVec2::new(350, self.size.y as i32 - 120);
+        let mut position = IVec2::new(
+            self.size.x as i32 - chat_size.x - 20,
+            self.size.y as i32 - 80,
+        );
+        for message in &space.chat {
+            let author = format!("{}: ", message.author());
+            let author = self.layout_text(&author, author_font_size, TextOptions::new());
+            let text = self.layout_text(
+                message.content(),
+                font_size,
+                TextOptions::new().with_wrap_to_width(
+                    chat_size.x as f32 - author.1.size().x,
+                    TextAlignment::Left,
+                ),
+            );
+
+            let message_position = position + IVec2::new_x(author.1.size().x as _);
+            self.draw_text(graphics, position, message.author_color(), &author);
+            self.draw_text(graphics, message_position, text_color, &text);
+            position.y -= text.1.size().y as i32 + 5;
+        }
+        space.chat.retain(|message| message.since_sent() < 10);
+    }
+
+    fn layout_text(
+        &self,
+        text: &str,
+        size: f32,
+        options: TextOptions,
+    ) -> (Rc<FormattedTextBlock>, Rc<FormattedTextBlock>) {
+        (
+            self.bg_font.layout_text(text, size, options.clone()),
+            self.font.layout_text(text, size, options),
+        )
+    }
+
+    fn draw_text(
+        &self,
+        graphics: &mut Graphics2D,
+        position: IVec2,
+        color: Color,
+        text: &(Rc<FormattedTextBlock>, Rc<FormattedTextBlock>),
+    ) {
+        graphics.draw_text(position.into_f32(), Color::BLACK, &text.0);
+        graphics.draw_text(position.into_f32(), color, &text.1);
+    }
+
+    fn overlay_text(&self, graphics: &mut Graphics2D, position: IVec2, text: &str, size: f32) {
+        self.draw_text(
+            graphics,
+            position,
+            Color::WHITE,
+            &self.layout_text(text, size, TextOptions::new()),
+        );
+    }
 }
