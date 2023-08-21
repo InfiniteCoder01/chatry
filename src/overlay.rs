@@ -5,7 +5,7 @@ use std::{rc::Rc, time::Instant};
 pub fn run_overlay() -> Result<()> {
     let window = speedy2d::Window::new_with_options(
         "Chatry Overlay",
-        WindowCreationOptions::new_windowed(WindowSize::MarginPhysicalPixels(86), None)
+        WindowCreationOptions::new_windowed(WindowSize::MarginPhysicalPixels(90), None)
             .with_always_on_top(true)
             .with_decorations(false)
             .with_mouse_passthrough(true)
@@ -37,7 +37,11 @@ struct Overlay {
 
 impl WindowHandler for Overlay {
     fn on_start(&mut self, _helper: &mut WindowHelper<()>, info: WindowStartupInfo) {
-        self.size = *info.viewport_size_pixels()
+        self.size = *info.viewport_size_pixels();
+    }
+
+    fn on_resize(&mut self, _helper: &mut WindowHelper<()>, size_pixels: UVec2) {
+        self.size = size_pixels;
     }
 
     fn on_draw(&mut self, helper: &mut WindowHelper, graphics: &mut Graphics2D) {
@@ -80,6 +84,7 @@ impl WindowHandler for Overlay {
         });
 
         self.draw_chat(&mut space, graphics);
+        self.draw_rect(graphics, IVec2::new(0, 0), self.size, 4.0, Color::RED);
         self.overlay_text(graphics, IVec2::new(10, 10), "Overlay is active 🖥️", 24.0);
         helper.request_redraw();
     }
@@ -144,6 +149,40 @@ impl Overlay {
             position,
             Color::WHITE,
             &self.layout_text(text, size, TextOptions::new()),
+        );
+    }
+
+    fn draw_rect(
+        &self,
+        graphics: &mut Graphics2D,
+        position: IVec2,
+        size: UVec2,
+        thickness: f32,
+        color: Color,
+    ) {
+        graphics.draw_line(
+            position.into_f32(),
+            position.into_f32() + Vector2::new(size.x, 0).into_f32(),
+            thickness,
+            color,
+        );
+        graphics.draw_line(
+            position.into_f32() + Vector2::new(size.x, 0).into_f32(),
+            position.into_f32() + Vector2::new(size.x, size.y).into_f32(),
+            thickness,
+            color,
+        );
+        graphics.draw_line(
+            position.into_f32() + Vector2::new(size.x, size.y).into_f32(),
+            position.into_f32() + Vector2::new(0, size.y).into_f32(),
+            thickness,
+            color,
+        );
+        graphics.draw_line(
+            position.into_f32() + Vector2::new(0, size.y).into_f32(),
+            position.into_f32(),
+            thickness,
+            color,
         );
     }
 }
