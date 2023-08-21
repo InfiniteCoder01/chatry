@@ -4,16 +4,14 @@ let
     libGL
     libxkbcommon
     wayland
-    xorg.libX11
-    xorg.libXcursor
-    xorg.libXi
-    xorg.libXrandr
+    # xorg.libX11
+    # xorg.libXcursor
+    # xorg.libXi
+    # xorg.libXrandr
   ];
 in
 with pkgs; mkShell {
-  packages = [ cargo cmake pkg-config ];
   inputsFrom = [ ];
-  buildInputs = [ fontconfig xorg.libX11 xorg.libXcursor xorg.libXrandr xorg.libXi wayland ];
+  buildInputs = [ rustup cmake pkg-config fontconfig ];
   LD_LIBRARY_PATH = "${libPath}";
-  WINIT_UNIX_BACKEND = "wayland";
 }

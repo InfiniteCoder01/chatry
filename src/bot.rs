@@ -34,7 +34,7 @@ pub fn on_message(
                 }
                 "!party" => {
                     state.party = true;
-                    writer.say(&pm, "Let's spam!!!")?;
+                    writer.say(&pm, "Spam '!ferris'!!!")?;
                 }
                 "!noparty" => {
                     state.party = false;

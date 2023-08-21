@@ -5,10 +5,9 @@ use std::{rc::Rc, time::Instant};
 pub fn run_overlay() -> Result<()> {
     let window = speedy2d::Window::new_with_options(
         "Chatry Overlay",
-        WindowCreationOptions::new_windowed(WindowSize::MarginPhysicalPixels(0), None)
+        WindowCreationOptions::new_windowed(WindowSize::MarginPhysicalPixels(86), None)
             .with_always_on_top(true)
             .with_decorations(false)
-            .with_maximized(true)
             .with_mouse_passthrough(true)
             .with_transparent(true),
     )
@@ -42,7 +41,6 @@ impl WindowHandler for Overlay {
     }
 
     fn on_draw(&mut self, helper: &mut WindowHelper, graphics: &mut Graphics2D) {
-        helper.set_fullscreen_mode(WindowFullscreenMode::FullscreenBorderless);
         graphics.clear_screen(Color::TRANSPARENT);
 
         if self.textures.is_empty() {
@@ -124,7 +122,7 @@ impl Overlay {
         options: TextOptions,
     ) -> (Rc<FormattedTextBlock>, Rc<FormattedTextBlock>) {
         (
-            self.bg_font.layout_text(text, size, options.clone()),
+            self.bg_font.layout_text(text, size, TextOptions::new()),
             self.font.layout_text(text, size, options),
         )
     }
