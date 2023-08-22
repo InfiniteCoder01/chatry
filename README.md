@@ -1,6 +1,6 @@
 # Chatry - bot for my twitch channel!
-To use, clone repo with submodules:
-`git clone https://github.com/InfiniteCoder01/chatry.git --recursive`
+To use, clone repo:
+`git clone https://github.com/InfiniteCoder01/chatry.git`
 Edit config.toml to suit your needs.
 Make private.toml like that:
 ```

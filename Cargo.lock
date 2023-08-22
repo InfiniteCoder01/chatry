@@ -1767,6 +1767,7 @@ dependencies = [
 [[package]]
 name = "speedy2d"
 version = "1.8.0"
+source = "git+https://github.com/InfiniteCoder01/Speedy2D.git?branch=mgalos999/master#9af9a68fa10341571a7645d6d1f7438a9761febd"
 dependencies = [
  "backtrace",
  "earcutr",
