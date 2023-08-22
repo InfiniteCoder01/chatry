@@ -1,5 +1,5 @@
 use crate::config::*;
-use speedy2d::{color::Color, font::*, image::*, window::*, Graphics2D};
+use speedy2d::{color::Color, font::*, image::*, shape::Rectangle, window::*, Graphics2D};
 use std::{rc::Rc, time::Instant};
 
 pub fn run_overlay() -> Result<()> {
@@ -75,12 +75,22 @@ impl WindowHandler for Overlay {
 
         for plushie in &mut space.plushies {
             let texture = &self.textures[plushie.name()];
-            plushie.update(delta_time, *texture.size(), self.size);
-            graphics.draw_image(plushie.position, texture);
+            let size = texture.size().into_f32() * plushie.scale;
+            plushie.update(delta_time, size, self.size);
+
+            let pivot = Vec2::new(0.5, 1.0);
+            let position = plushie.point.position + size * pivot;
+            let size = size * Vec2::new(1.0 / plushie.squash, plushie.squash);
+            graphics.draw_rectangle_image(
+                Rectangle::new(position - size * pivot, position - size * pivot + size),
+                texture,
+            );
+            // self.draw_rect(graphics, plushie.squash_point.clone().unwrap().position.into_i32(), UVec2::new(8, 8), 8.0, Color::RED);
         }
         space.plushies.retain(|plushie| {
-            !(plushie.position.y as u32 + self.textures[plushie.name()].size().y > self.size.y - 10
-                && plushie.velocity.y.abs() < 10.0)
+            !(plushie.point.position.y as u32 + self.textures[plushie.name()].size().y
+                > self.size.y - 10
+                && plushie.point.velocity.y.abs() < 10.0)
         });
 
         self.draw_chat(&mut space, graphics);

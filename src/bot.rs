@@ -59,6 +59,7 @@ pub fn on_message(
                 space.plushies.push(Plushie::new(
                     "Ferris",
                     UVec2::new(rand::thread_rng().gen_range(0..1920 - 230), 0).into_f32(),
+                    1.0,
                 ));
                 writer.say(&pm, "Ferris joined the party!")?;
             }

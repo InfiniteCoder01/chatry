@@ -1,0 +1,6 @@
+[submodule "vendor/glium-glyph"]
+	path = vendor/glium-glyph
+	url = https://github.com/InfiniteCoder01/glium-glyph.git
+[submodule "vendor/Speedy2D"]
+	path = vendor/Speedy2D
+	url = https://github.com/InfiniteCoder01/Speedy2D.git
