@@ -297,6 +297,7 @@ dependencies = [
  "smol",
  "speedy2d",
  "toml",
+ "triangulation",
  "twitchchat",
 ]
 
@@ -1943,6 +1944,12 @@ dependencies = [
  "toml_datetime",
  "winnow",
 ]
+
+[[package]]
+name = "triangulation"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0d42cd22cd79f86535bc4e3d92d24817a3a329cdccbc236885c3e493ad99b37a"
 
 [[package]]
 name = "ttf-parser"

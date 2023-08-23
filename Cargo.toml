@@ -21,3 +21,4 @@ twitchchat = { version = "0.14.8", features = ["smol", "async"] }
 
 speedy2d = { git = "https://github.com/InfiniteCoder01/Speedy2D.git", branch = "mgalos999/master" }
 ron = "0.8.1"
+triangulation = "0.1.1"

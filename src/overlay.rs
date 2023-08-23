@@ -18,7 +18,6 @@ struct PlushieProto {
 #[derive(Serialize, Deserialize)]
 struct PlushieStructure {
     points: Vec<(i32, i32)>,
-    #[serde(skip)]
     springs: Vec<(usize, usize)>,
 }
 
@@ -76,19 +75,12 @@ impl WindowHandler for Overlay {
                                 ))),
                             )
                             .unwrap(),
-                        structure: {
-                            let mut structure: PlushieStructure = ron::from_str(include_str!(
-                                concat!("../Assets/Plushies/", $name, ".ron")
-                            ))
-                            .unwrap();
-                            structure.springs.clear();
-                            for index1 in 0..structure.points.len() - 1 {
-                                for index2 in index1 + 1..structure.points.len() {
-                                    structure.springs.push((index1, index2));
-                                }
-                            }
-                            structure
-                        },
+                        structure: ron::from_str(include_str!(concat!(
+                            "../Assets/Plushies/",
+                            $name,
+                            ".ron"
+                        )))
+                        .unwrap(),
                     }
                 };
             }
@@ -100,7 +92,12 @@ impl WindowHandler for Overlay {
                 "NixOS".to_owned() => load_plushie!("NixOS"),
                 "Manjaro".to_owned() => load_plushie!("Manjaro"),
                 "VSCode".to_owned() => load_plushie!("VSCode"),
-            };
+                "GitHub".to_owned() => load_plushie!("GitHub"),
+                "Helix".to_owned() => load_plushie!("Helix"),
+                "NVim".to_owned() => load_plushie!("NVim"),
+                "Bash".to_owned() => load_plushie!("Bash"),
+                "Twitch".to_owned() => load_plushie!("Twitch"),
+            }; // * !party; !plushie Ferris; !plushie C++; !plushie C; !plushie NixOS; !plushie Manjaro; !plushie VSCode; !plushie GitHub; !plushie Helix; !plushie NVim; !plushie Bash; !plushie Twitch
         }
 
         let mut space = OVERLAY_SPACE.lock().unwrap();
@@ -111,15 +108,27 @@ impl WindowHandler for Overlay {
             let proto = &self.plushie_protos[plushie.name()];
             let frame = plushie.update(proto, self.size, delta_time);
 
-            let particle0 = &frame[0];
-            for (index, particle1) in frame[1..frame.len() - 1].iter().enumerate() {
-                let particle2 = &frame[index + 2];
-                graphics.draw_triangle_image_tinted_three_color(
-                    [particle0.position, particle1.position, particle2.position],
-                    [Color::WHITE, Color::WHITE, Color::WHITE],
-                    [particle0.uv, particle1.uv, particle2.uv],
-                    &proto.image,
-                );
+            if let Some(triangulation) = triangulation::Delaunay::new(
+                &frame
+                    .iter()
+                    .map(|point| triangulation::Point::new(point.position.x, point.position.y))
+                    .collect::<Vec<_>>(),
+            ) {
+                for triangle in (0..triangulation.dcel.num_triangles())
+                    .map(|index| triangulation.dcel.triangle_points(index * 3))
+                {
+                    let (particle0, particle1, particle2) = (
+                        &frame[triangle[0]],
+                        &frame[triangle[1]],
+                        &frame[triangle[2]],
+                    );
+                    graphics.draw_triangle_image_tinted_three_color(
+                        [particle0.position, particle1.position, particle2.position],
+                        [Color::WHITE, Color::WHITE, Color::WHITE],
+                        [particle0.uv, particle1.uv, particle2.uv],
+                        &proto.image,
+                    );
+                }
             }
         }
         space
@@ -284,7 +293,7 @@ impl Plushie {
             name: name.to_owned(),
             frame: PlushieFrame::Unitnitialized(
                 Vec2::new(rand::thread_rng().gen_range(-400.0..400.0), 0.0),
-                scale * 0.1,
+                scale * 0.7,
             ),
             scale,
             time: std::time::Instant::now(),
@@ -329,14 +338,15 @@ impl Plushie {
         }
 
         for &(index1, index2) in &proto.structure.springs {
-            let spring_k = 300.0; // 100.0
-            let damp_k = 2.0; // 1.0
-
             let target_length = (IVec2::from(proto.structure.points[index2])
                 - IVec2::from(proto.structure.points[index1]))
             .into_f32()
             .magnitude()
                 * self.scale;
+
+            let spring_k = 300.0 / target_length * 170.0;
+            let damp_k = 2.0;
+
             let spring = frame[index2].position - frame[index1].position;
             let spring = spring - spring.normalize().unwrap_or(Vec2::ZERO) * target_length;
             let damp = frame[index2].velocity - frame[index1].velocity;

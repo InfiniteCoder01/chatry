@@ -69,7 +69,12 @@ pub fn on_message(
                     }
                     "!plushie" => {
                         if let Some(name) = args.get(0) {
-                            if ["Ferris", "C", "C++", "NixOS", "Manjaro", "VSCode"].contains(&name.as_str()) {
+                            if [
+                                "Ferris", "C", "C++", "NixOS", "Manjaro", "VSCode", "GitHub",
+                                "Helix", "NVim", "Bash", "Twitch",
+                            ]
+                            .contains(&name.as_str())
+                            {
                                 let scales = hash_map! {
                                     "Ferris" => 1.0,
                                     "C" => 0.5,
@@ -77,6 +82,11 @@ pub fn on_message(
                                     "NixOS" => 0.5,
                                     "Manjaro" => 0.3,
                                     "VSCode" => 0.3,
+                                    "GitHub" => 0.3,
+                                    "Helix" => 1.0,
+                                    "NVim" => 0.3,
+                                    "Bash" => 0.3,
+                                    "Twitch" => 0.3,
                                 };
                                 space.plushies.push(crate::overlay::Plushie::new(
                                     name,
