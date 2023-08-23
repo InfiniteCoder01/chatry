@@ -1,4 +1,4 @@
 /target
 private.toml
 deploy.sh
-.direnv
+/.direnv

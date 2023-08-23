@@ -16,54 +16,79 @@ pub fn on_message(
         .map(|admin| admin.to_lowercase())
         .any(|admin| admin == author.to_lowercase());
 
-    if msg.starts_with('!') {
-        let (cmd, args) = parse_args(msg);
-        println!("[{}] {}", author, msg);
+    if msg.contains("#WhenGC2") {
+        writer.reply(&pm, "Submissions to One Lone Coder Code Jam 2023 are open from August 25th 2023 at 10:00 PM.")?;
+    }
 
-        // * Admin commands
-        if admin {
-            match cmd.as_str() {
-                "!setwyd" => {
-                    if let Some(wyd) = args.get(0) {
-                        state.wyd = wyd.to_owned();
-                        writer.say(
-                            &pm,
-                            &format!("Ok, we are now {}! Type !progress for progress!", wyd),
-                        )?
+    if msg.starts_with('!') {
+        for msg in msg.split(';') {
+            let msg = msg.trim();
+            if msg.starts_with('!') {
+                let (cmd, args) = parse_args(msg);
+                println!("[{}] {}", author, msg);
+
+                // * Admin commands
+                if admin {
+                    match cmd.as_str() {
+                        "!setwyd" => {
+                            if let Some(wyd) = args.get(0) {
+                                state.wyd = wyd.to_owned();
+                                writer.say(
+                                    &pm,
+                                    &format!(
+                                        "Ok, we are now {}! Type !progress for progress!",
+                                        wyd
+                                    ),
+                                )?
+                            }
+                        }
+                        "!party" => {
+                            state.party = true;
+                            writer.say(&pm, "Spam plushies!!!")?;
+                        }
+                        "!noparty" => {
+                            state.party = false;
+                            writer.say(&pm, "Back to work!")?;
+                        }
+                        _ => (),
                     }
                 }
-                "!party" => {
-                    state.party = true;
-                    writer.say(&pm, "Spam '!ferris'!!!")?;
-                }
-                "!noparty" => {
-                    state.party = false;
-                    writer.say(&pm, "Back to work!")?;
-                }
-                _ => (),
-            }
-        }
 
-        // * Normal commands
-        if !state.party {
-            if let Some(cooldown) = state.cooldowns.get_mut(cmd.as_str()) {
-                if !cooldown.check(author) {
-                    return Ok(());
+                // * Normal commands
+                if !state.party {
+                    if let Some(cooldown) = state.cooldowns.get_mut(cmd.as_str()) {
+                        if !cooldown.check(author) {
+                            return Ok(());
+                        }
+                    }
+                }
+                match cmd.as_str() {
+                    "!wyd" => writer.say(&pm, &format!("We are {}!", state.wyd))?,
+                    "!qotd" => {
+                        writer.say(&pm, &format!("The question of the day: {}", config.qotd))?
+                    }
+                    "!plushie" => {
+                        if let Some(name) = args.get(0) {
+                            if ["Ferris", "C", "C++", "NixOS", "Manjaro", "VSCode"].contains(&name.as_str()) {
+                                let scales = hash_map! {
+                                    "Ferris" => 1.0,
+                                    "C" => 0.5,
+                                    "C++" => 0.5,
+                                    "NixOS" => 0.5,
+                                    "Manjaro" => 0.3,
+                                    "VSCode" => 0.3,
+                                };
+                                space.plushies.push(crate::overlay::Plushie::new(
+                                    name,
+                                    scales[name.as_str()],
+                                ));
+                                writer.say(&pm, &format!("{} joined the party!", name))?;
+                            }
+                        }
+                    }
+                    _ => (),
                 }
             }
-        }
-        match cmd.as_str() {
-            "!wyd" => writer.say(&pm, &format!("We are {}!", state.wyd))?,
-            "!qotd" => writer.say(&pm, &format!("The question of the day: {}", config.qotd))?,
-            "!ferris" => {
-                space.plushies.push(Plushie::new(
-                    "Ferris",
-                    UVec2::new(rand::thread_rng().gen_range(0..1920 - 230), 0).into_f32(),
-                    1.0,
-                ));
-                writer.say(&pm, "Ferris joined the party!")?;
-            }
-            _ => (),
         }
     } else {
         space.chat.push(ChatMessage::new(
@@ -150,7 +175,7 @@ impl State {
                 "!wyd" => CommandCooldown::new(Duration::from_secs(10), Duration::from_secs(10)),
                 "!progress" => CommandCooldown::new(Duration::from_secs(10), Duration::from_secs(10)),
                 "!qotd" => CommandCooldown::new(Duration::from_secs(10), Duration::from_secs(10)),
-                "!ferris" => CommandCooldown::new(Duration::from_secs(3), Duration::from_secs(30)),
+                "!plushie" => CommandCooldown::new(Duration::from_secs(3), Duration::from_secs(30)),
             },
         }
     }
