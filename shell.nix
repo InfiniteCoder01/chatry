@@ -12,6 +12,6 @@ let
 in
 with pkgs; mkShell {
   inputsFrom = [ ];
-  buildInputs = [ rustup cmake pkg-config fontconfig cargo-watch ];
+  buildInputs = [ rustup cmake pkg-config fontconfig ];
   LD_LIBRARY_PATH = "${libPath}";
 }

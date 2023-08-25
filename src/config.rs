@@ -22,7 +22,7 @@ pub static OVERLAY_SPACE: Lazy<std::sync::Mutex<OverlaySpace>> =
 
 #[derive(Default)]
 pub struct OverlaySpace {
-    pub plushies: Vec<crate::overlay::Plushie>,
+    pub plushies: Vec<crate::overlay::plushie::Plushie>,
     pub chat: Vec<ChatMessage>,
 }
 

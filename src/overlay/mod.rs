@@ -1,4 +1,6 @@
+pub mod plushie;
 use crate::config::*;
+use plushie::*;
 use speedy2d::{color::Color, font::*, image::*, window::*, Graphics2D};
 use std::{rc::Rc, time::Instant};
 
@@ -8,17 +10,6 @@ struct Overlay {
     bg_font: Font,
     size: UVec2,
     last_frame: std::time::Instant,
-}
-
-struct PlushieProto {
-    image: speedy2d::image::ImageHandle,
-    structure: PlushieStructure,
-}
-
-#[derive(Serialize, Deserialize)]
-struct PlushieStructure {
-    points: Vec<(i32, i32)>,
-    springs: Vec<(usize, usize)>,
 }
 
 // * ------------------------------------ Handler ----------------------------------- * //
@@ -33,9 +24,9 @@ pub fn run_overlay() -> Result<()> {
     )
     .map_err(|err| anyhow!(err.to_string()))?;
 
-    let font = Font::new(include_bytes!("../Assets/Roobert+NotoEmoji.ttf"))
+    let font = Font::new(include_bytes!("../../Assets/Roobert+NotoEmoji.ttf"))
         .map_err(|err| anyhow!(err.to_string()))?;
-    let bg_font = Font::new(include_bytes!("../Assets/FontOutlinedBG.ttf"))
+    let bg_font = Font::new(include_bytes!("../../Assets/FontOutlinedBG.ttf"))
         .map_err(|err| anyhow!(err.to_string()))?;
 
     window.run_loop(Overlay {
@@ -61,43 +52,7 @@ impl WindowHandler for Overlay {
         graphics.clear_screen(Color::TRANSPARENT);
 
         if self.plushie_protos.is_empty() {
-            macro_rules! load_plushie {
-                ($name: literal) => {
-                    PlushieProto {
-                        image: graphics
-                            .create_image_from_file_bytes(
-                                Some(ImageFileFormat::PNG),
-                                ImageSmoothingMode::Linear,
-                                std::io::Cursor::new(include_bytes!(concat!(
-                                    "../Assets/Plushies/",
-                                    $name,
-                                    ".png"
-                                ))),
-                            )
-                            .unwrap(),
-                        structure: ron::from_str(include_str!(concat!(
-                            "../Assets/Plushies/",
-                            $name,
-                            ".ron"
-                        )))
-                        .unwrap(),
-                    }
-                };
-            }
-
-            self.plushie_protos = hash_map! {
-                "Ferris".to_owned() => load_plushie!("Ferris"),
-                "C++".to_owned() => load_plushie!("C++"),
-                "C".to_owned() => load_plushie!("C"),
-                "NixOS".to_owned() => load_plushie!("NixOS"),
-                "Manjaro".to_owned() => load_plushie!("Manjaro"),
-                "VSCode".to_owned() => load_plushie!("VSCode"),
-                "GitHub".to_owned() => load_plushie!("GitHub"),
-                "Helix".to_owned() => load_plushie!("Helix"),
-                "NVim".to_owned() => load_plushie!("NVim"),
-                "Bash".to_owned() => load_plushie!("Bash"),
-                "Twitch".to_owned() => load_plushie!("Twitch"),
-            }; // * !party; !plushie Ferris; !plushie C++; !plushie C; !plushie NixOS; !plushie Manjaro; !plushie VSCode; !plushie GitHub; !plushie Helix; !plushie NVim; !plushie Bash; !plushie Twitch
+            self.load(graphics)
         }
 
         let mut space = OVERLAY_SPACE.lock().unwrap();
@@ -144,6 +99,46 @@ impl WindowHandler for Overlay {
 
 // * ------------------------------------- Utils ------------------------------------ * //
 impl Overlay {
+    fn load(&mut self, graphics: &mut Graphics2D) {
+        macro_rules! load_plushie {
+            ($name: literal) => {
+                PlushieProto {
+                    image: graphics
+                        .create_image_from_file_bytes(
+                            Some(ImageFileFormat::PNG),
+                            ImageSmoothingMode::Linear,
+                            std::io::Cursor::new(include_bytes!(concat!(
+                                "../../Assets/Plushies/",
+                                $name,
+                                ".png"
+                            ))),
+                        )
+                        .unwrap(),
+                    structure: ron::from_str(include_str!(concat!(
+                        "../../Assets/Plushies/",
+                        $name,
+                        ".ron"
+                    )))
+                    .unwrap(),
+                }
+            };
+        }
+
+        self.plushie_protos = hash_map! {
+            "Ferris".to_owned() => load_plushie!("Ferris"),
+            "C++".to_owned() => load_plushie!("C++"),
+            "C".to_owned() => load_plushie!("C"),
+            "NixOS".to_owned() => load_plushie!("NixOS"),
+            "Manjaro".to_owned() => load_plushie!("Manjaro"),
+            "VSCode".to_owned() => load_plushie!("VSCode"),
+            "GitHub".to_owned() => load_plushie!("GitHub"),
+            "Helix".to_owned() => load_plushie!("Helix"),
+            "NVim".to_owned() => load_plushie!("NVim"),
+            "Bash".to_owned() => load_plushie!("Bash"),
+            "Twitch".to_owned() => load_plushie!("Twitch"),
+        }; // * !party; !plushie Ferris; !plushie C++; !plushie C; !plushie NixOS; !plushie Manjaro; !plushie VSCode; !plushie GitHub; !plushie Helix; !plushie NVim; !plushie Bash; !plushie Twitch
+    }
+
     fn draw_chat(&self, space: &mut OverlaySpace, graphics: &mut Graphics2D) {
         let text_color = Color::WHITE;
         let font_size = 21.0;
@@ -237,132 +232,5 @@ impl Overlay {
             thickness,
             color,
         );
-    }
-}
-
-// * ------------------------------------ Plushie ----------------------------------- * //
-#[derive(Clone, Debug)]
-struct Particle {
-    position: Vec2,
-    velocity: Vec2,
-    uv: Vec2,
-}
-
-impl Particle {
-    pub fn new(position: Vec2, velocity: Vec2, uv: Vec2) -> Self {
-        Self {
-            position,
-            velocity,
-            uv,
-        }
-    }
-
-    pub fn update(&mut self, delta_time: f32, borders: Vec2) {
-        self.velocity.y += delta_time * 1000.0;
-
-        let motion = self.velocity * delta_time;
-        self.position += motion;
-
-        if self.position.x < 0.0 || self.position.x > borders.x {
-            self.position.x -= motion.x;
-            self.velocity.x *= -1.0;
-        }
-        if self.position.y > borders.y {
-            self.position.y -= motion.y;
-            self.velocity.y *= -0.8;
-            self.velocity.x *= 0.9;
-        }
-    }
-}
-
-enum PlushieFrame {
-    Unitnitialized(Vec2, f32),
-    Ininitalized(Vec<Particle>),
-}
-
-pub struct Plushie {
-    name: String,
-    frame: PlushieFrame,
-    scale: f32,
-    pub time: std::time::Instant,
-}
-
-impl Plushie {
-    pub fn new(name: &str, scale: f32) -> Self {
-        Self {
-            name: name.to_owned(),
-            frame: PlushieFrame::Unitnitialized(
-                Vec2::new(rand::thread_rng().gen_range(-400.0..400.0), 0.0),
-                scale * 0.7,
-            ),
-            scale,
-            time: std::time::Instant::now(),
-        }
-    }
-
-    fn update(
-        &mut self,
-        proto: &PlushieProto,
-        screen_size: UVec2,
-        delta_time: f32,
-    ) -> &Vec<Particle> {
-        if let PlushieFrame::Unitnitialized(velocity, scale) = self.frame {
-            let position = UVec2::new(
-                rand::thread_rng()
-                    .gen_range(0..screen_size.x - (proto.image.size().x as f32 * scale) as u32),
-                0,
-            )
-            .into_f32();
-            self.frame = PlushieFrame::Ininitalized(
-                proto
-                    .structure
-                    .points
-                    .iter()
-                    .map(|point| {
-                        Particle::new(
-                            IVec2::from(point).into_f32() * scale + position,
-                            velocity,
-                            IVec2::from(point).into_f32() / proto.image.size().into_f32(),
-                        )
-                    })
-                    .collect(),
-            )
-        }
-        let frame = match &mut self.frame {
-            PlushieFrame::Ininitalized(frame) => frame,
-            _ => panic!("Unreachable"),
-        };
-
-        for particle in frame.iter_mut() {
-            particle.update(delta_time, screen_size.into_f32());
-        }
-
-        for &(index1, index2) in &proto.structure.springs {
-            let target_length = (IVec2::from(proto.structure.points[index2])
-                - IVec2::from(proto.structure.points[index1]))
-            .into_f32()
-            .magnitude()
-                * self.scale;
-
-            let spring_k = 300.0 / target_length * 170.0;
-            let damp_k = 2.0;
-
-            let spring = frame[index2].position - frame[index1].position;
-            let spring = spring - spring.normalize().unwrap_or(Vec2::ZERO) * target_length;
-            let damp = frame[index2].velocity - frame[index1].velocity;
-            let acceleration = spring * spring_k + damp * damp_k;
-            frame[index1].velocity += acceleration / 2.0 * delta_time;
-
-            let spring = spring * -1.0;
-            let damp = frame[index1].velocity - frame[index2].velocity;
-            let acceleration = spring * spring_k + damp * damp_k;
-            frame[index2].velocity += acceleration / 2.0 * delta_time;
-        }
-
-        frame
-    }
-
-    pub fn name(&self) -> &String {
-        &self.name
     }
 }

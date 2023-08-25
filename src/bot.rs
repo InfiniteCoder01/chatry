@@ -36,7 +36,7 @@ pub fn on_message(
                                 writer.say(
                                     &pm,
                                     &format!(
-                                        "Ok, we are now {}! Type !progress for progress!",
+                                        "Ok, we are now {}!",
                                         wyd
                                     ),
                                 )?
@@ -88,7 +88,7 @@ pub fn on_message(
                                     "Bash" => 0.3,
                                     "Twitch" => 0.3,
                                 };
-                                space.plushies.push(crate::overlay::Plushie::new(
+                                space.plushies.push(crate::overlay::plushie::Plushie::new(
                                     name,
                                     scales[name.as_str()],
                                 ));
