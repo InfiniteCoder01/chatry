@@ -33,13 +33,7 @@ pub fn on_message(
                         "!setwyd" => {
                             if let Some(wyd) = args.get(0) {
                                 state.wyd = wyd.to_owned();
-                                writer.say(
-                                    &pm,
-                                    &format!(
-                                        "Ok, we are now {}!",
-                                        wyd
-                                    ),
-                                )?
+                                writer.say(&pm, &format!("Ok, we are now {}!", wyd))?
                             }
                         }
                         "!party" => {
@@ -71,7 +65,7 @@ pub fn on_message(
                         if let Some(name) = args.get(0) {
                             if [
                                 "Ferris", "C", "C++", "NixOS", "Manjaro", "VSCode", "GitHub",
-                                "Helix", "NVim", "Bash", "Twitch",
+                                "Helix", "NVim", "Bash", "Twitch", "Alan",
                             ]
                             .contains(&name.as_str())
                             {
@@ -87,6 +81,7 @@ pub fn on_message(
                                     "NVim" => 0.3,
                                     "Bash" => 0.3,
                                     "Twitch" => 0.3,
+                                    "Alan" => 0.4,
                                 };
                                 space.plushies.push(crate::overlay::plushie::Plushie::new(
                                     name,

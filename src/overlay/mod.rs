@@ -136,6 +136,7 @@ impl Overlay {
             "NVim".to_owned() => load_plushie!("NVim"),
             "Bash".to_owned() => load_plushie!("Bash"),
             "Twitch".to_owned() => load_plushie!("Twitch"),
+            "Alan".to_owned() => load_plushie!("Bear"),
         }; // * !party; !plushie Ferris; !plushie C++; !plushie C; !plushie NixOS; !plushie Manjaro; !plushie VSCode; !plushie GitHub; !plushie Helix; !plushie NVim; !plushie Bash; !plushie Twitch
     }
 
