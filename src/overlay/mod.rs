@@ -125,19 +125,21 @@ impl Overlay {
         }
 
         self.plushie_protos = hash_map! {
-            "ferris".to_owned() => load_plushie!("Ferris"),
-            "c++".to_owned() => load_plushie!("C++"),
-            "c".to_owned() => load_plushie!("C"),
-            "nixos".to_owned() => load_plushie!("NixOS"),
-            "manjaro".to_owned() => load_plushie!("Manjaro"),
-            "vscode".to_owned() => load_plushie!("VSCode"),
-            "github".to_owned() => load_plushie!("GitHub"),
-            "helix".to_owned() => load_plushie!("Helix"),
-            "nvim".to_owned() => load_plushie!("NVim"),
-            "bash".to_owned() => load_plushie!("Bash"),
-            "twitch".to_owned() => load_plushie!("Twitch"),
-            "alan".to_owned() => load_plushie!("Bear"),
-            "kuviman".to_owned() => load_plushie!("Kuviman"),
+            String::from("ferris") => load_plushie!("Ferris"),
+            String::from("c++") => load_plushie!("C++"),
+            String::from("c") => load_plushie!("C"),
+            String::from("nixos") => load_plushie!("NixOS"),
+            String::from("manjaro") => load_plushie!("Manjaro"),
+            String::from("vscode") => load_plushie!("VSCode"),
+            String::from("github") => load_plushie!("GitHub"),
+            String::from("helix") => load_plushie!("Helix"),
+            String::from("nvim") => load_plushie!("NVim"),
+            String::from("bash") => load_plushie!("Bash"),
+            String::from("twitch") => load_plushie!("Twitch"),
+            String::from("alan") => load_plushie!("Bear"),
+            String::from("kuviman") => load_plushie!("Kuviman"),
+            String::from("badcop") => load_plushie!("Badcop"),
+            String::from("programmer_jeff_") => load_plushie!("ProgrammerJeff"),
         };
     }
 

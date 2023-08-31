@@ -66,7 +66,7 @@ pub fn on_message(
                             let name = name.to_lowercase();
                             if [
                                 "ferris", "c", "c++", "nixos", "manjaro", "vscode", "github",
-                                "helix", "nvim", "bash", "twitch", "alan", "kuviman",
+                                "helix", "nvim", "bash", "twitch", "alan", "kuviman", "badcop", "programmer_jeff_",
                             ]
                             .contains(&name.as_str())
                             {
@@ -84,6 +84,8 @@ pub fn on_message(
                                     "twitch" => 0.3,
                                     "alan" => 0.4,
                                     "kuviman" => 2.0,
+                                    "badcop" => 0.6,
+                                    "programmer_jeff_" => 2.0,
                                 };
                                 space.plushies.push(crate::overlay::plushie::Plushie::new(
                                     &name,
