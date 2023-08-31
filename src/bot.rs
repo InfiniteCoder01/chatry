@@ -63,28 +63,30 @@ pub fn on_message(
                     }
                     "!plushie" => {
                         if let Some(name) = args.get(0) {
+                            let name = name.to_lowercase();
                             if [
-                                "Ferris", "C", "C++", "NixOS", "Manjaro", "VSCode", "GitHub",
-                                "Helix", "NVim", "Bash", "Twitch", "Alan",
+                                "ferris", "c", "c++", "nixos", "manjaro", "vscode", "github",
+                                "helix", "nvim", "bash", "twitch", "alan", "kuviman",
                             ]
                             .contains(&name.as_str())
                             {
                                 let scales = hash_map! {
-                                    "Ferris" => 1.0,
-                                    "C" => 0.5,
-                                    "C++" => 0.5,
-                                    "NixOS" => 0.5,
-                                    "Manjaro" => 0.3,
-                                    "VSCode" => 0.3,
-                                    "GitHub" => 0.3,
-                                    "Helix" => 1.0,
-                                    "NVim" => 0.3,
-                                    "Bash" => 0.3,
-                                    "Twitch" => 0.3,
-                                    "Alan" => 0.4,
+                                    "ferris" => 1.0,
+                                    "c" => 0.5,
+                                    "c++" => 0.5,
+                                    "nixos" => 0.5,
+                                    "manjaro" => 0.3,
+                                    "vscode" => 0.3,
+                                    "github" => 0.3,
+                                    "helix" => 1.0,
+                                    "nvim" => 0.3,
+                                    "bash" => 0.3,
+                                    "twitch" => 0.3,
+                                    "alan" => 0.4,
+                                    "kuviman" => 2.0,
                                 };
                                 space.plushies.push(crate::overlay::plushie::Plushie::new(
-                                    name,
+                                    &name,
                                     scales[name.as_str()],
                                 ));
                                 writer.say(&pm, &format!("{} joined the party!", name))?;
@@ -178,7 +180,6 @@ impl State {
             party: false,
             cooldowns: hash_map! {
                 "!wyd" => CommandCooldown::new(Duration::from_secs(10), Duration::from_secs(10)),
-                "!progress" => CommandCooldown::new(Duration::from_secs(10), Duration::from_secs(10)),
                 "!qotd" => CommandCooldown::new(Duration::from_secs(10), Duration::from_secs(10)),
                 "!plushie" => CommandCooldown::new(Duration::from_secs(3), Duration::from_secs(30)),
             },

@@ -125,19 +125,20 @@ impl Overlay {
         }
 
         self.plushie_protos = hash_map! {
-            "Ferris".to_owned() => load_plushie!("Ferris"),
-            "C++".to_owned() => load_plushie!("C++"),
-            "C".to_owned() => load_plushie!("C"),
-            "NixOS".to_owned() => load_plushie!("NixOS"),
-            "Manjaro".to_owned() => load_plushie!("Manjaro"),
-            "VSCode".to_owned() => load_plushie!("VSCode"),
-            "GitHub".to_owned() => load_plushie!("GitHub"),
-            "Helix".to_owned() => load_plushie!("Helix"),
-            "NVim".to_owned() => load_plushie!("NVim"),
-            "Bash".to_owned() => load_plushie!("Bash"),
-            "Twitch".to_owned() => load_plushie!("Twitch"),
-            "Alan".to_owned() => load_plushie!("Bear"),
-        }; // * !party; !plushie Ferris; !plushie C++; !plushie C; !plushie NixOS; !plushie Manjaro; !plushie VSCode; !plushie GitHub; !plushie Helix; !plushie NVim; !plushie Bash; !plushie Twitch
+            "ferris".to_owned() => load_plushie!("Ferris"),
+            "c++".to_owned() => load_plushie!("C++"),
+            "c".to_owned() => load_plushie!("C"),
+            "nixos".to_owned() => load_plushie!("NixOS"),
+            "manjaro".to_owned() => load_plushie!("Manjaro"),
+            "vscode".to_owned() => load_plushie!("VSCode"),
+            "github".to_owned() => load_plushie!("GitHub"),
+            "helix".to_owned() => load_plushie!("Helix"),
+            "nvim".to_owned() => load_plushie!("NVim"),
+            "bash".to_owned() => load_plushie!("Bash"),
+            "twitch".to_owned() => load_plushie!("Twitch"),
+            "alan".to_owned() => load_plushie!("Bear"),
+            "kuviman".to_owned() => load_plushie!("Kuviman"),
+        };
     }
 
     fn draw_chat(&self, space: &mut OverlaySpace, graphics: &mut Graphics2D) {
