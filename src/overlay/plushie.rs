@@ -58,13 +58,10 @@ pub struct Plushie {
 }
 
 impl Plushie {
-    pub fn new(name: &str, scale: f32) -> Self {
+    pub fn new(name: &str, position: Vec2, scale: f32) -> Self {
         Self {
             name: name.to_owned(),
-            frame: PlushieFrame::Unitnitialized(
-                Vec2::new(rand::thread_rng().gen_range(-400.0..400.0), 0.0),
-                scale * 0.7,
-            ),
+            frame: PlushieFrame::Unitnitialized(position, scale * 0.7),
             scale,
             time: std::time::Instant::now(),
         }
@@ -76,13 +73,7 @@ impl Plushie {
         screen_size: UVec2,
         delta_time: f32,
     ) -> &Vec<Particle> {
-        if let PlushieFrame::Unitnitialized(velocity, scale) = self.frame {
-            let position = UVec2::new(
-                rand::thread_rng()
-                    .gen_range(0..screen_size.x - (proto.image.size().x as f32 * scale) as u32),
-                0,
-            )
-            .into_f32();
+        if let PlushieFrame::Unitnitialized(position, scale) = self.frame {
             self.frame = PlushieFrame::Ininitalized(
                 proto
                     .structure
@@ -91,7 +82,7 @@ impl Plushie {
                     .map(|point| {
                         Particle::new(
                             IVec2::from(point).into_f32() * scale + position,
-                            velocity,
+                            Vec2::ZERO,
                             IVec2::from(point).into_f32() / proto.image.size().into_f32(),
                         )
                     })

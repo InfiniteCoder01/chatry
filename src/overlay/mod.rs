@@ -10,6 +10,8 @@ struct Overlay {
     bg_font: Font,
     size: UVec2,
     last_frame: std::time::Instant,
+    start: std::time::Instant,
+    count: u32,
 }
 
 // * ------------------------------------ Handler ----------------------------------- * //
@@ -35,6 +37,8 @@ pub fn run_overlay() -> Result<()> {
         bg_font,
         size: UVec2::ZERO,
         last_frame: std::time::Instant::now(),
+        start: std::time::Instant::now(),
+        count: 0,
     });
 }
 
@@ -49,6 +53,11 @@ impl WindowHandler for Overlay {
 
     fn on_draw(&mut self, helper: &mut WindowHelper, graphics: &mut Graphics2D) {
         // * ------------------------------------ OnDraw ------------------------------------ * //
+        let sequence = [
+            "1", "", "2", "3", "4", "5", "", "6", "7", "8", "9", "10", "3", "11", "12", "13", "",
+            "14", "3", "9", "15", "10", "16", "17",
+        ];
+
         graphics.clear_screen(Color::TRANSPARENT);
 
         if self.plushie_protos.is_empty() {
@@ -58,6 +67,19 @@ impl WindowHandler for Overlay {
         let mut space = OVERLAY_SPACE.lock().unwrap();
         let delta_time = self.last_frame.elapsed().as_secs_f32();
         self.last_frame = Instant::now();
+
+        if self.start.elapsed().as_secs_f32() - 5.0 > self.count as f32
+            && self.count < sequence.len() as u32
+        {
+            if !sequence[self.count as usize].is_empty() {
+                space.plushies.push(Plushie::new(
+                    sequence[self.count as usize],
+                    Vec2::new(30.0 + self.count as f32 * 65.0, 10.0),
+                    0.45,
+                ));
+            }
+            self.count += 1;
+        }
 
         for plushie in &mut space.plushies {
             let proto = &self.plushie_protos[plushie.name()];
@@ -86,9 +108,9 @@ impl WindowHandler for Overlay {
                 }
             }
         }
-        space
-            .plushies
-            .retain(|plushie| plushie.time.elapsed().as_secs_f32() < 10.0);
+        // space
+        //     .plushies
+        //     .retain(|plushie| plushie.time.elapsed().as_secs_f32() < 10.0);
 
         self.draw_chat(&mut space, graphics);
         self.draw_rect(graphics, IVec2::new(0, 0), self.size, 4.0, Color::RED);
@@ -125,21 +147,23 @@ impl Overlay {
         }
 
         self.plushie_protos = hash_map! {
-            String::from("ferris") => load_plushie!("Ferris"),
-            String::from("c++") => load_plushie!("C++"),
-            String::from("c") => load_plushie!("C"),
-            String::from("nixos") => load_plushie!("NixOS"),
-            String::from("manjaro") => load_plushie!("Manjaro"),
-            String::from("vscode") => load_plushie!("VSCode"),
-            String::from("github") => load_plushie!("GitHub"),
-            String::from("helix") => load_plushie!("Helix"),
-            String::from("nvim") => load_plushie!("NVim"),
-            String::from("bash") => load_plushie!("Bash"),
-            String::from("twitch") => load_plushie!("Twitch"),
-            String::from("alan") => load_plushie!("Bear"),
-            String::from("kuviman") => load_plushie!("Kuviman"),
-            String::from("badcop") => load_plushie!("Badcop"),
-            String::from("programmer_jeff_") => load_plushie!("ProgrammerJeff"),
+            String::from("1") => load_plushie!("Birthday/1"),
+            String::from("2") => load_plushie!("Birthday/2"),
+            String::from("3") => load_plushie!("Birthday/3"),
+            String::from("4") => load_plushie!("Birthday/4"),
+            String::from("5") => load_plushie!("Birthday/5"),
+            String::from("6") => load_plushie!("Birthday/6"),
+            String::from("7") => load_plushie!("Birthday/7"),
+            String::from("8") => load_plushie!("Birthday/8"),
+            String::from("9") => load_plushie!("Birthday/9"),
+            String::from("10") => load_plushie!("Birthday/10"),
+            String::from("11") => load_plushie!("Birthday/11"),
+            String::from("12") => load_plushie!("Birthday/12"),
+            String::from("13") => load_plushie!("Birthday/13"),
+            String::from("14") => load_plushie!("Birthday/14"),
+            String::from("15") => load_plushie!("Birthday/15"),
+            String::from("16") => load_plushie!("Birthday/16"),
+            String::from("17") => load_plushie!("Birthday/17"),
         };
     }
 

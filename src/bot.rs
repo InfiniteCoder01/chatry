@@ -61,40 +61,6 @@ pub fn on_message(
                     "!qotd" => {
                         writer.say(&pm, &format!("The question of the day: {}", config.qotd))?
                     }
-                    "!plushie" => {
-                        if let Some(name) = args.get(0) {
-                            let name = name.to_lowercase();
-                            if [
-                                "ferris", "c", "c++", "nixos", "manjaro", "vscode", "github",
-                                "helix", "nvim", "bash", "twitch", "alan", "kuviman", "badcop", "programmer_jeff_",
-                            ]
-                            .contains(&name.as_str())
-                            {
-                                let scales = hash_map! {
-                                    "ferris" => 1.0,
-                                    "c" => 0.5,
-                                    "c++" => 0.5,
-                                    "nixos" => 0.5,
-                                    "manjaro" => 0.3,
-                                    "vscode" => 0.3,
-                                    "github" => 0.3,
-                                    "helix" => 1.0,
-                                    "nvim" => 0.3,
-                                    "bash" => 0.3,
-                                    "twitch" => 0.3,
-                                    "alan" => 0.4,
-                                    "kuviman" => 2.0,
-                                    "badcop" => 0.6,
-                                    "programmer_jeff_" => 2.0,
-                                };
-                                space.plushies.push(crate::overlay::plushie::Plushie::new(
-                                    &name,
-                                    scales[name.as_str()],
-                                ));
-                                writer.say(&pm, &format!("{} joined the party!", name))?;
-                            }
-                        }
-                    }
                     _ => (),
                 }
             }
