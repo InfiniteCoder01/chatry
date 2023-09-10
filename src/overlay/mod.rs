@@ -136,6 +136,7 @@ impl Overlay {
             String::from("nvim") => load_plushie!("NVim"),
             String::from("bash") => load_plushie!("Bash"),
             String::from("twitch") => load_plushie!("Twitch"),
+            String::from("pinmode") => load_plushie!("PinMode"),
             String::from("alan") => load_plushie!("Bear"),
             String::from("kuviman") => load_plushie!("Kuviman"),
             String::from("badcop") => load_plushie!("Badcop"),

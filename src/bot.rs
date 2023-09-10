@@ -66,7 +66,7 @@ pub fn on_message(
                             let name = name.to_lowercase();
                             if [
                                 "ferris", "c", "c++", "nixos", "manjaro", "vscode", "github",
-                                "helix", "nvim", "bash", "twitch", "alan", "kuviman", "badcop", "programmer_jeff_",
+                                "helix", "nvim", "bash", "twitch", "pinmode", "alan", "kuviman", "badcop", "programmer_jeff_",
                             ]
                             .contains(&name.as_str())
                             {
@@ -82,8 +82,9 @@ pub fn on_message(
                                     "nvim" => 0.3,
                                     "bash" => 0.3,
                                     "twitch" => 0.3,
+                                    "pinmode" => 1.0,
                                     "alan" => 0.4,
-                                    "kuviman" => 2.0,
+                                    "kuviman" => 0.4,
                                     "badcop" => 0.6,
                                     "programmer_jeff_" => 2.0,
                                 };
