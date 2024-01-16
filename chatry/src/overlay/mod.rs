@@ -1,13 +1,13 @@
 use geng::prelude::*;
-use plushies::*;
+use plushys::*;
 use twitchchat::AsyncRunner;
 
 pub mod bot;
-pub mod plushies;
+pub mod plushys;
 
 #[derive(geng::asset::Load)]
 pub struct Assets {
-    pub plushies: Plushies,
+    pub plushys: Plushys,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -75,26 +75,19 @@ impl geng::State for State {
         ugli::clear(framebuffer, Some(Rgba::TRANSPARENT_BLACK), None, None);
         self.size = framebuffer.size();
 
-        // self.geng.draw2d().draw2d(
-        //     framebuffer,
-        //     &geng::PixelPerfectCamera,
-        //     &geng::draw2d::TexturedQuad::unit(&self.assets.get().plushies.ferris.image)
-        //         .transform(mat3::translate(vec2(100.0, 100.0)) * mat3::scale_uniform(100.0)),
-        // );
-
         // * World
-        for plushie in &self.world.plushies {
-            if let Some(proto) = self.assets.get().plushies.get(&plushie.name) {
+        for plushy in &self.world.plushys {
+            if let Some(proto) = self.assets.get().plushys.get(&plushy.name) {
                 self.geng.draw2d().draw2d(
                     framebuffer,
                     &geng::PixelPerfectCamera,
                     &geng::draw2d::TexturedPolygon::with_mode(
-                        plushie
+                        plushy
                             .triangles
                             .iter()
                             .flatten()
                             .map(|&index| {
-                                let particle = &plushie.particles[index];
+                                let particle = &plushy.particles[index];
                                 draw2d::TexturedVertex {
                                     a_pos: particle.pos,
                                     a_color: Rgba::WHITE,
@@ -175,10 +168,10 @@ impl geng::State for State {
     fn handle_event(&mut self, _event: geng::Event) {
         // if let geng::Event::KeyPress { key } = event {
         //     match key {
-        //         geng::Key::ShiftRight => self.world.plushies.push(
+        //         geng::Key::ShiftRight => self.world.plushys.push(
         //             self.assets
         //                 .get()
-        //                 .plushies
+        //                 .plushys
         //                 .ferris
         //                 .instance(vec2(10.0, self.size.y as f32 - 10.0), 0.7),
         //         ),

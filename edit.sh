@@ -1,1 +1,1 @@
-clear && cargo run -p plushiedit -- assets/plushies/$1/ $2
+clear && cargo run -p plushyedit -- assets/plushys/$1/ $2
