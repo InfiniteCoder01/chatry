@@ -94,7 +94,7 @@ dependencies = [
  "ndk 0.8.0",
  "ndk-context",
  "ndk-sys 0.5.0+25.2.9519653",
- "num_enum 0.7.2",
+ "num_enum 0.7.1",
  "thiserror",
 ]
 
@@ -154,9 +154,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.79"
+version = "1.0.78"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "080e9890a082662b09c1ad45f567faeeb47f22b5fb23895fbe1e651e718e25ca"
+checksum = "ca87830a3e3fb156dc96cfbd31cb620265dd053be734723f22b760d6cc3c3051"
 dependencies = [
  "backtrace",
 ]
@@ -217,7 +217,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1ca33f4bc4ed1babef42cad36cc1f51fa88be00420404e5b1e80ab1b18f7678c"
 dependencies = [
  "concurrent-queue",
- "event-listener 4.0.3",
+ "event-listener 4.0.1",
  "event-listener-strategy 0.4.0",
  "futures-core",
  "pin-project-lite 0.2.13",
@@ -256,7 +256,7 @@ dependencies = [
  "async-task",
  "concurrent-queue",
  "fastrand 2.0.1",
- "futures-lite 2.2.0",
+ "futures-lite 2.1.0",
  "slab",
 ]
 
@@ -280,7 +280,7 @@ checksum = "dd1f344136bad34df1f83a47f3fd7f2ab85d75cb8a940af4ccf6d482a84ea01b"
 dependencies = [
  "async-lock 3.2.0",
  "blocking",
- "futures-lite 2.2.0",
+ "futures-lite 2.1.0",
 ]
 
 [[package]]
@@ -294,7 +294,7 @@ dependencies = [
  "async-io 2.2.2",
  "async-lock 3.2.0",
  "blocking",
- "futures-lite 2.2.0",
+ "futures-lite 2.1.0",
  "once_cell",
 ]
 
@@ -328,7 +328,7 @@ dependencies = [
  "cfg-if 1.0.0",
  "concurrent-queue",
  "futures-io",
- "futures-lite 2.2.0",
+ "futures-lite 2.1.0",
  "parking",
  "polling 3.3.1",
  "rustix 0.38.28",
@@ -352,7 +352,7 @@ version = "3.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7125e42787d53db9dd54261812ef17e937c95a51e4d291373b670342fa44310c"
 dependencies = [
- "event-listener 4.0.3",
+ "event-listener 4.0.1",
  "event-listener-strategy 0.4.0",
  "pin-project-lite 0.2.13",
 ]
@@ -376,7 +376,7 @@ checksum = "b948000fad4873c1c9339d60f2623323a0cfd3816e5181033c6a5cb68b2accf7"
 dependencies = [
  "async-io 2.2.2",
  "blocking",
- "futures-lite 2.2.0",
+ "futures-lite 2.1.0",
 ]
 
 [[package]]
@@ -417,8 +417,8 @@ dependencies = [
  "async-signal",
  "blocking",
  "cfg-if 1.0.0",
- "event-listener 4.0.3",
- "futures-lite 2.2.0",
+ "event-listener 4.0.1",
+ "futures-lite 2.1.0",
  "rustix 0.38.28",
  "windows-sys 0.52.0",
 ]
@@ -431,7 +431,7 @@ checksum = "5fd55a5ba1179988837d24ab4c7cc8ed6efdeff578ede0416b4225a5fca35bd0"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -480,19 +480,19 @@ dependencies = [
 
 [[package]]
 name = "async-task"
-version = "4.7.0"
+version = "4.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fbb36e985947064623dbd357f727af08ffd077f93d696782f3c56365fa2e2799"
+checksum = "e1d90cd0b264dfdd8eb5bad0a2c217c1f88fa96a8573f40e7b12de23fb468f46"
 
 [[package]]
 name = "async-trait"
-version = "0.1.77"
+version = "0.1.76"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c980ee35e870bd1a4d2c8294d4c04d0499e67bca1e4b5cefcc693c2fa00caea9"
+checksum = "531b97fb4cd3dfdce92c35dedbfdc1f0b9d8091c8ca943d6dae340ef5012d514"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -676,7 +676,7 @@ dependencies = [
  "darling",
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
  "toml",
 ]
 
@@ -711,7 +711,7 @@ dependencies = [
  "darling",
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -776,7 +776,7 @@ checksum = "cbeba8e90e51ee57fb8dd9c789fbb18c7e2004c55e572f1fd7c8abed0b513e39"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
  "toml",
 ]
 
@@ -869,44 +869,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "26eb4ca6f5a1f60b8de2dfd67a75ad2b013943f42a7b31656cccd7d82dba7cc4"
 
 [[package]]
-name = "bidivec"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d91ca5958deefaf931523f9680f6caa602ac87fe320c2164aaf8e83d0ab096b8"
-dependencies = [
- "rustversion",
- "thiserror",
-]
-
-[[package]]
 name = "bincode"
 version = "1.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b1f45e9417d87227c7a56d22e471c6206462cba514c7590c09aff4cf6d1ddcad"
 dependencies = [
  "serde",
-]
-
-[[package]]
-name = "bindgen"
-version = "0.63.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "36d860121800b2a9a94f9b5604b332d5cffb234ce17609ea479d723dbc9d3885"
-dependencies = [
- "bitflags 1.3.2",
- "cexpr",
- "clang-sys",
- "lazy_static",
- "lazycell",
- "log",
- "peeking_take_while",
- "proc-macro2",
- "quote",
- "regex",
- "rustc-hash",
- "shlex",
- "syn 1.0.109",
- "which",
 ]
 
 [[package]]
@@ -926,7 +894,7 @@ dependencies = [
  "regex",
  "rustc-hash",
  "shlex",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -973,9 +941,9 @@ dependencies = [
 
 [[package]]
 name = "block-sys"
-version = "0.2.1"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ae85a0696e7ea3b835a453750bf002770776609115e6d25c6d2ff28a8200f7e7"
+checksum = "2dd7cf50912cddc06dc5ea7c08c5e81c1b2c842a70d19def1848d54c586fed92"
 dependencies = [
  "objc-sys",
 ]
@@ -1001,7 +969,7 @@ dependencies = [
  "async-task",
  "fastrand 2.0.1",
  "futures-io",
- "futures-lite 2.2.0",
+ "futures-lite 2.1.0",
  "piper",
  "tracing",
 ]
@@ -1157,9 +1125,9 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "4.4.13"
+version = "4.4.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "52bdc885e4cacc7f7c9eedc1ef6da641603180c783c41a15c264944deeaab642"
+checksum = "dcfab8ba68f3668e89f6ff60f5b205cea56aa7b769451a59f34b8682f51c056d"
 dependencies = [
  "clap_builder",
  "clap_derive",
@@ -1186,7 +1154,7 @@ dependencies = [
  "heck",
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -1200,15 +1168,6 @@ name = "claxon"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4bfbf56724aa9eca8afa4fcfadeb479e722935bb2a0900c2d37e0cc477af0688"
-
-[[package]]
-name = "cmake"
-version = "0.1.50"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a31c789563b815f77f4250caee12365734369f942439b7defd71e18a48197130"
-dependencies = [
- "cc",
-]
 
 [[package]]
 name = "color_quant"
@@ -1310,11 +1269,11 @@ dependencies = [
 
 [[package]]
 name = "coreaudio-sys"
-version = "0.2.15"
+version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f01585027057ff5f0a5bf276174ae4c1594a2c5bde93d5f46a016d76270f5a9"
+checksum = "f3120ebb80a9de008e638ad833d4127d50ea3d3a960ea23ea69bc66d9358a028"
 dependencies = [
- "bindgen 0.69.1",
+ "bindgen",
 ]
 
 [[package]]
@@ -1425,7 +1384,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "strsim",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -1436,7 +1395,7 @@ checksum = "836a9bbc7ad63342d6d6e7b815ccab164bc77a2d95d84bc3117a8c0d5c98e2d5"
 dependencies = [
  "darling_core",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -1589,9 +1548,9 @@ dependencies = [
 
 [[package]]
 name = "event-listener"
-version = "4.0.3"
+version = "4.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "67b215c49b2b248c855fb73579eb1f4f26c38ffdc12973e20e07b91d78d5646e"
+checksum = "84f2cdcf274580f2d63697192d744727b3198894b1bf02923643bf59e2c26712"
 dependencies = [
  "concurrent-queue",
  "parking",
@@ -1614,7 +1573,7 @@ version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "958e4d70b6d5e81971bebec42271ec641e7ff4e170a6fa605f2b8a8b65cb97d3"
 dependencies = [
- "event-listener 4.0.3",
+ "event-listener 4.0.1",
  "pin-project-lite 0.2.13",
 ]
 
@@ -1735,7 +1694,7 @@ checksum = "1a5c6c585bc94aaf2c7b51dd4c2ba22680844aba4c687be581871a6f518c5742"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -1752,12 +1711,6 @@ checksum = "e13624c2627564efccf4934284bdd98cbaa14e79b0b5a141218e507b3a823456"
 dependencies = [
  "percent-encoding",
 ]
-
-[[package]]
-name = "fs_extra"
-version = "1.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "42703706b716c37f96a77aea830392ad231f44c9e9a67872fa5548707e11b11c"
 
 [[package]]
 name = "fsevent-sys"
@@ -1849,9 +1802,9 @@ dependencies = [
 
 [[package]]
 name = "futures-lite"
-version = "2.2.0"
+version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "445ba825b27408685aaecefd65178908c36c6e96aaf6d8599419d46e624192ba"
+checksum = "aeee267a1883f7ebef3700f262d2d54de95dfaf38189015a74fdc4e0c7ad8143"
 dependencies = [
  "fastrand 2.0.1",
  "futures-core",
@@ -1868,7 +1821,7 @@ checksum = "87750cf4b7a4c0625b1529e4c543c2182106e4dedc60a2a6455e00d212c489ac"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -1928,7 +1881,7 @@ dependencies = [
 [[package]]
 name = "geng"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "batbox",
  "console_error_panic_hook",
@@ -1955,7 +1908,7 @@ dependencies = [
 [[package]]
 name = "geng-asset"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "anyhow",
  "batbox-file",
@@ -1977,18 +1930,18 @@ dependencies = [
 [[package]]
 name = "geng-asset-derive"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "darling",
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
 name = "geng-async-state"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "async-trait",
  "batbox-la",
@@ -2004,7 +1957,7 @@ dependencies = [
 [[package]]
 name = "geng-audio"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "anyhow",
  "atomic_float",
@@ -2023,7 +1976,7 @@ dependencies = [
 [[package]]
 name = "geng-camera"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "batbox-la",
  "batbox-lapp",
@@ -2034,7 +1987,7 @@ dependencies = [
 [[package]]
 name = "geng-debug_overlay"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "batbox-color",
  "batbox-la",
@@ -2052,7 +2005,7 @@ dependencies = [
 [[package]]
 name = "geng-draw2d"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "batbox-approx",
  "batbox-color",
@@ -2067,7 +2020,7 @@ dependencies = [
 [[package]]
 name = "geng-font"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "anyhow",
  "batbox-color",
@@ -2084,7 +2037,7 @@ dependencies = [
 [[package]]
 name = "geng-net"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "anyhow",
  "batbox-time",
@@ -2102,7 +2055,7 @@ dependencies = [
 [[package]]
 name = "geng-obj"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "batbox-la",
  "ugli",
@@ -2124,7 +2077,7 @@ dependencies = [
 [[package]]
 name = "geng-shader"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "anyhow",
  "ugli",
@@ -2133,7 +2086,7 @@ dependencies = [
 [[package]]
 name = "geng-state"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "geng-ui",
  "geng-window",
@@ -2143,7 +2096,7 @@ dependencies = [
 [[package]]
 name = "geng-texture-atlas"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "batbox-la",
  "ugli",
@@ -2152,7 +2105,7 @@ dependencies = [
 [[package]]
 name = "geng-ui"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "batbox-cmp",
  "batbox-color",
@@ -2169,7 +2122,7 @@ dependencies = [
 [[package]]
 name = "geng-window"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "anyhow",
  "async-broadcast",
@@ -2427,15 +2380,6 @@ name = "hermit-abi"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d77f7ec81a6d05a3abb01ab6eb7590f6083d08449fe5a1c8b1e620283546ccb7"
-
-[[package]]
-name = "home"
-version = "0.5.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e3d1354bf6b7235cb4a0576c2619fd4ed18183f689b12b006a0ee7329eeff9a5"
-dependencies = [
- "windows-sys 0.52.0",
-]
 
 [[package]]
 name = "hound"
@@ -2841,9 +2785,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.152"
+version = "0.2.151"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "13e3bf6590cbc649f4d1a3eefc9d5d6eb746f5200ffb04e5e142700b8faa56e7"
+checksum = "302d7ab3130588088d277783b1e2d2e10c9e9e4a16dd9050e6ec93fb3e7048f4"
 
 [[package]]
 name = "libloading"
@@ -2885,15 +2829,6 @@ checksum = "3c8469b4a23b962c1396b9b451dda50ef5b283e8dd309d69033475fa9b334324"
 dependencies = [
  "libc",
  "pkg-config",
-]
-
-[[package]]
-name = "line_drawing"
-version = "1.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d1478a313008a3e6c8149995e90a99ee9094034b5c5c3da1eeb81183cb61d1d"
-dependencies = [
- "num-traits",
 ]
 
 [[package]]
@@ -3125,7 +3060,7 @@ dependencies = [
  "jni-sys",
  "log",
  "ndk-sys 0.5.0+25.2.9519653",
- "num_enum 0.7.2",
+ "num_enum 0.7.1",
  "raw-window-handle 0.5.2",
  "raw-window-handle 0.6.0",
  "thiserror",
@@ -3300,11 +3235,11 @@ dependencies = [
 
 [[package]]
 name = "num_enum"
-version = "0.7.2"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "02339744ee7253741199f897151b38e72257d13802d4ee837285cc2990a90845"
+checksum = "683751d591e6d81200c39fb0d1032608b77724f34114db54f571ff1317b337c0"
 dependencies = [
- "num_enum_derive 0.7.2",
+ "num_enum_derive 0.7.1",
 ]
 
 [[package]]
@@ -3321,14 +3256,14 @@ dependencies = [
 
 [[package]]
 name = "num_enum_derive"
-version = "0.7.2"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "681030a937600a36906c185595136d26abfebb4aa9c65701cefcaf8578bb982b"
+checksum = "6c11e44798ad209ccdd91fc192f0526a369a01234f7373e1b141c96d7cee4f0e"
 dependencies = [
- "proc-macro-crate 3.0.0",
+ "proc-macro-crate 2.0.1",
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -3534,17 +3469,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "69d3587f8a9e599cc7ec2c00e331f71c4e69a5f9a4b8a6efd5b07466b9736f9a"
 
 [[package]]
-name = "plushiedit"
-version = "0.1.0"
-dependencies = [
- "bidivec",
- "line_drawing",
- "raylib",
- "ron",
- "serde",
-]
-
-[[package]]
 name = "png"
 version = "0.17.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3605,11 +3529,12 @@ dependencies = [
 
 [[package]]
 name = "proc-macro-crate"
-version = "3.0.0"
+version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b2685dd208a3771337d8d386a89840f0f43cd68be8dae90a5f8c2384effc9cd"
+checksum = "97dc5fea232fc28d2f597b37c4876b348a40e33f3b02cc975c8d006d78d94b1a"
 dependencies = [
- "toml_edit 0.21.0",
+ "toml_datetime",
+ "toml_edit 0.20.2",
 ]
 
 [[package]]
@@ -3638,9 +3563,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.76"
+version = "1.0.73"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "95fc56cda0b5c3325f5fbbd7ff9fda9e02bb00bb3dac51252d2f1bfa1cb8cc8c"
+checksum = "2dd5e8a1f1029c43224ad5898e50140c2aebb1705f19e67c918ebf5b9e797fe1"
 dependencies = [
  "unicode-ident",
 ]
@@ -3665,9 +3590,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.35"
+version = "1.0.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "291ec9ab5efd934aaf503a6466c5d5251535d108ee747472c3977cc5acc868ef"
+checksum = "22a37c9326af5ed140c86a46655b5278de879853be5573c01df185b6f49a580a"
 dependencies = [
  "proc-macro2",
 ]
@@ -3760,28 +3685,6 @@ name = "rawpointer"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "60a357793950651c4ed0f3f52338f53b2f809f32d83a07f72909fa13e4c6c1e3"
-
-[[package]]
-name = "raylib"
-version = "4.5.0"
-source = "git+https://github.com/litten2up/raylib-rs?branch=4.5.0#234081bde46159ae5222faaf14a6ff0ae07543b1"
-dependencies = [
- "cfg-if 1.0.0",
- "lazy_static",
- "libc",
- "raylib-sys",
-]
-
-[[package]]
-name = "raylib-sys"
-version = "4.5.0"
-source = "git+https://github.com/litten2up/raylib-rs?branch=4.5.0#234081bde46159ae5222faaf14a6ff0ae07543b1"
-dependencies = [
- "bindgen 0.63.0",
- "cc",
- "cmake",
- "fs_extra",
-]
 
 [[package]]
 name = "rayon"
@@ -4081,15 +3984,15 @@ dependencies = [
 
 [[package]]
 name = "semver"
-version = "1.0.21"
+version = "1.0.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b97ed7a9823b74f99c7742f5336af7be5ecd3eeafcb1507d1fa93347b1d589b0"
+checksum = "836fa6a3e1e547f9a2c4040802ec865b5d85f4014efe00555d7090a3dcaa1090"
 
 [[package]]
 name = "serde"
-version = "1.0.195"
+version = "1.0.193"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "63261df402c67811e9ac6def069e4786148c4563f4b50fd4bf30aa370d626b02"
+checksum = "25dd9975e68d0cb5aa1120c288333fc98731bd1dd12f561e468ea4728c042b89"
 dependencies = [
  "serde_derive",
 ]
@@ -4107,20 +4010,20 @@ dependencies = [
 
 [[package]]
 name = "serde_derive"
-version = "1.0.195"
+version = "1.0.193"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "46fe8f8603d81ba86327b23a2e9cdf49e1255fb94a4c5f297f6ee0547178ea2c"
+checksum = "43576ca501357b9b071ac53cdc7da8ef0cbd9493d8df094cd821777ea6e894d3"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
 name = "serde_json"
-version = "1.0.111"
+version = "1.0.109"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "176e46fa42316f18edd598015a5166857fc835ec732f5215eac6b7bdbf0a84f4"
+checksum = "cb0652c533506ad7a2e353cce269330d6afd8bdfb6d75e0ace5b35aacbd7b9e9"
 dependencies = [
  "itoa",
  "ryu",
@@ -4265,7 +4168,7 @@ dependencies = [
  "async-net 2.0.0",
  "async-process 2.0.1",
  "blocking",
- "futures-lite 2.2.0",
+ "futures-lite 2.1.0",
 ]
 
 [[package]]
@@ -4337,7 +4240,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "rustversion",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -4423,9 +4326,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.48"
+version = "2.0.44"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0f3531638e407dfc0814761abb7c00a5b54992b849452a0646b7f65c9f770f3f"
+checksum = "92d27c2c202598d05175a6dd3af46824b7f747f8d8e9b14c623f19fa5069735d"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4488,22 +4391,22 @@ dependencies = [
 
 [[package]]
 name = "thiserror"
-version = "1.0.56"
+version = "1.0.53"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d54378c645627613241d077a3a79db965db602882668f9136ac42af9ecb730ad"
+checksum = "b2cd5904763bad08ad5513ddbb12cf2ae273ca53fa9f68e843e236ec6dfccc09"
 dependencies = [
  "thiserror-impl",
 ]
 
 [[package]]
 name = "thiserror-impl"
-version = "1.0.56"
+version = "1.0.53"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fa0faa943b50f3db30a20aa7e265dbc66076993efed8463e8de414e5d06d3471"
+checksum = "3dcf4a824cce0aeacd6f38ae6f24234c8e80d68632338ebaa1443b5df9e29e19"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
@@ -4617,21 +4520,21 @@ dependencies = [
 
 [[package]]
 name = "toml"
-version = "0.8.8"
+version = "0.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a1a195ec8c9da26928f773888e0742ca3ca1040c6cd859c919c9f59c1954ab35"
+checksum = "185d8ab0dfbb35cf1399a6344d8484209c088f75f8f68230da55d48d95d43e3d"
 dependencies = [
  "serde",
  "serde_spanned",
  "toml_datetime",
- "toml_edit 0.21.0",
+ "toml_edit 0.20.2",
 ]
 
 [[package]]
 name = "toml_datetime"
-version = "0.6.5"
+version = "0.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3550f4e9685620ac18a50ed434eb3aec30db8ba93b0287467bca5826ea25baf1"
+checksum = "7cda73e2f1397b1262d6dfdcef8aafae14d1de7748d66822d3bfeeb6d03e5e4b"
 dependencies = [
  "serde",
 ]
@@ -4649,9 +4552,9 @@ dependencies = [
 
 [[package]]
 name = "toml_edit"
-version = "0.21.0"
+version = "0.20.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d34d383cd00a163b4a5b85053df514d45bc330f6de7737edfe0a93311d1eaa03"
+checksum = "396e4d48bbb2b7554c944bde63101b5ae446cff6ec4a24227428f15eb72ef338"
 dependencies = [
  "indexmap",
  "serde",
@@ -4722,7 +4625,7 @@ checksum = "42ff0bf0c66b8238c6f3b578df37d0b7848e55df8577b3f74f92a69acceeb825"
 [[package]]
 name = "ugli"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "batbox-color",
  "batbox-la",
@@ -4732,7 +4635,7 @@ dependencies = [
  "glutin",
  "image",
  "log",
- "num_enum 0.7.2",
+ "num_enum 0.7.1",
  "serde",
  "serde-wasm-bindgen",
  "thiserror",
@@ -4745,18 +4648,18 @@ dependencies = [
 [[package]]
 name = "ugli-derive"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "darling",
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]
 name = "ugli-raw"
 version = "0.17.0"
-source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#41e2f425fc28763300bbb8653d4db8bdb19cb391"
+source = "git+https://github.com/InfiniteCoder01/geng.git?branch=MousePassthrough#43895924981d0049e1a361fb4527674d859f5b33"
 dependencies = [
  "gl",
  "js-sys",
@@ -4828,9 +4731,9 @@ checksum = "5e395fcf16a7a3d8127ec99782007af141946b4795001f876d54fb0d55978560"
 
 [[package]]
 name = "value-bag"
-version = "1.5.0"
+version = "1.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd65ff0de3304a013e6dfeb7324e1cd389a8a000e582e3c9c9fae82ced778e26"
+checksum = "4a72e1902dde2bd6441347de2b70b7f5d59bf157c6c62f0c44572607a1d55bbe"
 
 [[package]]
 name = "vec_map"
@@ -4904,7 +4807,7 @@ dependencies = [
  "once_cell",
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
  "wasm-bindgen-shared",
 ]
 
@@ -4938,7 +4841,7 @@ checksum = "f0eb82fcb7930ae6219a7ecfd55b217f5f0893484b7a13022ebb2b2bf20b5283"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
  "wasm-bindgen-backend",
  "wasm-bindgen-shared",
 ]
@@ -5115,18 +5018,6 @@ name = "weezl"
 version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9193164d4de03a926d909d3bc7c30543cecb35400c02114792c2cae20d5e2dbb"
-
-[[package]]
-name = "which"
-version = "4.4.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "87ba24419a2078cd2b0f2ede2691b6c66d8e47836da3b6db8265ebad47afbfc7"
-dependencies = [
- "either",
- "home",
- "once_cell",
- "rustix 0.38.28",
-]
 
 [[package]]
 name = "wide"
@@ -5409,9 +5300,9 @@ checksum = "dff9641d1cd4be8d1a070daf9e3773c5f67e78b4d9d42263020c057706765c04"
 
 [[package]]
 name = "winit"
-version = "0.29.9"
+version = "0.29.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2376dab13e09c01ad8b679f0dbc7038af4ec43d9a91344338e37bd686481550"
+checksum = "0dc1a7ae1076890701c7dd71ea35b2aebaf9aeb7b8868ac2d33b1c7e8ef93c00"
 dependencies = [
  "ahash",
  "android-activity",
@@ -5458,9 +5349,9 @@ dependencies = [
 
 [[package]]
 name = "winnow"
-version = "0.5.33"
+version = "0.5.31"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b7520bbdec7211caa7c4e682eb1fbe07abe20cee6756b6e00f537c82c11816aa"
+checksum = "97a4882e6b134d6c28953a387571f1acdd3496830d5e36c5e3a1075580ea641c"
 dependencies = [
  "memchr",
 ]
@@ -5583,7 +5474,7 @@ checksum = "9ce1b18ccd8e73a9321186f97e46f9f04b778851177567b1975109d26a08d2a6"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.48",
+ "syn 2.0.44",
 ]
 
 [[package]]

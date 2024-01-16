@@ -1,24 +1,3 @@
-[package]
-name = "chatry"
-version = "1.1.0"
-edition = "2021"
-authors = ["InfiniteCoder <nayka.0.lobach.01@gmail.com>"]
-description = "Chatry - bot for my twitch channel!"
-readme = "README.md"
-repository = "https://github.com/InfiniteCoder01/chatry/"
-license = "Apache-2.0"
-
-[dependencies]
-anyhow = "1.0.72"
-toml = "0.7.6"
-serde = { version = "1.0.180", features = ["derive"] }
-map-macro = "0.2.6"
-once_cell = "1.18.0"
-rand = "0.8.5"
-
-smol = "1.3.0"
-twitchchat = { version = "0.14.8", features = ["smol", "async"] }
-
-speedy2d = { git = "https://github.com/InfiniteCoder01/Speedy2D.git", branch = "mgalos999/master" }
-ron = "0.8.1"
-triangulation = "0.1.1"
+[workspace]
+resolver = "2"
+members = ["chatry", "plushiedit"]

@@ -1,0 +1,21 @@
+[package]
+name = "chatry"
+version = "0.1.0"
+edition = "2021"
+authors = ["InfiniteCoder <nayka.0.lobach.01@gmail.com>"]
+description = "Chatry - bot for my twitch channel!"
+readme = "README.md"
+repository = "https://github.com/InfiniteCoder01/chatry/"
+license = "Apache-2.0"
+
+[dependencies]
+log = "0.4.20"
+rand = "0.8.5"
+
+geng = { git = "https://github.com/InfiniteCoder01/geng.git", branch = "MousePassthrough" }
+baby_shark = "0.1.6"
+nalgebra = "0.31.2"
+
+smol = "2.0.0"
+twitchchat = { version = "0.14.8", features = ["smol", "async"] }
+serde = "1.0.193"
