@@ -49,12 +49,12 @@ impl State {
         runner: AsyncRunner,
         mut writer: Writer,
     ) -> Self {
-        // smol::block_on(async {
-        //     writer
-        //         .encode(twitchchat::commands::privmsg(&config.channel, "I'm awake!"))
-        //         .await
-        //         .unwrap();
-        // });
+        smol::block_on(async {
+            writer
+                .encode(twitchchat::commands::privmsg(&config.channel, "I'm awake!"))
+                .await
+                .unwrap();
+        });
 
         Self {
             geng: geng.clone(),

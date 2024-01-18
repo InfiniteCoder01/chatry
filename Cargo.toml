@@ -1,9 +1,3 @@
 [workspace]
 resolver = "2"
 members = ["chatry", "plushyedit"]
-
-authors = ["InfiniteCoder <nayka.0.lobach.01@gmail.com>"]
-description = "Chatry - bot for my twitch channel!"
-readme = "README.md"
-repository = "https://github.com/InfiniteCoder01/chatry/"
-license = "Apache-2.0"
