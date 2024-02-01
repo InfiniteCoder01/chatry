@@ -3,7 +3,7 @@ use raylib::prelude::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Default)]
-struct PlushyStructure {
+struct PlushieStructure {
     points: Vec<(i32, i32)>,
 }
 
@@ -16,13 +16,13 @@ enum ImagePixelState {
 }
 
 fn main() {
-    let (mut rl, thread) = raylib::init().size(640, 480).title("PlushyEdit").build();
+    let (mut rl, thread) = raylib::init().size(640, 480).title("PlushieEdit").build();
 
     let (grid, point_size) = (16, 8.0);
     let (path, scale) = {
         let args = std::env::args().collect::<Vec<_>>();
         if args.len() < 2 || args.len() > 3 {
-            panic!("Usage: plushyedit PATH [scale]");
+            panic!("Usage: plushiedit PATH [scale]");
         }
         (
             std::path::PathBuf::from(&args[1]),
@@ -44,9 +44,9 @@ fn main() {
     );
 
     let mut structure = if let Ok(structure) = &std::fs::read_to_string(&structure_path) {
-        ron::from_str::<PlushyStructure>(structure).expect("Plushy structure is of wrong format!")
+        ron::from_str::<PlushieStructure>(structure).expect("Plushie structure is of wrong format!")
     } else {
-        PlushyStructure::default()
+        PlushieStructure::default()
     };
 
     while !rl.window_should_close() {

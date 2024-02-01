@@ -1,7 +1,9 @@
+#![feature(unboxed_closures, fn_traits)]
 use geng::prelude::*;
 use overlay::*;
 
 pub mod overlay;
+pub mod youtube;
 
 #[derive(Serialize, Deserialize)]
 pub struct Private {
@@ -9,10 +11,16 @@ pub struct Private {
 }
 
 fn main() {
-    logger::init();
+    logger::init_with({
+        let mut logger = logger::builder();
+        logger.filter_level(log::LevelFilter::Info);
+        logger
+    })
+    .unwrap();
     geng::setup_panic_handler();
 
-    let private = toml::from_str::<Private>(include_str!("../../private.toml")).unwrap();
+    let private =
+        toml::from_str::<Private>(include_str!("/mnt/D/Channel/Private/private.toml")).unwrap();
     let config =
         toml::from_str::<Config>(&std::fs::read_to_string("config.toml").unwrap()).unwrap();
     let user_config = twitchchat::UserConfig::builder()
@@ -23,16 +31,26 @@ fn main() {
         .unwrap();
     let connector = twitchchat::connector::smol::Connector::twitch().unwrap();
 
-    let channel = config.channel.clone();
+    let channels = config.channels.clone();
     let (runner, writer) = smol::block_on(async move {
         let mut runner = twitchchat::runner::AsyncRunner::connect(connector, &user_config)
             .await
             .unwrap();
-        runner.join(&channel).await.unwrap();
+        for channel in channels {
+            runner.join(&channel).await.unwrap();
+        }
 
         let writer = runner.writer();
         (runner, writer)
     });
+
+    let (youtube_sender, youtube_receiver) = std::sync::mpsc::channel();
+
+    let youtube_client = youtube_chat::live_chat::LiveChatClientBuilder::new()
+        .channel_id(config.youtube_channel.clone())
+        .on_chat(youtube::MessageTransferer(youtube_sender))
+        .on_error(youtube::ErrorHandler)
+        .build();
 
     Geng::run_with(
         &geng::ContextOptions {
@@ -54,8 +72,16 @@ fn main() {
                 .await
                 .expect("Failed to load assets");
 
-            geng.run_state(State::new(&geng, config, assets, runner, writer))
-                .await;
+            geng.run_state(State::new(
+                &geng,
+                config,
+                assets,
+                runner,
+                writer,
+                youtube_client,
+                youtube_receiver,
+            ))
+            .await;
         },
     );
 }

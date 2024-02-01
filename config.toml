@@ -1,4 +1,5 @@
-channel = "InfiniteCoder01"
+channels = [ "InfiniteCoder01", "CodersChatry", "IanTrudel" ]
+youtube_channel = "UCK_ZTGJxjrmYn_YbEMqpreA"
 name = "chatry"
 admins = ["InfiniteCoder01", "CodersChatry"]
-qotd = "The question of the day is: What is better, Raylib or SFML?"
+qotd = "The question of the day is: Rust or C++?"
