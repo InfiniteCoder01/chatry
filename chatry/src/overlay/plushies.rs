@@ -238,7 +238,7 @@ impl Particle {
         dt: f64,
         bounds: vec2<f32>,
         colliders: &[(usize, Aabb2<f32>)],
-    ) {
+    ) -> bool {
         for (collider_index, collider) in colliders {
             if index == *collider_index {
                 continue;
@@ -260,9 +260,10 @@ impl Particle {
                         best = (*direction, distance);
                     }
                 }
-                self.spring(best.0 * best.1);
-                // self.pos += best.0 * best.1;
-                // self.vel *= best.0.map(|x| 1.0 - x.abs());
+                self.spring(best.0 * best.1 * 1.5);
+                if best.1 > 50.0 {
+                    return false;
+                }
             }
         }
 
@@ -285,6 +286,7 @@ impl Particle {
         }
 
         self.acc = vec2(0.0, 0.0);
+        true
     }
 
     pub fn add_force(&mut self, force: vec2<f32>) {
@@ -303,6 +305,7 @@ impl Particle {
 pub struct PlushieInstance {
     pub name: String,
     pub time: std::time::Instant,
+    pub alive: bool,
     pub particles: Vec<Particle>,
     pub shape: Vec<vec2<f32>>,
     pub triangles: Vec<[usize; 3]>,
@@ -313,6 +316,7 @@ impl PlushieInstance {
         Self {
             name,
             time: std::time::Instant::now(),
+            alive: true,
             particles,
             shape,
             triangles: Vec::new(),
@@ -327,7 +331,9 @@ impl PlushieInstance {
         colliders: &[(usize, Aabb2<f32>)],
     ) {
         for particle in &mut self.particles {
-            particle.update(index, dt, bounds, colliders);
+            if !particle.update(index, dt, bounds, colliders) {
+                self.alive = false;
+            }
         }
 
         for triangle in self.triangles.iter().sorted_by_key(|triangle| {
@@ -372,6 +378,10 @@ impl PlushieInstance {
                 self.particles[index].spring(delta);
             }
         }
+
+        if self.time.elapsed() > std::time::Duration::from_secs(30) {
+            self.alive = false;
+        }
     }
 }
 
@@ -412,7 +422,6 @@ impl World {
                 plushie.update(index, dt / iterations as f64, bounds, &colliders);
             }
         }
-        self.plushies
-            .retain(|plushie| plushie.time.elapsed() < std::time::Duration::from_secs(30));
+        self.plushies.retain(|plushie| plushie.alive);
     }
 }

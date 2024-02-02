@@ -1,20 +1,18 @@
 use super::*;
-use twitchchat::PrivmsgExt;
 
 impl State {
     pub fn on_message(
         &mut self,
+        display: bool,
         author: &str,
         color: Rgba<f32>,
         message: &str,
-        pm: Option<&twitchchat::messages::Privmsg>,
+        channel: Option<&str>,
     ) {
         macro_rules! say {
             ($($arg:tt)*) => {
-                if let Some(pm) = pm {
-                    if let Err(err) = self.writer.say(&pm, &format!($($arg)*)) {
-                        log::error!("Failed to send a message: {}!", err);
-                    }
+                if let Some(channel) = channel {
+                    self.send(channel, &format!($($arg)*));
                 }
             }
         }
@@ -69,11 +67,13 @@ impl State {
             }
         }
 
-        self.messages.push(Message {
-            username: author.to_owned(),
-            user_color: color,
-            text: message.to_owned(),
-            timeout: std::time::Instant::now(),
-        })
+        if display {
+            self.messages.push(Message {
+                username: author.to_owned(),
+                user_color: color,
+                text: message.to_owned(),
+                timeout: std::time::Instant::now(),
+            });
+        }
     }
 }

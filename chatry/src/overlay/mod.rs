@@ -44,6 +44,7 @@ pub struct State {
 
     world: World,
     messages: Vec<Message>,
+    message: Option<String>,
 }
 
 impl State {
@@ -52,19 +53,10 @@ impl State {
         config: Config,
         assets: Hot<Assets>,
         runner: AsyncRunner,
-        mut writer: Writer,
+        writer: Writer,
         youtube_client: crate::youtube::YoutubeClient,
         youtube_reciever: crate::youtube::YoutubeReciever,
     ) -> Self {
-        smol::block_on(async {
-            for channel in &config.channels {
-                writer
-                    .encode(twitchchat::commands::privmsg(&channel, "I'm awake!"))
-                    .await
-                    .unwrap();
-            }
-        });
-
         let runtime = tokio::runtime::Runtime::new().unwrap();
         let (mut youtube_client, youtube_initialized) = crate::youtube::init(youtube_client);
         if youtube_initialized {
@@ -77,7 +69,7 @@ impl State {
             });
         }
 
-        Self {
+        let mut state = Self {
             geng: geng.clone(),
             assets,
             size: vec2(128, 128),
@@ -90,7 +82,30 @@ impl State {
 
             world: World::default(),
             messages: Vec::new(),
-        }
+            message: None,
+        };
+        state.send_everywhere("I'm online!");
+        state
+    }
+
+    pub fn send(&mut self, channel: &str, message: &str) {
+        smol::block_on(async {
+            if let Err(err) = self
+                .writer
+                .encode(twitchchat::commands::privmsg(channel, message))
+                .await
+            {
+                log::error!("Failed to send a message: {}!", err);
+            }
+        });
+    }
+
+    pub fn send_everywhere(&mut self, message: &str) {
+        smol::block_on(async {
+            for channel in self.config.channels.clone() {
+                self.send(&channel, message);
+            }
+        });
     }
 }
 
@@ -169,6 +184,23 @@ impl geng::State for State {
                 );
             }
         }
+
+        if let Some(message) = &self.message {
+            self.geng.default_font().draw_with_outline(
+                framebuffer,
+                &geng::Camera2d {
+                    center: vec2(0.0, 0.0),
+                    rotation: Angle::ZERO,
+                    fov: 15.0,
+                },
+                message,
+                vec2::splat(geng::TextAlign::CENTER),
+                mat3::identity(),
+                Rgba::WHITE,
+                outline,
+                Rgba::BLACK,
+            );
+        }
     }
 
     fn update(&mut self, _delta_time: f64) {
@@ -177,6 +209,7 @@ impl geng::State for State {
             match message {
                 Ok(twitchchat::Status::Message(twitchchat::messages::Commands::Privmsg(pm))) => {
                     self.on_message(
+                        true,
                         pm.display_name().unwrap_or(pm.name()),
                         pm.color().map_or(Rgba::MAGENTA, |color| {
                             Rgba::opaque(
@@ -186,7 +219,7 @@ impl geng::State for State {
                             )
                         }),
                         pm.data(),
-                        Some(&pm),
+                        Some(pm.channel()),
                     )
                 }
                 Err(err) => log::error!("Failed to recieve a message: {}!", err),
@@ -209,6 +242,7 @@ impl geng::State for State {
                 }
             }
             self.on_message(
+                true,
                 &message.author.name.unwrap_or("<anonymous>".to_owned()),
                 Rgba::RED,
                 &msg,
@@ -225,18 +259,34 @@ impl geng::State for State {
         self.world.update(delta_time, self.size.map(|x| x as _));
     }
 
-    fn handle_event(&mut self, _event: geng::Event) {
-        // if let geng::Event::KeyPress { key } = event {
-        //     match key {
-        //         geng::Key::ShiftRight => self.world.plushies.push(
-        //             self.assets
-        //                 .get()
-        //                 .plushies
-        //                 .ferris
-        //                 .instance(vec2(10.0, self.size.y as f32 - 10.0), 0.7),
-        //         ),
-        //         _ => (),
-        //     }
-        // }
+    fn handle_event(&mut self, event: geng::Event) {
+        if let Some(message) = &mut self.message {
+            match event {
+                geng::Event::EditText(text) => *message = text,
+                geng::Event::KeyPress { key } => match key {
+                    geng::Key::Enter => {
+                        let message = self.message.take().unwrap();
+                        self.send_everywhere(&message);
+                        self.on_message(
+                            true,
+                            "Self",
+                            Rgba::GRAY,
+                            &message,
+                            Some(&self.config.channels[0].clone()),
+                        );
+                    }
+                    geng::Key::Escape => self.message = None,
+                    _ => (),
+                },
+                geng::Event::Focused(false) => {
+                    self.message = None;
+                    self.geng.window().stop_text_edit();
+                }
+                _ => {}
+            }
+        } else if matches!(event, geng::Event::KeyPress { key: geng::Key::T }) {
+            self.message = Some(String::new());
+            self.geng.window().start_text_edit("");
+        }
     }
 }
