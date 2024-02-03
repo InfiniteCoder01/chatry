@@ -1,82 +1,42 @@
 use geng::prelude::{itertools::Itertools, *};
 
-#[derive(geng::asset::Load)]
 pub struct Plushies {
-    pub alan: Plushie,
-    pub arch: Plushie,
-    pub aseprite: Plushie,
-    pub asm: Plushie,
-    pub badcop: Plushie,
-    pub bash: Plushie,
-    pub c: Plushie,
-    pub cpp: Plushie,
-    pub csharp: Plushie,
-    pub cheburashka: Plushie,
-    pub emacs: Plushie,
-    pub ferris: Plushie,
-    pub freebsd: Plushie,
-    pub github: Plushie,
-    pub gnu: Plushie,
-    pub guix: Plushie,
-    pub helix: Plushie,
-    pub infinite: Plushie,
-    pub java: Plushie,
-    pub jonkero: Plushie,
-    pub kuviman: Plushie,
-    pub linux: Plushie,
-    pub lvim: Plushie,
-    pub manjaro: Plushie,
-    pub nano: Plushie,
-    pub nixos: Plushie,
-    pub nvim: Plushie,
-    pub pinmode: Plushie,
-    pub programmer_jeff: Plushie,
-    pub tree_sitter: Plushie,
-    pub twitch: Plushie,
-    pub vim: Plushie,
-    pub vscode: Plushie,
+    pub plushies: HashMap<String, Rc<Plushie>>,
+}
+
+impl geng::asset::Load for Plushies {
+    type Options = ();
+
+    fn load(
+        manager: &geng::asset::Manager,
+        path: &std::path::Path,
+        _options: &Self::Options,
+    ) -> geng::asset::Future<Self> {
+        let path = path.to_owned();
+        let manager = manager.to_owned();
+        async move {
+            let mut plushies = HashMap::new();
+            for file in std::fs::read_dir(path)
+                .map_err(|err| anyhow!("Failed opening plushies directory: {err}"))?
+                .flatten()
+            {
+                let plushie = manager.load::<Plushie>(file.path()).await?;
+                plushies.insert(
+                    file.file_name().to_string_lossy().into_owned(),
+                    Rc::new(plushie),
+                );
+            }
+            Ok(Self { plushies })
+        }
+        .boxed_local()
+    }
+
+    const DEFAULT_EXT: Option<&'static str> = None;
 }
 
 impl Plushies {
-    pub fn get(&self, name: &str) -> Option<&Plushie> {
-        match name {
-            "alan" => Some(&self.alan),
-            "arch" | "archlinux" | "archlinux.org" => Some(&self.arch),
-            "aseprite" | "pixel" => Some(&self.aseprite),
-            "asm" | "assembly" => Some(&self.asm),
-            "badcop" => Some(&self.badcop),
-            "bash" => Some(&self.bash),
-            "c" => Some(&self.c),
-            "c++" | "cpp" => Some(&self.cpp),
-            "c#" | "csharp" => Some(&self.csharp),
-            "cheburashka" => Some(&self.cheburashka),
-            "emacs" => Some(&self.emacs),
-            "ferris" | "rust" | "borrowchecker" => Some(&self.ferris),
-            "freebsd" => Some(&self.freebsd),
-            "github" => Some(&self.github),
-            "gnu" => Some(&self.gnu),
-            "guix" => Some(&self.guix),
-            "helix" => Some(&self.helix),
-            "infinite" => Some(&self.infinite),
-            "java" => Some(&self.java),
-            "jonkero" => Some(&self.jonkero),
-            "kuviman" => Some(&self.kuviman),
-            "linux" | "tux" | "penguin" => Some(&self.linux),
-            "lvim" | "lunarvim" => Some(&self.lvim),
-            "manjaro" => Some(&self.manjaro),
-            "nano" => Some(&self.nano),
-            "nixos" => Some(&self.nixos),
-            "nvim" | "neovim" => Some(&self.nvim),
-            "pinmode" => Some(&self.pinmode),
-            "programmer_jeff_" | "programmer_jeff" | "programmerjeff" => {
-                Some(&self.programmer_jeff)
-            }
-            "tree_sitter" | "tree-sitter" | "treesitter" => Some(&self.tree_sitter),
-            "twitch" => Some(&self.twitch),
-            "vim" => Some(&self.vim),
-            "vscode" => Some(&self.vscode),
-            _ => None,
-        }
+    pub fn get(&self, name: &str) -> Option<&Rc<Plushie>> {
+        self.plushies.get(name)
     }
 
     pub fn random(&self) -> String {
@@ -128,6 +88,7 @@ impl Plushies {
 pub struct Plushie {
     pub image: ugli::Texture,
     pub structure: PlushieStructure,
+    // pub config: Option<PlushieConfig>,
 }
 
 impl Plushie {
@@ -210,8 +171,25 @@ impl geng::asset::Load for PlushieStructure {
     const DEFAULT_EXT: Option<&'static str> = Some("ron");
 }
 
-fn _pixelate(plushie: &mut Plushie) {
-    plushie.image.set_filter(ugli::Filter::Nearest);
+#[derive(Serialize, Deserialize)]
+pub struct PlushieConfig {}
+
+impl geng::asset::Load for PlushieConfig {
+    type Options = ();
+    fn load(
+        _manager: &geng::asset::Manager,
+        path: &std::path::Path,
+        _options: &Self::Options,
+    ) -> geng::asset::Future<Self> {
+        let path = path.to_owned();
+        async move {
+            toml::from_str(&file::load_string(&path).await?)
+                .map_err(|err| anyhow!("failed to load plushie structure: {err}"))
+        }
+        .boxed_local()
+    }
+
+    const DEFAULT_EXT: Option<&'static str> = Some("toml");
 }
 
 // * ------------------------------- Single - Physics ------------------------------- * //
