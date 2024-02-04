@@ -33,32 +33,19 @@ impl State {
                         } else {
                             args.to_lowercase()
                         };
-                        let scale = match name.as_str() {
-                            "asm" | "assembly" => 0.5,
-                            "gnu" => 0.4,
-                            "ferris" | "rust" | "borrowchecker" => 0.5,
-                            "helix" => 0.5,
-                            "pinmode" => 0.5,
-                            "alan" => 0.2,
-                            "kuviman" => 0.2,
-                            "badcop" => 0.3,
-                            "jonkero" => 0.4,
-                            "programmer_jeff_" | "programmer_jeff" | "programmerjeff" => 1.0,
-                            _ => 0.25,
-                        };
                         if let Some(plushie) = self.assets.get().plushies.get(&name) {
-                            self.world.plushies.push(plushie.instance(
+                            self.world.plushies.push(world::PlushieInstance::new(
                                 name,
                                 vec2(
                                     rand::thread_rng().gen_range(
                                         10.0..self.size.x as f32
-                                            - plushie.image.size().x as f32 * scale
+                                            - plushie.image.size().x as f32 * 1.0
                                             - 10.0,
                                     ),
                                     self.size.y as f32 - 10.0,
                                 ),
                                 vec2(rand::thread_rng().gen_range(-10.0..10.0), 0.0),
-                                scale,
+                                plushie,
                             ));
                         }
                     }

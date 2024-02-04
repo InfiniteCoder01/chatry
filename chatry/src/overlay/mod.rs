@@ -1,5 +1,6 @@
 use geng::prelude::*;
 use plushies::*;
+use rayon::prelude::*;
 use twitchchat::AsyncRunner;
 
 pub mod bot;
@@ -114,32 +115,7 @@ impl geng::State for State {
         ugli::clear(framebuffer, Some(Rgba::TRANSPARENT_BLACK), None, None);
         self.size = framebuffer.size();
 
-        // * World
-        for plushie in &self.world.plushies {
-            if let Some(proto) = self.assets.get().plushies.get(&plushie.name) {
-                self.geng.draw2d().draw2d(
-                    framebuffer,
-                    &geng::PixelPerfectCamera,
-                    &geng::draw2d::TexturedPolygon::with_mode(
-                        plushie
-                            .triangles
-                            .iter()
-                            .flatten()
-                            .map(|&index| {
-                                let particle = &plushie.particles[index];
-                                draw2d::TexturedVertex {
-                                    a_pos: particle.pos,
-                                    a_color: Rgba::WHITE,
-                                    a_vt: particle.uv,
-                                }
-                            })
-                            .collect(),
-                        &proto.image,
-                        ugli::DrawMode::Triangles,
-                    ),
-                );
-            }
-        }
+        self.world.draw(self, framebuffer);
 
         // * Chat
         let padding = 10.0;

@@ -5,32 +5,36 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Default)]
 struct PlushieStructure {
     points: Vec<(i32, i32)>,
-}
-
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
-enum ImagePixelState {
-    #[default]
-    Unspecified,
-    Inside,
-    Edge,
+    triangles: Vec<[usize; 3]>,
 }
 
 fn main() {
+    set_trace_log(TraceLogLevel::LOG_ERROR);
     let (mut rl, thread) = raylib::init().size(640, 480).title("PlushieEdit").build();
 
     let (grid, point_size) = (16, 8.0);
-    let (path, scale) = {
-        let args = std::env::args().collect::<Vec<_>>();
+    let (nogui, path, step) = {
+        let mut args = std::env::args().collect::<Vec<_>>();
+        let nogui = if args.get(1) == Some(&"nogui".to_owned()) {
+            args.remove(1);
+            true
+        } else {
+            false
+        };
         if args.len() < 2 || args.len() > 3 {
-            panic!("Usage: plushiedit PATH [scale]");
+            panic!("Usage: plushiedit [nogui] PATH [step]");
         }
         (
+            nogui,
             std::path::PathBuf::from(&args[1]),
             args.get(2)
-                .map_or(Some(4.0), |scale| scale.parse::<f32>().ok())
-                .expect("Scale should be a number"),
+                .map_or(Some(32), |step| step.parse::<usize>().ok())
+                .expect("Step should be a number"),
         )
     };
+
+    let scale = 1.5;
+    let max_distance = step as f32 * 2.0;
 
     let image_path = path.join("image.png");
     let structure_path = path.join("structure.ron");
@@ -43,59 +47,87 @@ fn main() {
         (image.height() as f32 * scale) as _,
     );
 
-    let mut structure = if let Ok(structure) = &std::fs::read_to_string(&structure_path) {
-        ron::from_str::<PlushieStructure>(structure).expect("Plushie structure is of wrong format!")
-    } else {
-        PlushieStructure::default()
+    let image_data = image.load_image().unwrap().get_image_data();
+    let mut map = bidivec![false; (image.width as usize).div_ceil(step) + 1, (image.height as usize).div_ceil(step) + 1];
+    for y in 0..map.height() {
+        for x in 0..map.width() {
+            #[allow(clippy::option_map_unit_fn)]
+            let pixel = (-(step as i32) / 2..step as i32 / 2).any(|y1| {
+                (-(step as i32) / 2..step as i32 / 2).any(|x1| {
+                    let px = (x as i32 * step as i32 + x1).clamp(0, image.width - 1);
+                    let py = (y as i32 * step as i32 + y1).clamp(0, image.height - 1);
+                    image_data[px as usize + py as usize * image.width as usize].a > 30
+                })
+            });
+            if pixel {
+                map[(x, y)] = true;
+                if x > 0 {
+                    map[(x - 1, y)] = true;
+                }
+                if y > 0 {
+                    map[(x, y - 1)] = true;
+                }
+                if x < map.width() - 1 {
+                    map[(x + 1, y)] = true;
+                }
+                if y < map.height() - 1 {
+                    map[(x, y + 1)] = true;
+                }
+            }
+        }
+    }
+
+    let mut structure = PlushieStructure::default();
+    for y in 0..map.height() {
+        for x in 0..map.width() {
+            if map[(x, y)] {
+                structure
+                    .points
+                    .push(((x * step) as i32, (y * step) as i32));
+            }
+        }
+    }
+
+    structure.triangles = {
+        use rtriangulate::{triangulate, TriangulationPoint};
+        let points = structure
+            .points
+            .iter()
+            .map(|point| TriangulationPoint::new(point.0 as f32, point.1 as f32))
+            .collect::<Vec<_>>();
+
+        triangulate(&points)
+            .unwrap()
+            .iter()
+            .map(|triangle| [triangle.0, triangle.1, triangle.2])
+            .filter(|triangle| {
+                let triangle = (
+                    rvec2(
+                        structure.points[triangle[0]].0,
+                        structure.points[triangle[0]].1,
+                    ),
+                    rvec2(
+                        structure.points[triangle[1]].0,
+                        structure.points[triangle[1]].1,
+                    ),
+                    rvec2(
+                        structure.points[triangle[2]].0,
+                        structure.points[triangle[2]].1,
+                    ),
+                );
+                triangle.0.distance_to(triangle.1) < max_distance
+                    && triangle.1.distance_to(triangle.2) < max_distance
+                    && triangle.2.distance_to(triangle.0) < max_distance
+            })
+            .collect()
     };
 
+    if nogui {
+        std::fs::write(&structure_path, ron::to_string(&structure).unwrap())
+            .expect("Failed to write!");
+        return;
+    }
     while !rl.window_should_close() {
-        let mouse = rl.get_mouse_position() / scale;
-
-        let mut on_point = false;
-        for (index, point) in structure.points.iter_mut().enumerate() {
-            if mouse.distance_to(rvec2(point.0, point.1)) <= point_size {
-                on_point = true;
-                if rl.is_mouse_button_down(MouseButton::MOUSE_BUTTON_RIGHT) {
-                    structure.points.remove(index);
-                } else if rl.is_mouse_button_down(MouseButton::MOUSE_BUTTON_LEFT) {
-                    point.0 = (mouse.x as i32).clamp(1, image.width - 2);
-                    point.1 = (mouse.y as i32).clamp(1, image.height - 2);
-                }
-                break;
-            }
-        }
-        if !on_point && rl.is_mouse_button_pressed(MouseButton::MOUSE_BUTTON_LEFT) {
-            let mut found = false;
-            if structure.points.len() > 2 {
-                for (index, point0) in structure.points[1..].iter().enumerate() {
-                    let index = index + 1;
-                    let point0 = rvec2(point0.0, point0.1);
-                    let point1 =
-                        rvec2(structure.points[index - 1].0, structure.points[index - 1].1);
-                    let distance = point1.distance_to(point0);
-                    let mouse_distance = point0.distance_to(mouse) + point1.distance_to(mouse);
-                    if mouse_distance - distance < point_size {
-                        structure.points.insert(
-                            index,
-                            (
-                                (mouse.x as i32).clamp(1, image.width - 2),
-                                (mouse.y as i32).clamp(1, image.height - 2),
-                            ),
-                        );
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            if !found {
-                structure.points.push((
-                    (mouse.x as i32).clamp(1, image.width - 2),
-                    (mouse.y as i32).clamp(1, image.height - 2),
-                ));
-            }
-        }
-
         let ctrl = rl.is_key_down(KeyboardKey::KEY_LEFT_CONTROL);
         let save_key = rl.is_key_down(KeyboardKey::KEY_S);
 
@@ -117,15 +149,24 @@ fn main() {
             }
         }
         d.draw_texture_ex(&image, Vector2::zero(), 0.0, scale, Color::WHITE);
-        for (index, point1) in structure.points.iter().enumerate() {
-            let point2 = structure.points[(index + 1) % structure.points.len()];
-            d.draw_line_ex(
-                rvec2(point1.0, point1.1) * scale,
-                rvec2(point2.0, point2.1) * scale,
-                point_size / 2.0,
+        for triangle in &structure.triangles {
+            d.draw_triangle_lines(
+                rvec2(
+                    structure.points[triangle[0]].0,
+                    structure.points[triangle[0]].1,
+                ) * scale,
+                rvec2(
+                    structure.points[triangle[1]].0,
+                    structure.points[triangle[1]].1,
+                ) * scale,
+                rvec2(
+                    structure.points[triangle[2]].0,
+                    structure.points[triangle[2]].1,
+                ) * scale,
                 Color::BLUE,
             );
         }
+
         for point in &structure.points {
             d.draw_circle(
                 (point.0 as f32 * scale) as _,
@@ -135,41 +176,9 @@ fn main() {
             );
         }
 
-        if ctrl {
-            let mut map = bidiarray![ImagePixelState::Unspecified; image.width() as usize, image.height() as usize];
-            for (index, &point1) in structure.points.iter().enumerate() {
-                let point2 = structure.points[(index + 1) % structure.points.len()];
-                for point in line_drawing::Bresenham::new(point1, point2) {
-                    map[(point.0 as usize, point.1 as usize)] = ImagePixelState::Edge;
-                }
-            }
-            editing::flood_fill(
-                &mut map,
-                (mouse.x as usize, mouse.y as usize),
-                BidiNeighbours::Adjacent,
-                |_, a, b| a == b,
-                |pixel, _| *pixel = ImagePixelState::Inside,
-            )
-            .unwrap();
-
-            for y in 0..map.height() {
-                for x in 0..map.width() {
-                    if map[(x, y)] == ImagePixelState::Inside {
-                        d.draw_rectangle(
-                            ((x as f32) * scale) as _,
-                            ((y as f32) * scale) as _,
-                            scale as _,
-                            scale as _,
-                            Color::new(255, 255, 255, 50),
-                        );
-                    }
-                }
-            }
-
-            if save_key {
-                std::fs::write(&structure_path, ron::to_string(&structure).unwrap())
-                    .expect("Failed to write!");
-            }
+        if ctrl && save_key {
+            std::fs::write(&structure_path, ron::to_string(&structure).unwrap())
+                .expect("Failed to write!");
         }
     }
 }
