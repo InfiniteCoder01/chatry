@@ -71,21 +71,20 @@ pub struct PlushieInstance {
 
 impl PlushieInstance {
     pub fn new(name: String, offset: vec2<f32>, vel: vec2<f32>, proto: &Plushie) -> Self {
-        let scale = 0.3;
         let shape = proto
             .structure
             .points
             .iter()
             .map(|&point| {
                 let point = point.map(|x| x as f32);
-                vec2(point.x, proto.image.size().y as f32 - point.y) * scale
+                vec2(point.x, proto.image.size().y as f32 - point.y) * proto.config.scale
             })
             .collect::<Vec<_>>();
         let particles = shape
             .iter()
             .map(|&point| {
                 Particle::new(offset + point, vel, {
-                    point / scale / proto.image.size().map(|x| x as f32)
+                    point / proto.config.scale / proto.image.size().map(|x| x as f32)
                 })
             })
             .collect::<Vec<_>>();
@@ -93,7 +92,7 @@ impl PlushieInstance {
 
         Self {
             name,
-            scale,
+            scale: proto.config.scale,
             time: std::time::Instant::now(),
             alive: true,
             particles,
@@ -194,7 +193,7 @@ pub struct World {
 
 impl World {
     pub fn update(&mut self, delta_time: f64, bounds: vec2<f32>) {
-        let iterations = 10;
+        let iterations = 20;
         for _ in 0..iterations {
             self.plushies.par_iter_mut().for_each(|plushie| {
                 plushie.update(delta_time / iterations as f64, bounds);

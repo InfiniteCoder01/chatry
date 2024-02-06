@@ -1,0 +1,2 @@
+aliases = ["assembly", "assembler", "x86", "x86-64"]
+groups = ["languages"]

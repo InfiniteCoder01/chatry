@@ -33,20 +33,63 @@ impl State {
                         } else {
                             args.to_lowercase()
                         };
-                        if let Some(plushie) = self.assets.get().plushies.get(&name) {
-                            self.world.plushies.push(world::PlushieInstance::new(
-                                name,
-                                vec2(
-                                    rand::thread_rng().gen_range(
-                                        10.0..self.size.x as f32
-                                            - plushie.image.size().x as f32 * 1.0
-                                            - 10.0,
-                                    ),
-                                    self.size.y as f32 - 10.0,
-                                ),
-                                vec2(rand::thread_rng().gen_range(-10.0..10.0), 0.0),
-                                plushie,
+                        self.enqueue_plushie(name);
+                    }
+                    "pick" => {
+                        let name = if args.is_empty() {
+                            self.assets
+                                .get()
+                                .plushies
+                                .groups
+                                .iter()
+                                .choose(&mut rand::thread_rng())
+                                .unwrap()
+                                .0
+                                .to_owned()
+                        } else {
+                            args.to_lowercase()
+                        };
+                        let assets = self.assets.get();
+                        if let Some(group) = assets.plushies.groups.get(&name) {
+                            let name = group.choose(&mut rand::thread_rng()).unwrap().to_owned();
+                            drop(assets);
+                            self.enqueue_plushie(name);
+                        }
+                    }
+                    "distro" => {
+                        let mut distro = Vec::new();
+                        let assets = self.assets.get();
+                        distro.extend_from_slice(&assets.plushies.pick_from_group("distros", 1));
+                        if distro[0] != "nix" {
+                            distro.extend_from_slice(&assets.plushies.pick_from_group(
+                                "package-managers",
+                                rand::thread_rng().gen_range(1..2),
                             ));
+                        }
+                        distro.extend_from_slice(&assets.plushies.pick_from_group("des", 1));
+                        distro.extend_from_slice(&assets.plushies.pick_from_group("terminals", 1));
+                        distro.extend_from_slice(&assets.plushies.pick_from_group("shells", 1));
+                        distro.extend_from_slice(&assets.plushies.pick_from_group("editors", 1));
+                        distro.extend_from_slice(
+                            &assets.plushies.pick_from_group(
+                                "applications",
+                                rand::thread_rng().gen_range(0..2),
+                            ),
+                        );
+                        drop(assets);
+                        for item in distro {
+                            self.enqueue_plushie(item);
+                        }
+                    }
+                    "gamedev" => {
+                        let mut stack = Vec::new();
+                        let assets = self.assets.get();
+                        stack.extend_from_slice(&assets.plushies.pick_from_group("editors", 1));
+                        stack.extend_from_slice(&assets.plushies.pick_from_group("languages", 1));
+                        stack.extend_from_slice(&assets.plushies.pick_from_group("graphics", 1));
+                        drop(assets);
+                        for item in stack {
+                            self.enqueue_plushie(item);
                         }
                     }
                     _ => (),

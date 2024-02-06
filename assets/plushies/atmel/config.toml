@@ -1,0 +1,2 @@
+aliases = ["atmega328p"] 
+groups = ["cpus", "embedded"]

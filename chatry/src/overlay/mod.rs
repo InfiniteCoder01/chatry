@@ -1,6 +1,10 @@
 use geng::prelude::*;
 use plushies::*;
 use rayon::prelude::*;
+use std::{
+    collections::VecDeque,
+    time::{Duration, Instant},
+};
 use twitchchat::AsyncRunner;
 
 pub mod bot;
@@ -29,7 +33,7 @@ pub struct Message {
     pub username: String,
     pub user_color: Rgba<f32>,
     pub text: String,
-    pub timeout: std::time::Instant,
+    pub timeout: Instant,
 }
 
 pub struct State {
@@ -46,6 +50,8 @@ pub struct State {
     world: World,
     messages: Vec<Message>,
     message: Option<String>,
+    plushie_queue: VecDeque<PlushieInstance>,
+    plushie_release_timeout: Instant,
 }
 
 impl State {
@@ -62,7 +68,7 @@ impl State {
         let (mut youtube_client, youtube_initialized) = crate::youtube::init(youtube_client);
         if youtube_initialized {
             runtime.spawn(async move {
-                let mut interval = tokio::time::interval(std::time::Duration::from_millis(500));
+                let mut interval = tokio::time::interval(Duration::from_millis(500));
                 loop {
                     interval.tick().await;
                     youtube_client.execute().await;
@@ -84,6 +90,8 @@ impl State {
             world: World::default(),
             messages: Vec::new(),
             message: None,
+            plushie_queue: VecDeque::new(),
+            plushie_release_timeout: Instant::now(),
         };
         state.send_everywhere("I'm online!");
         state
@@ -107,6 +115,27 @@ impl State {
                 self.send(&channel, message);
             }
         });
+    }
+
+    fn enqueue_plushie(&mut self, name: String) {
+        if self.plushie_queue.len() > 30 {
+            return;
+        }
+        if let Some(plushie) = self.assets.get().plushies.get(&name) {
+            self.plushie_queue.push_back(PlushieInstance::new(
+                name,
+                vec2(
+                    rand::thread_rng().gen_range(
+                        10.0..self.size.x as f32
+                            - plushie.image.size().x as f32 * plushie.config.scale
+                            - 10.0,
+                    ),
+                    self.size.y as f32 + rand::thread_rng().gen_range(-10.0..30.0),
+                ),
+                vec2(rand::thread_rng().gen_range(-10.0..10.0), 0.0),
+                plushie,
+            ));
+        }
     }
 }
 
@@ -206,7 +235,7 @@ impl geng::State for State {
         // * Youtube IRC
         if let Ok(message) = self
             .youtube_reciever
-            .recv_timeout(std::time::Duration::from_millis(10))
+            .recv_timeout(Duration::from_millis(10))
         {
             let mut msg = String::new();
             for item in message.message {
@@ -228,7 +257,18 @@ impl geng::State for State {
 
         // * Messages
         self.messages
-            .retain(|message| message.timeout.elapsed() < std::time::Duration::from_secs(30));
+            .retain(|message| message.timeout.elapsed() < Duration::from_secs(30));
+
+        // * Plushie Queue
+        if self.plushie_release_timeout.elapsed() > Duration::from_millis(500)
+            && self.world.plushies.len() < 15
+        {
+            if let Some(mut plushie) = self.plushie_queue.pop_front() {
+                plushie.time = Instant::now();
+                self.world.plushies.push(plushie);
+                self.plushie_release_timeout = Instant::now();
+            }
+        }
     }
 
     fn fixed_update(&mut self, delta_time: f64) {

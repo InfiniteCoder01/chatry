@@ -1,0 +1,2 @@
+aliases = ["doom", "doom-emacs"] 
+groups = ["editors"]

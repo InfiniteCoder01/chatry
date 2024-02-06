@@ -1,4 +1,3 @@
-#!/bin/bash
 filename=$(basename -- "$1")
 filename="${filename%.*}"
 echo "Converting $filename"

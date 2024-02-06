@@ -1,0 +1,2 @@
+aliases = ["sdl2", "simple-directmedia-layer"]
+groups = ["graphics"]

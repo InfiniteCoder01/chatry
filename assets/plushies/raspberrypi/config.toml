@@ -1,0 +1,2 @@
+aliases = ["pi", "raspberry"]
+groups = ["cpus", "embedded"]

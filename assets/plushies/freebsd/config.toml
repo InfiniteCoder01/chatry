@@ -1,0 +1,2 @@
+aliases = ["bsd"] 
+groups = ["distros"]

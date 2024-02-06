@@ -1,0 +1,2 @@
+aliases = ["terminal", "term"] 
+groups = ["terminals"]

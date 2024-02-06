@@ -62,7 +62,7 @@ fn main() {
                 options.vsync = true;
                 options
             },
-            fixed_delta_time: 0.01,
+            fixed_delta_time: 0.03,
             ..default()
         },
         |geng| async move {
