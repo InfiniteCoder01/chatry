@@ -1,1 +1,2 @@
+aliases = ["nix-os"]
 groups = ["distros", "package-managers"]

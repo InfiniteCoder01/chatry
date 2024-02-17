@@ -276,6 +276,7 @@ impl geng::State for State {
     }
 
     fn handle_event(&mut self, event: geng::Event) {
+        dbg!(&event);
         if let Some(message) = &mut self.message {
             match event {
                 geng::Event::EditText(text) => *message = text,
@@ -303,6 +304,8 @@ impl geng::State for State {
         } else if matches!(event, geng::Event::KeyPress { key: geng::Key::T }) {
             self.message = Some(String::new());
             self.geng.window().start_text_edit("");
+        } else if let geng::Event::CursorMove { position } = event {
+            // dbg!(position);
         }
     }
 }

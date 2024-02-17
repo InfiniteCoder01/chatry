@@ -51,7 +51,7 @@ impl Particle {
     }
 
     pub fn spring(&mut self, delta: vec2<f32>) {
-        let spring_k = 21000.0;
+        let spring_k = 25000.0;
         let damp_k = 0.4;
         let force = delta.map(|x| x.abs().powf(1.0 / 3.0) * x.signum());
         let force = force * spring_k - self.vel * damp_k;

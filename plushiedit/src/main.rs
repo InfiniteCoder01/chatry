@@ -8,6 +8,14 @@ struct PlushieStructure {
     triangles: Vec<[usize; 3]>,
 }
 
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
+enum Point {
+    #[default]
+    Blank,
+    Edge((i32, i32)),
+    Fill,
+}
+
 fn main() {
     set_trace_log(TraceLogLevel::LOG_ERROR);
     let (mut rl, thread) = raylib::init().size(640, 480).title("PlushieEdit").build();
@@ -48,52 +56,89 @@ fn main() {
     );
 
     let image_data = image.load_image().unwrap().get_image_data();
-    let mut map = bidivec![false; (image.width as usize).div_ceil(step) + 1, (image.height as usize).div_ceil(step) + 1];
+    let mut map = bidivec![Point::Blank; (image.width as usize).div_ceil(step) + 1, (image.height as usize).div_ceil(step) + 1];
+
+    let pixel = |x: i32, y: i32| {
+        if x < 0 || y < 0 || x >= image.width || y >= image.height {
+            return false;
+        }
+        image_data[x as usize + y as usize * image.width as usize].a > 30
+    };
+
+    let segment = |x: usize, y: usize| {
+        let size = step / 2;
+        #[allow(clippy::option_map_unit_fn)]
+        (-(size as i32) / 2..size as i32 / 2).any(|y1| {
+            (-(size as i32) / 2..size as i32 / 2)
+                .any(|x1| pixel(x as i32 * step as i32 + x1, y as i32 * step as i32 + y1))
+        })
+    };
+
+    let trim = |point: Vector2, direction: Vector2| {
+        let mut p = point * rvec2(step as i32, step as i32);
+        for _ in 0..step {
+            if pixel(p.x as _, p.y as _) {
+                break;
+            }
+            p -= direction;
+        }
+        return (p.x as i32, p.y as i32);
+    };
+
     for y in 0..map.height() {
         for x in 0..map.width() {
-            #[allow(clippy::option_map_unit_fn)]
-            let pixel = (-(step as i32) / 2..step as i32 / 2).any(|y1| {
-                (-(step as i32) / 2..step as i32 / 2).any(|x1| {
-                    let px = (x as i32 * step as i32 + x1).clamp(0, image.width - 1);
-                    let py = (y as i32 * step as i32 + y1).clamp(0, image.height - 1);
-                    image_data[px as usize + py as usize * image.width as usize].a > 30
-                })
-            });
-            if pixel {
-                map[(x, y)] = true;
-                if x > 0 {
-                    map[(x - 1, y)] = true;
-                }
-                if y > 0 {
-                    map[(x, y - 1)] = true;
-                }
-                if x < map.width() - 1 {
-                    map[(x + 1, y)] = true;
-                }
-                if y < map.height() - 1 {
-                    map[(x, y + 1)] = true;
+            if segment(x, y) {
+                map[(x, y)] = Point::Fill;
+            }
+        }
+    }
+
+    for y in 0..map.height() {
+        for x in 0..map.width() {
+            if !segment(x, y) {
+                if x > 0 && map[(x - 1, y)] == Point::Fill {
+                    map[(x, y)] = Point::Edge(trim(rvec2(x as i32, y as i32), rvec2(1, 0)));
+                } else if y > 0 && map[(x, y - 1)] == Point::Fill {
+                    map[(x, y)] = Point::Edge(trim(rvec2(x as i32, y as i32), rvec2(0, 1)));
+                } else if x < map.width() - 1 && map[(x + 1, y)] == Point::Fill {
+                    map[(x, y)] = Point::Edge(trim(rvec2(x as i32, y as i32), rvec2(-1, 0)));
+                } else if y < map.height() - 1 && map[(x, y + 1)] == Point::Fill {
+                    map[(x, y)] = Point::Edge(trim(rvec2(x as i32, y as i32), rvec2(0, -1)));
                 }
             }
         }
     }
 
     let mut structure = PlushieStructure::default();
+    let mut triangulation_points = Vec::new();
     for y in 0..map.height() {
         for x in 0..map.width() {
-            if map[(x, y)] {
-                structure
+            match map[(x, y)] {
+                Point::Blank => (),
+                Point::Edge(point) => structure.points.push(point),
+                Point::Fill => structure
                     .points
-                    .push(((x * step) as i32, (y * step) as i32));
+                    .push(((x * step) as i32, (y * step) as i32)),
+            }
+            match map[(x, y)] {
+                Point::Blank => (),
+                Point::Edge(_) | Point::Fill => {
+                    triangulation_points.push(((x * step) as i32, (y * step) as i32))
+                }
             }
         }
     }
 
     structure.triangles = {
         use rtriangulate::{triangulate, TriangulationPoint};
-        let points = structure
-            .points
+        let points = triangulation_points
             .iter()
-            .map(|point| TriangulationPoint::new(point.0 as f32, point.1 as f32))
+            .map(|point| {
+                TriangulationPoint::new(
+                    (point.0 as f32 / step as f32).round(),
+                    (point.1 as f32 / step as f32).round(),
+                )
+            })
             .collect::<Vec<_>>();
 
         triangulate(&points)
@@ -103,16 +148,16 @@ fn main() {
             .filter(|triangle| {
                 let triangle = (
                     rvec2(
-                        structure.points[triangle[0]].0,
-                        structure.points[triangle[0]].1,
+                        triangulation_points[triangle[0]].0,
+                        triangulation_points[triangle[0]].1,
                     ),
                     rvec2(
-                        structure.points[triangle[1]].0,
-                        structure.points[triangle[1]].1,
+                        triangulation_points[triangle[1]].0,
+                        triangulation_points[triangle[1]].1,
                     ),
                     rvec2(
-                        structure.points[triangle[2]].0,
-                        structure.points[triangle[2]].1,
+                        triangulation_points[triangle[2]].0,
+                        triangulation_points[triangle[2]].1,
                     ),
                 );
                 triangle.0.distance_to(triangle.1) < max_distance

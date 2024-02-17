@@ -1,2 +1,1 @@
-aliases = ["rust", "rustacean", "crustacean", "crab"] 
-groups = ["languages"]
+aliases = ["rustacean", "crustacean", "crab"]
