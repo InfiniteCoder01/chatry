@@ -19,6 +19,11 @@ impl State {
             }
         }
 
+        if let Some(cmd) = message.trim().strip_prefix("!sh") {
+            self.shell_cmd(cmd);
+            return;
+        }
+
         for part in message.split(';').map(str::trim) {
             if let Some(command) = part.strip_prefix('!') {
                 let (command, args) = command.split_once(' ').unwrap_or((command, ""));
@@ -29,7 +34,6 @@ impl State {
                     "readchat" => {
                         self.assets.get().readchat.play();
                     }
-                    "sh" => self.shell_cmd(args),
                     "plushie" => {
                         let name = if args.is_empty() {
                             self.assets.get().plushies.random()

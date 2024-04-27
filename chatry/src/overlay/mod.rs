@@ -13,6 +13,8 @@ pub mod plushies;
 pub struct Assets {
     pub plushies: Plushies,
     pub readchat: geng::Sound,
+    #[load(path = "FiraMonoNerdFontMono-Regular.otf")]
+    pub font: geng::Font,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -161,37 +163,46 @@ impl geng::State for State {
             let mut y = framebuffer.size().y as f32 / 4.0 + padding;
             for message in self.messages.iter().rev() {
                 let align = vec2(geng::TextAlign::LEFT, geng::TextAlign::TOP);
+                let uname_size = self
+                    .assets
+                    .get()
+                    .font
+                    .measure(&message.username, align)
+                    .unwrap();
+                let wrapped_message = textwrap::fill(
+                    &message.text,
+                    ((panel_width - uname_size.width()) / text_size * 1.25) as usize,
+                );
+                let full_size = self
+                    .assets
+                    .get()
+                    .font
+                    .measure(&format!("{}: {}", message.username, wrapped_message), align)
+                    .unwrap();
 
-                if let (Some(full), Some(uname)) = (
-                    self.geng
-                        .default_font()
-                        .measure(&format!("{}: {}", message.username, message.text), align),
-                    self.geng.default_font().measure(&message.username, align),
-                ) {
-                    y += full.height() * text_size + message_padding;
+                y += full_size.height() * text_size + message_padding;
 
-                    self.geng.default_font().draw_with_outline(
-                        framebuffer,
-                        &geng::PixelPerfectCamera,
-                        &message.username,
-                        align,
-                        mat3::translate(vec2(panel_x, y)) * mat3::scale_uniform(text_size),
-                        message.user_color,
-                        outline,
-                        Rgba::BLACK,
-                    );
-                    self.geng.default_font().draw_with_outline(
-                        framebuffer,
-                        &geng::PixelPerfectCamera,
-                        &message.text,
-                        align,
-                        mat3::translate(vec2(panel_x + uname.width() * text_size + padding, y))
-                            * mat3::scale_uniform(text_size),
-                        Rgba::WHITE,
-                        outline,
-                        Rgba::BLACK,
-                    );
-                }
+                self.assets.get().font.draw_with_outline(
+                    framebuffer,
+                    &geng::PixelPerfectCamera,
+                    &message.username,
+                    align,
+                    mat3::translate(vec2(panel_x, y)) * mat3::scale_uniform(text_size),
+                    message.user_color,
+                    outline,
+                    Rgba::BLACK,
+                );
+                self.assets.get().font.draw_with_outline(
+                    framebuffer,
+                    &geng::PixelPerfectCamera,
+                    &wrapped_message,
+                    align,
+                    mat3::translate(vec2(panel_x + uname_size.width() * text_size + padding, y))
+                        * mat3::scale_uniform(text_size),
+                    Rgba::WHITE,
+                    outline,
+                    Rgba::BLACK,
+                );
             }
         }
 
@@ -202,27 +213,25 @@ impl geng::State for State {
             let mut y = 40.0 + padding;
             for line in self.tty.lock().unwrap().iter().rev() {
                 let align = vec2(geng::TextAlign::LEFT, geng::TextAlign::TOP);
+                let line_size = self.assets.get().font.measure(line, align).unwrap();
+                y += line_size.height() * text_size + padding;
 
-                if let Some(line_size) = self.geng.default_font().measure(line, align) {
-                    y += line_size.height() * text_size + padding;
-
-                    self.geng.default_font().draw_with_outline(
-                        framebuffer,
-                        &geng::PixelPerfectCamera,
-                        line,
-                        align,
-                        mat3::translate(vec2(panel_x, y)) * mat3::scale_uniform(text_size),
-                        Rgba::WHITE,
-                        outline,
-                        Rgba::BLACK,
-                    );
-                }
+                self.assets.get().font.draw_with_outline(
+                    framebuffer,
+                    &geng::PixelPerfectCamera,
+                    line,
+                    align,
+                    mat3::translate(vec2(panel_x, y)) * mat3::scale_uniform(text_size),
+                    Rgba::WHITE,
+                    outline,
+                    Rgba::BLACK,
+                );
             }
         }
 
         // * Typing a message
         if let Some(message) = &self.message {
-            self.geng.default_font().draw_with_outline(
+            self.assets.get().font.draw_with_outline(
                 framebuffer,
                 &geng::Camera2d {
                     center: vec2(0.0, 0.0),
