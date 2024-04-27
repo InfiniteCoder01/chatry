@@ -22,10 +22,17 @@ impl geng::asset::Load for Plushies {
         async move {
             let mut plushies = HashMap::new();
             let mut groups = HashMap::<String, Vec<String>>::new();
-            for file in std::fs::read_dir(path)
+            let files = std::fs::read_dir(path)
                 .map_err(|err| anyhow!("Failed opening plushies directory: {err}"))?
                 .flatten()
-            {
+                .collect::<Vec<_>>();
+            for (index, file) in files.iter().enumerate() {
+                println!(
+                    "Loading plushie '{}' ({}/{})",
+                    file.file_name().to_string_lossy(),
+                    index + 1,
+                    files.len()
+                );
                 let plushie = manager.load::<Plushie>(file.path()).await?;
                 let plushie = Rc::new(plushie);
                 let name = file.file_name().to_string_lossy().into_owned();
@@ -45,6 +52,11 @@ impl geng::asset::Load for Plushies {
                         .or_default()
                         .push(name.clone());
                 }
+            }
+
+            println!("Available groups:");
+            for (group, plushies) in &groups {
+                println!("{}: {}", group, plushies.join(" "));
             }
 
             Ok(Self { plushies, groups })

@@ -1,5 +1,7 @@
 use super::*;
 
+pub mod shell;
+
 impl State {
     pub fn on_message(
         &mut self,
@@ -27,6 +29,7 @@ impl State {
                     "readchat" => {
                         self.assets.get().readchat.play();
                     }
+                    "sh" => self.shell_cmd(args),
                     "plushie" => {
                         let name = if args.is_empty() {
                             self.assets.get().plushies.random()

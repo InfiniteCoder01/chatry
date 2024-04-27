@@ -1,4 +1,5 @@
 use super::*;
+use rayon::prelude::*;
 
 pub struct Particle {
     pub pos: vec2<f32>,

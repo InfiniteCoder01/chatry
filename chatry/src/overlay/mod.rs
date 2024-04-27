@@ -1,6 +1,5 @@
 use geng::prelude::*;
 use plushies::*;
-use rayon::prelude::*;
 use std::{
     collections::VecDeque,
     time::{Duration, Instant},
@@ -45,13 +44,15 @@ pub struct State {
     runner: AsyncRunner,
     writer: Writer,
     youtube_reciever: std::sync::mpsc::Receiver<youtube_chat::item::ChatItem>,
-    _runtime: tokio::runtime::Runtime,
+    runtime: tokio::runtime::Runtime,
 
     world: World,
     messages: Vec<Message>,
     message: Option<String>,
     plushie_queue: VecDeque<PlushieInstance>,
     plushie_release_timeout: Instant,
+
+    tty: Arc<Mutex<Vec<String>>>,
 }
 
 impl State {
@@ -85,13 +86,15 @@ impl State {
             runner,
             writer,
             youtube_reciever,
-            _runtime: runtime,
+            runtime,
 
             world: World::default(),
             messages: Vec::new(),
             message: None,
             plushie_queue: VecDeque::new(),
             plushie_release_timeout: Instant::now(),
+
+            tty: Arc::new(Mutex::new(Vec::new())),
         };
         state.send_everywhere("I'm online!");
         state
@@ -150,13 +153,12 @@ impl geng::State for State {
         let padding = 10.0;
         let size = 20.0;
         let outline = 2.0 / size;
-        let width = 350.0;
+        // let width = 350.0;
+        let x = padding; // framebuffer.size().x as f32 - width - padding;
 
-        let mut y = framebuffer.size().y as f32 / 4.0;
-        y += padding;
+        let mut y = framebuffer.size().y as f32 / 4.0 + padding;
         for message in self.messages.iter().rev() {
             let align = vec2(geng::TextAlign::LEFT, geng::TextAlign::TOP);
-            let x = framebuffer.size().x as f32 - width - padding;
 
             if let (Some(full), Some(uname)) = (
                 self.geng
@@ -190,6 +192,34 @@ impl geng::State for State {
             }
         }
 
+        // * Shell
+        let padding = 5.0;
+        let size = 20.0;
+        let outline = 1.0 / size;
+        // let width = 350.0;
+        let x = padding; // framebuffer.size().x as f32 - width - padding;
+
+        let mut y = 40.0 + padding;
+        for line in self.tty.lock().unwrap().iter().rev() {
+            let align = vec2(geng::TextAlign::LEFT, geng::TextAlign::TOP);
+
+            if let Some(line_size) = self.geng.default_font().measure(line, align) {
+                y += line_size.height() * size + padding;
+
+                self.geng.default_font().draw_with_outline(
+                    framebuffer,
+                    &geng::PixelPerfectCamera,
+                    line,
+                    align,
+                    mat3::translate(vec2(x, y)) * mat3::scale_uniform(size),
+                    Rgba::WHITE,
+                    outline,
+                    Rgba::BLACK,
+                );
+            }
+        }
+
+        // * Typing a message
         if let Some(message) = &self.message {
             self.geng.default_font().draw_with_outline(
                 framebuffer,
@@ -198,7 +228,7 @@ impl geng::State for State {
                     rotation: Angle::ZERO,
                     fov: 15.0,
                 },
-                message,
+                &(message.to_owned() + "█"),
                 vec2::splat(geng::TextAlign::CENTER),
                 mat3::identity(),
                 Rgba::WHITE,
@@ -269,6 +299,11 @@ impl geng::State for State {
                 self.plushie_release_timeout = Instant::now();
             }
         }
+
+        // * Shell
+        let mut tty = self.tty.lock().unwrap();
+        let extra = tty.len().max(5) - 5;
+        tty.drain(0..extra);
     }
 
     fn fixed_update(&mut self, delta_time: f64) {
@@ -276,7 +311,6 @@ impl geng::State for State {
     }
 
     fn handle_event(&mut self, event: geng::Event) {
-        dbg!(&event);
         if let Some(message) = &mut self.message {
             match event {
                 geng::Event::EditText(text) => *message = text,
@@ -304,8 +338,6 @@ impl geng::State for State {
         } else if matches!(event, geng::Event::KeyPress { key: geng::Key::T }) {
             self.message = Some(String::new());
             self.geng.window().start_text_edit("");
-        } else if let geng::Event::CursorMove { position } = event {
-            // dbg!(position);
         }
     }
 }

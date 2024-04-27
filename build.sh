@@ -1,2 +1,2 @@
-clear && nix-shell --run "cargo run -p plushiedit -- assets/plushies/$1/"
+clear && nix-shell --run "nixGL cargo run -p plushiedit -- assets/plushies/$1/"
 
