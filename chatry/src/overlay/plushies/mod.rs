@@ -26,6 +26,7 @@ impl geng::asset::Load for Plushies {
                 .map_err(|err| anyhow!("Failed opening plushies directory: {err}"))?
                 .flatten()
                 .collect::<Vec<_>>();
+            
             for (index, file) in files.iter().enumerate() {
                 println!(
                     "Loading plushie '{}' ({}/{})",

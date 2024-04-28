@@ -109,7 +109,7 @@ impl State {
                 username: author.to_owned(),
                 user_color: color,
                 text: message.to_owned(),
-                timeout: std::time::Instant::now(),
+                timeout: std::time::Instant::now() + std::time::Duration::from_secs(30),
             });
         }
     }

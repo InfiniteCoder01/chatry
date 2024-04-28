@@ -42,6 +42,7 @@ pub struct State {
     assets: Hot<Assets>,
     size: vec2<usize>,
     config: Config,
+    message_timeout: Duration,
 
     runner: AsyncRunner,
     writer: Writer,
@@ -84,6 +85,7 @@ impl State {
             assets,
             size: vec2(128, 128),
             config,
+            message_timeout: Duration::from_secs(30),
 
             runner,
             writer,
@@ -151,36 +153,67 @@ impl geng::State for State {
         self.world.draw(self, framebuffer);
 
         // * UI
-        let padding = 5.0;
+        let spacing = 5.0;
         let panel_width = 400.0;
-        let panel_x = framebuffer.size().x as f32 - panel_width - padding;
+        let panel_x = framebuffer.size().x as f32 - panel_width - spacing;
         let text_size = 20.0;
         let outline = 2.0 / text_size;
+        let border = 5.0;
 
         // * Chat
         {
-            let message_padding = 10.0;
-            let mut y = framebuffer.size().y as f32 / 4.0 + padding;
+            let spacing = 10.0;
+            let mut y = framebuffer.size().y as f32 / 4.0 + spacing;
             for message in self.messages.iter().rev() {
                 let align = vec2(geng::TextAlign::LEFT, geng::TextAlign::TOP);
-                let uname_size = self
+                let uname_width = self
                     .assets
                     .get()
                     .font
                     .measure(&message.username, align)
-                    .unwrap();
+                    .unwrap()
+                    .width()
+                    * text_size;
                 let wrapped_message = textwrap::fill(
                     &message.text,
-                    ((panel_width - uname_size.width() * text_size - message_padding) / text_size * 1.8) as usize,
+                    ((panel_width - uname_width - spacing) / text_size * 1.8) as usize,
                 );
-                let full_size = self
+                let message_height = self
                     .assets
                     .get()
                     .font
                     .measure(&format!("{}: {}", message.username, wrapped_message), align)
-                    .unwrap();
+                    .unwrap()
+                    .height()
+                    * text_size;
+                let alpha = (self.message_timeout - message.timeout.elapsed())
+                    .as_secs_f32()
+                    .min(1.0);
 
-                y += full_size.height() * text_size + message_padding;
+                self.geng.draw2d().draw2d(
+                    framebuffer,
+                    &geng::PixelPerfectCamera,
+                    &draw2d::Polygon::new(
+                        vec![
+                            vec2(panel_x - border, y + spacing * 1.5 - border),
+                            vec2(
+                                panel_x + panel_width - spacing + border,
+                                y + spacing * 1.5 - border,
+                            ),
+                            vec2(
+                                panel_x + panel_width - spacing + border,
+                                y + spacing * 1.5 + message_height + border,
+                            ),
+                            vec2(
+                                panel_x - border,
+                                y + spacing * 1.5 + message_height + border,
+                            ),
+                        ],
+                        Rgba::new(0.0, 0.0, 0.0, 0.4 * alpha),
+                    ),
+                );
+
+                y += message_height + spacing * 2.0;
 
                 self.assets.get().font.draw_with_outline(
                     framebuffer,
@@ -188,20 +221,25 @@ impl geng::State for State {
                     &message.username,
                     align,
                     mat3::translate(vec2(panel_x, y)) * mat3::scale_uniform(text_size),
-                    message.user_color,
+                    Rgba::new(
+                        message.user_color.r,
+                        message.user_color.g,
+                        message.user_color.b,
+                        message.user_color.a * alpha,
+                    ),
                     outline,
-                    Rgba::BLACK,
+                    Rgba::new(0.0, 0.0, 0.0, alpha),
                 );
                 self.assets.get().font.draw_with_outline(
                     framebuffer,
                     &geng::PixelPerfectCamera,
                     &wrapped_message,
                     align,
-                    mat3::translate(vec2(panel_x + uname_size.width() * text_size + message_padding, y))
+                    mat3::translate(vec2(panel_x + uname_width + spacing, y))
                         * mat3::scale_uniform(text_size),
-                    Rgba::WHITE,
+                    Rgba::new(1.0, 1.0, 1.0, alpha),
                     outline,
-                    Rgba::BLACK,
+                    Rgba::new(0.0, 0.0, 0.0, alpha),
                 );
             }
         }
@@ -209,12 +247,50 @@ impl geng::State for State {
         // * Shell
         {
             let text_size = 20.0;
-            let outline = 1.0 / text_size;
-            let mut y = 40.0 + padding;
+            let outline = 2.0 / text_size;
+            let mut y = 40.0 + spacing;
+            if let Some(tty_height) = self
+                .assets
+                .get()
+                .font
+                .measure(
+                    &self.tty.lock().unwrap().join("\n"),
+                    vec2(geng::TextAlign::LEFT, geng::TextAlign::TOP),
+                )
+                .map(|tty_size| tty_size.height() * text_size)
+            {
+                self.geng.draw2d().draw2d(
+                    framebuffer,
+                    &geng::PixelPerfectCamera,
+                    &draw2d::Polygon::new(
+                        vec![
+                            vec2(panel_x - border, y + spacing * 1.5 - border),
+                            vec2(
+                                panel_x + panel_width - spacing + border,
+                                y + spacing * 1.5 - border,
+                            ),
+                            vec2(
+                                panel_x + panel_width - spacing + border,
+                                y + spacing * 1.5 + tty_height + border,
+                            ),
+                            vec2(panel_x - border, y + spacing * 1.5 + tty_height + border),
+                        ],
+                        Rgba::new(0.0, 0.0, 0.0, 0.4),
+                    ),
+                );
+            }
+
             for line in self.tty.lock().unwrap().iter().rev() {
                 let align = vec2(geng::TextAlign::LEFT, geng::TextAlign::TOP);
-                let line_size = self.assets.get().font.measure(line, align).unwrap();
-                y += line_size.height() * text_size + padding;
+                let line_height = self
+                    .assets
+                    .get()
+                    .font
+                    .measure(line, align)
+                    .unwrap()
+                    .height()
+                    * text_size;
+                y += line_height + spacing;
 
                 self.assets.get().font.draw_with_outline(
                     framebuffer,
@@ -238,7 +314,10 @@ impl geng::State for State {
                     rotation: Angle::ZERO,
                     fov: 15.0,
                 },
-                &(message.to_owned() + "█"),
+                &textwrap::fill(
+                    &(message.to_owned() + "█"),
+                    (framebuffer.size().x - panel_width as usize * 2) / 25,
+                ),
                 vec2::splat(geng::TextAlign::CENTER),
                 mat3::identity(),
                 Rgba::WHITE,
@@ -297,7 +376,7 @@ impl geng::State for State {
 
         // * Messages
         self.messages
-            .retain(|message| message.timeout.elapsed() < Duration::from_secs(30));
+            .retain(|message| message.timeout.elapsed() < self.message_timeout);
 
         // * Plushie Queue
         if self.plushie_release_timeout.elapsed() > Duration::from_millis(500)
