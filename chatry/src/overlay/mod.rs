@@ -171,7 +171,7 @@ impl geng::State for State {
                     .unwrap();
                 let wrapped_message = textwrap::fill(
                     &message.text,
-                    ((panel_width - uname_size.width()) / text_size * 1.25) as usize,
+                    ((panel_width - uname_size.width() * text_size - message_padding) / text_size * 1.8) as usize,
                 );
                 let full_size = self
                     .assets
@@ -197,7 +197,7 @@ impl geng::State for State {
                     &geng::PixelPerfectCamera,
                     &wrapped_message,
                     align,
-                    mat3::translate(vec2(panel_x + uname_size.width() * text_size + padding, y))
+                    mat3::translate(vec2(panel_x + uname_size.width() * text_size + message_padding, y))
                         * mat3::scale_uniform(text_size),
                     Rgba::WHITE,
                     outline,
