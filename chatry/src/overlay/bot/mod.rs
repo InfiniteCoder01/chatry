@@ -19,8 +19,8 @@ impl State {
             }
         }
 
-        if let Some(cmd) = message.trim().strip_prefix("!sh") {
-            self.shell_cmd(cmd);
+        if let Some(cmd) = message.trim().strip_prefix("!orco") {
+            self.compile_and_run(cmd);
             return;
         }
 

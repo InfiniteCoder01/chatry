@@ -3,7 +3,7 @@ let
   nixpkgs.config.raylib.alsaSupport = true;
 in
 with pkgs; mkShell {
-  packages = [ cargo cmake ninja ];
+  packages = [ cmake ninja ];
   inputsFrom = [ raylib { alsaSupport = true; } ];
   buildInputs = [ mesa.drivers llvmPackages.clang ];
   LIBCLANG_PATH = "${llvmPackages.libclang.lib}/lib";

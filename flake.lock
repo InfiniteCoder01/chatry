@@ -30,15 +30,15 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1712319648,
-        "narHash": "sha256-v4HLAZk4zkvDMUgX2ljwOH44bpsA9D1v2tdOATlhJJ4=",
-        "owner": "geng-engine",
+        "lastModified": 1715027006,
+        "narHash": "sha256-VWlqVyS50nwlNsy8vix+zqRJRD3cfkrGtXdcBS2XFN8=",
+        "owner": "InfiniteCoder01",
         "repo": "cargo-geng",
-        "rev": "b7115934c0cfdb8ad813ecd1e11be8f51e69b1b4",
+        "rev": "f4c0653805e4f59cf322a4e20ed8f313059ce7a8",
         "type": "github"
       },
       "original": {
-        "owner": "geng-engine",
+        "owner": "InfiniteCoder01",
         "repo": "cargo-geng",
         "type": "github"
       }

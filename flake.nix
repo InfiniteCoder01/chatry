@@ -1,6 +1,6 @@
 {
   inputs = {
-    cargo-geng.url = "github:geng-engine/cargo-geng";
+    cargo-geng.url = "github:InfiniteCoder01/cargo-geng";
   };
 
   outputs = { self, cargo-geng }:

@@ -1,7 +1,7 @@
 use super::*;
 
 impl State {
-    pub fn shell_cmd(&mut self, cmd: &str) {
+    pub fn compile_and_run(&mut self, cmd: &str) {
         match async_process::Command::new("podman")
             .arg("run")
             .arg("-v")
@@ -12,16 +12,23 @@ impl State {
             .arg("1")
             .arg("--memory")
             .arg("20m")
+            .arg("-i")
             .arg("twitch-linux")
-            .arg("bash")
-            .arg("-c")
-            .arg(cmd)
-            .stdin(async_process::Stdio::inherit())
+            .arg("./compile.sh")
+            .stdin(async_process::Stdio::piped())
             .stdout(async_process::Stdio::piped())
             .stderr(async_process::Stdio::piped())
             .spawn()
         {
             Ok(mut shell) => {
+                let mut stdin = shell.stdin.take().unwrap();
+                let cmd = cmd.to_owned();
+                self.runtime.spawn(async move {
+                    if let Err(err) = stdin.write_all(text.as_bytes()).await {
+                        log::error!("Error: {}", err);
+                    }
+                    stdin.flush().await;
+                });
                 let mut stdout = futures::io::BufReader::new(shell.stdout.take().unwrap()).lines();
                 let stdout_tty = self.tty.clone();
                 self.runtime.spawn(async move {
