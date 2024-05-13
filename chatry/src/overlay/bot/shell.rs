@@ -24,7 +24,7 @@ impl State {
                 let mut stdin = shell.stdin.take().unwrap();
                 let cmd = cmd.to_owned();
                 self.runtime.spawn(async move {
-                    if let Err(err) = stdin.write_all(text.as_bytes()).await {
+                    if let Err(err) = stdin.write_all(cmd.as_bytes()).await {
                         log::error!("Error: {}", err);
                     }
                     stdin.flush().await;
