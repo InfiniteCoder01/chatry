@@ -2,12 +2,22 @@
 use geng::prelude::*;
 use overlay::*;
 
+pub mod api;
 pub mod overlay;
-pub mod youtube;
 
 #[derive(Serialize, Deserialize)]
 pub struct Private {
     pub token: String,
+    pub streamer_token: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Config {
+    pub channels: Vec<String>,
+    pub youtube_channel: String,
+    pub name: String,
+    pub admins: Vec<String>,
+    pub qotd: String,
 }
 
 fn main() {
@@ -23,34 +33,6 @@ fn main() {
         toml::from_str::<Private>(include_str!("/mnt/D/Channel/Private/private.toml")).unwrap();
     let config =
         toml::from_str::<Config>(&std::fs::read_to_string("config.toml").unwrap()).unwrap();
-    let user_config = twitchchat::UserConfig::builder()
-        .name(&config.name)
-        .token(private.token)
-        .enable_all_capabilities()
-        .build()
-        .unwrap();
-    let connector = twitchchat::connector::smol::Connector::twitch().unwrap();
-
-    let channels = config.channels.clone();
-    let (runner, writer) = smol::block_on(async move {
-        let mut runner = twitchchat::runner::AsyncRunner::connect(connector, &user_config)
-            .await
-            .unwrap();
-        for channel in channels {
-            runner.join(&channel).await.unwrap();
-        }
-
-        let writer = runner.writer();
-        (runner, writer)
-    });
-
-    let (youtube_sender, youtube_receiver) = std::sync::mpsc::channel();
-
-    let youtube_client = youtube_chat::live_chat::LiveChatClientBuilder::new()
-        .channel_id(config.youtube_channel.clone())
-        .on_chat(youtube::MessageTransferer(youtube_sender))
-        .on_error(youtube::ErrorHandler)
-        .build();
 
     Geng::run_with(
         &geng::ContextOptions {
@@ -74,12 +56,9 @@ fn main() {
 
             geng.run_state(State::new(
                 &geng,
+                private,
                 config,
                 assets,
-                runner,
-                writer,
-                youtube_client,
-                youtube_receiver,
             ))
             .await;
         },

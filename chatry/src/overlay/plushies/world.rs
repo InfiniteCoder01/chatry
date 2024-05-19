@@ -18,13 +18,7 @@ impl Particle {
         }
     }
 
-    pub fn update(
-        &mut self,
-        dt: f64,
-        scale: f32,
-        bounds: vec2<f32>,
-        // colliders: impl Iterator<Item = ()>,
-    ) -> bool {
+    pub fn update(&mut self, dt: f64, scale: f32, bounds: vec2<f32>) -> bool {
         self.acc += vec2(0.0, -1500.0);
         self.vel += self.acc * dt as f32;
 
@@ -71,29 +65,28 @@ pub struct PlushieInstance {
 }
 
 impl PlushieInstance {
-    pub fn new(name: String, offset: vec2<f32>, vel: vec2<f32>, proto: &Plushie) -> Self {
-        let shape = proto
+    pub fn new(prototype: Rc<Plushie>, offset: vec2<f32>, vel: vec2<f32>) -> Self {
+        let shape = prototype
             .structure
             .points
             .iter()
             .map(|&point| {
                 let point = point.map(|x| x as f32);
-                vec2(point.x, proto.image.size().y as f32 - point.y) * proto.config.scale
+                vec2(point.x, prototype.image.size().y as f32 - point.y) * prototype.config.scale
             })
             .collect::<Vec<_>>();
         let particles = shape
             .iter()
             .map(|&point| {
                 Particle::new(offset + point, vel, {
-                    point / proto.config.scale / proto.image.size().map(|x| x as f32)
+                    point / prototype.config.scale / prototype.image.size().map(|x| x as f32)
                 })
             })
             .collect::<Vec<_>>();
-        let triangles = proto.structure.triangles.clone();
-
+        let triangles = prototype.structure.triangles.clone();
         Self {
-            name,
-            scale: proto.config.scale,
+            name: prototype.name.clone(),
+            scale: prototype.config.scale,
             time: std::time::Instant::now(),
             alive: true,
             particles,
@@ -104,10 +97,7 @@ impl PlushieInstance {
 
     pub fn update(&mut self, dt: f64, bounds: vec2<f32>) {
         self.particles.par_iter_mut().for_each(|particle| {
-            particle.update(
-                dt, self.scale, bounds,
-                // colliders
-            );
+            particle.update(dt, self.scale, bounds);
         });
 
         for triangle in &self.triangles {
@@ -153,7 +143,7 @@ impl PlushieInstance {
     }
 
     fn draw(&self, state: &State, framebuffer: &mut ugli::Framebuffer<'_>) {
-        if let Some(proto) = state.assets.get().plushies.get(&self.name) {
+        if let Some(prototype) = state.assets.get().plushies.get(&self.name) {
             state.geng.draw2d().draw2d(
                 framebuffer,
                 &geng::PixelPerfectCamera,
@@ -170,30 +160,42 @@ impl PlushieInstance {
                             }
                         })
                         .collect(),
-                    &proto.image,
+                    &prototype.image,
                     ugli::DrawMode::Triangles,
                 ),
             );
         }
-        // for particle in &self.particles {
-        //     state.geng.draw2d().circle(
-        //         framebuffer,
-        //         &geng::PixelPerfectCamera,
-        //         particle.pos,
-        //         5.0,
-        //         Rgba::RED,
-        //     );
-        // }
     }
 }
 
-#[derive(Default)]
 pub struct World {
     pub plushies: Vec<PlushieInstance>,
+    plushie_queue: VecDeque<PlushieInstance>,
+    plushie_release_timeout: Instant,
 }
 
 impl World {
+    pub fn new() -> Self {
+        Self {
+            plushies: Vec::new(),
+            plushie_queue: VecDeque::new(),
+            plushie_release_timeout: Instant::now(),
+        }
+    }
+
     pub fn update(&mut self, delta_time: f64, bounds: vec2<f32>) {
+        // * Plushie Queue
+        if self.plushie_release_timeout.elapsed() > Duration::from_millis(500)
+            && self.plushies.len() < 15
+        {
+            if let Some(mut plushie) = self.plushie_queue.pop_front() {
+                plushie.time = Instant::now();
+                self.plushies.push(plushie);
+                self.plushie_release_timeout = Instant::now();
+            }
+        }
+
+        // * Actual update
         let iterations = 20;
         for _ in 0..iterations {
             self.plushies.par_iter_mut().for_each(|plushie| {
@@ -207,5 +209,22 @@ impl World {
         for plushie in &self.plushies {
             plushie.draw(state, framebuffer);
         }
+    }
+
+    pub fn enqueue_plushie(&mut self, bounds: vec2<f32>, plushie: Rc<Plushie>) {
+        if self.plushie_queue.len() > 30 {
+            return;
+        }
+        let pos = vec2(
+            rand::thread_rng().gen_range(
+                10.0..bounds.x as f32 - plushie.image.size().x as f32 * plushie.config.scale - 10.0,
+            ),
+            bounds.y as f32 + rand::thread_rng().gen_range(-10.0..30.0),
+        );
+        self.plushie_queue.push_back(PlushieInstance::new(
+            plushie,
+            pos,
+            vec2(rand::thread_rng().gen_range(-10.0..10.0), 0.0),
+        ));
     }
 }

@@ -26,7 +26,7 @@ impl geng::asset::Load for Plushies {
                 .map_err(|err| anyhow!("Failed opening plushies directory: {err}"))?
                 .flatten()
                 .collect::<Vec<_>>();
-            
+
             for (index, file) in files.iter().enumerate() {
                 println!(
                     "Loading plushie '{}' ({}/{})",
@@ -92,6 +92,7 @@ impl Plushies {
 
 // * ------------------------------- Single - Resource ------------------------------ * //
 pub struct Plushie {
+    pub name: String,
     pub image: ugli::Texture,
     pub structure: PlushieStructure,
     pub config: PlushieConfig,
@@ -118,6 +119,7 @@ impl geng::asset::Load for Plushie {
         let manager = manager.to_owned();
         async move {
             Ok(Self {
+                name: path.file_name().unwrap().to_string_lossy().into_owned(),
                 image: manager.load(path.join("image.png")).await?,
                 structure: ron::from_str(&file::load_string(path.join("structure.ron")).await?)
                     .map_err(|err| anyhow!("failed to load plushie structure: {err}"))?,

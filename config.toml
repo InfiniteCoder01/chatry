@@ -1,5 +1,5 @@
-channels = [ "InfiniteCoder01", "CodersChatry" ]
+channels = [ "#InfiniteCoder01", "#CodersChatry" ]
 youtube_channel = "UCK_ZTGJxjrmYn_YbEMqpreA"
-name = "chatry"
+name = "CodersChatry"
 admins = ["InfiniteCoder01", "CodersChatry"]
 qotd = "The question of the day is: Which web browser to use?"

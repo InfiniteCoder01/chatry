@@ -15,8 +15,7 @@ rand = "0.8.5"
 
 geng = { git = "https://github.com/geng-engine/geng.git" }
 
-twitchchat = { version = "0.14.8", features = ["smol", "async"] }
-youtube_chat = "0.2.1"
+tmi = "0.6.0"
 
 serde = "1.0.193"
 async-process = "2.2.2"
