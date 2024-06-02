@@ -217,14 +217,20 @@ impl World {
         }
         let pos = vec2(
             rand::thread_rng().gen_range(
-                10.0..bounds.x as f32 - plushie.image.size().x as f32 * plushie.config.scale - 10.0,
+                10.0..bounds.x - plushie.image.size().x as f32 * plushie.config.scale - 10.0,
             ),
-            bounds.y as f32 + rand::thread_rng().gen_range(-10.0..30.0),
+            bounds.y + rand::thread_rng().gen_range(-10.0..30.0),
         );
         self.plushie_queue.push_back(PlushieInstance::new(
             plushie,
             pos,
             vec2(rand::thread_rng().gen_range(-10.0..10.0), 0.0),
         ));
+    }
+}
+
+impl Default for World {
+    fn default() -> Self {
+        Self::new()
     }
 }

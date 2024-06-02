@@ -2,14 +2,14 @@ use super::*;
 use geng::prelude::future::FutureExt;
 
 pub struct TwitchChat {
-    runtime: Rc<tokio::runtime::Runtime>,
+    runtime: Arc<tokio::runtime::Runtime>,
     config: &'static Config,
     pub client: tmi::Client,
     queue: std::collections::VecDeque<api::MessageContent>,
 }
 
 impl TwitchChat {
-    pub fn new(runtime: Rc<tokio::runtime::Runtime>, token: &str, config: &'static Config) -> Self {
+    pub fn new(runtime: Arc<tokio::runtime::Runtime>, token: &str, config: &'static Config) -> Self {
         let client = runtime.block_on(async {
             let mut client = tmi::Client::builder()
                 .credentials(tmi::Credentials::new(&config.name, token))
@@ -32,26 +32,26 @@ impl TwitchChat {
 }
 
 impl LiveChat for TwitchChat {
-    fn send(&mut self, channel: &str, message: &str) {
+    fn send(&mut self, stream_id: &str, message: &str) {
         self.runtime.block_on(async {
-            if let Err(err) = self.client.privmsg(channel, message).send().await {
+            if let Err(err) = self.client.privmsg(stream_id, message).send().await {
                 log::error!("Failed to send message: {}", err);
             }
         });
         self.queue.push_back(api::MessageContent::new(
             None,
-            channel.to_string(),
+            stream_id.to_string(),
             self.config.name.clone(),
             Rgba::opaque(0.5, 0.0, 0.0),
             message.to_owned(),
         ));
     }
 
-    fn reply(&mut self, channel: &str, to_id: &str, author: &str, message: &str) {
+    fn reply(&mut self, stream_id: &str, to_id: &str, author: &str, message: &str) {
         self.runtime.block_on(async {
             if let Err(err) = self
                 .client
-                .privmsg(channel, message)
+                .privmsg(stream_id, message)
                 .reply_to(to_id)
                 .send()
                 .await
@@ -61,7 +61,7 @@ impl LiveChat for TwitchChat {
         });
         self.queue.push_back(api::MessageContent::new(
             None,
-            channel.to_string(),
+            stream_id.to_string(),
             self.config.name.clone(),
             Rgba::opaque(0.5, 0.0, 0.0),
             format!("@{} {}", author, message),

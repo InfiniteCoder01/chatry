@@ -16,10 +16,14 @@ rand = "0.8.5"
 geng = { git = "https://github.com/geng-engine/geng.git" }
 
 tmi = "0.6.0"
+youtube_chat = "0.2.1"
+google-youtube3 = "5.0.4"
+keyring-lib = "0.4.2"
+hyper = "^ 0.14"
+hyper-rustls = "0.24.0"
 
 serde = "1.0.193"
 async-process = "2.2.2"
-smol = "2.0.0"
 tokio = { version = "1.35.1", features = ["rt", "rt-multi-thread", "io-std"] }
 rayon = "1.10.0"
 textwrap = "0.16.1"

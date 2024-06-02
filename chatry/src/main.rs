@@ -30,7 +30,7 @@ fn main() {
     geng::setup_panic_handler();
 
     let private =
-        toml::from_str::<Private>(include_str!("/mnt/D/Channel/Private/private.toml")).unwrap();
+        toml::from_str::<Private>(include_str!("/mnt/D/Channel/Private/chatry.toml")).unwrap();
     let config =
         toml::from_str::<Config>(&std::fs::read_to_string("config.toml").unwrap()).unwrap();
 
@@ -48,19 +48,16 @@ fn main() {
             ..default()
         },
         |geng| async move {
+            keyring::set_global_service_name("Chatry");
+
             let assets: Hot<Assets> = geng
                 .asset_manager()
                 .load("assets")
                 .await
                 .expect("Failed to load assets");
 
-            geng.run_state(State::new(
-                &geng,
-                private,
-                config,
-                assets,
-            ))
-            .await;
+            geng.run_state(State::new(&geng, private, config, assets))
+                .await;
         },
     );
 }

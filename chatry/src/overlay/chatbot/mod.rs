@@ -9,7 +9,7 @@ impl State {
             return;
         }
 
-        for part in message.content.message.to_owned().split(';').map(str::trim) {
+        for part in message.content.message.clone().split(';').map(str::trim) {
             if let Some(command) = part.strip_prefix('!') {
                 let (command, args) = command.split_once(' ').unwrap_or((command, ""));
                 match command {

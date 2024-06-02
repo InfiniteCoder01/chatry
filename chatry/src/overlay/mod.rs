@@ -24,9 +24,10 @@ pub struct State {
     config: &'static Config,
     message_timeout: Duration,
 
-    runtime: Rc<tokio::runtime::Runtime>,
+    runtime: Arc<tokio::runtime::Runtime>,
     twitch_chat: Rc<RefCell<api::TwitchChat>>,
     twitch_streamer: api::TwitchChat,
+    youtube_chat: Rc<RefCell<api::YouTubeChat>>,
 
     world: World,
     messages: Vec<api::MessageContent>,
@@ -38,11 +39,14 @@ pub struct State {
 impl State {
     pub fn new(geng: &Geng, private: Private, config: Config, assets: Hot<Assets>) -> Self {
         let config = Box::leak(Box::new(config));
-        let runtime = Rc::new(tokio::runtime::Runtime::new().unwrap());
+        let runtime = Arc::new(tokio::runtime::Runtime::new().unwrap());
         let mut twitch_chat = crate::api::TwitchChat::new(runtime.clone(), &private.token, config);
         let twitch_streamer =
             crate::api::TwitchChat::new(runtime.clone(), &private.streamer_token, config);
+
+        let youtube_chat = crate::api::YouTubeChat::new(runtime.clone(), std::path::Path::new("/mnt/D/Channel/Private/chatry_youtube_oauth.json"), config);
         twitch_chat.send(config.channels.first().unwrap(), "I'm online!");
+        // youtube_chat.send(???, "I'm online!");
 
         Self {
             geng: geng.clone(),
@@ -52,6 +56,7 @@ impl State {
             runtime,
             twitch_chat: Rc::new(RefCell::new(twitch_chat)),
             twitch_streamer,
+            youtube_chat: Rc::new(RefCell::new(youtube_chat)),
 
             config,
             message_timeout: Duration::from_secs(30),
@@ -68,7 +73,7 @@ impl geng::State for State {
     fn draw(&mut self, framebuffer: &mut ugli::Framebuffer) {
         ugli::clear(framebuffer, Some(Rgba::TRANSPARENT_BLACK), None, None);
         self.size = framebuffer.size();
-        self.world.draw(&self, framebuffer);
+        self.world.draw(self, framebuffer);
 
         // * UI
         let spacing = 5.0;
@@ -232,50 +237,11 @@ impl geng::State for State {
             self.on_message(message);
         }
         while self.twitch_streamer.next().is_some() {}
-        // if let Some(message) = self.runner.next_message().now_or_never() {
-        //     match message {
-        //         Ok(twitchchat::Status::Message(twitchchat::messages::Commands::Privmsg(pm))) => {
-        //             self.on_message(
-        //                 true,
-        //                 pm.display_name().unwrap_or(pm.name()),
-        //                 pm.color().map_or(Rgba::MAGENTA, |color| {
-        //                     Rgba::opaque(
-        //                         color.rgb.0 as f32 / 255.0,
-        //                         color.rgb.1 as f32 / 255.0,
-        //                         color.rgb.2 as f32 / 255.0,
-        //                     )
-        //                 }),
-        //                 pm.data(),
-        //                 Some(pm.channel()),
-        //             )
-        //         }
-        //         Err(err) => log::error!("Failed to recieve a message: {}!", err),
-        //         _ => (),
-        //     }
-        // }
-        //
-        // // * Youtube IRC
-        // if let Ok(message) = self
-        //     .youtube_reciever
-        //     .recv_timeout(Duration::from_millis(10))
-        // {
-        //     let mut msg = String::new();
-        //     for item in message.message {
-        //         match item {
-        //             youtube_chat::item::MessageItem::Text(text) => msg.push_str(&text),
-        //             youtube_chat::item::MessageItem::Emoji(emoji) => {
-        //                 msg.push_str(&emoji.emoji_text.unwrap_or(String::new()))
-        //             }
-        //         }
-        //     }
-        //     self.on_message(
-        //         true,
-        //         &message.author.name.unwrap_or("<anonymous>".to_owned()),
-        //         Rgba::RED,
-        //         &msg,
-        //         None,
-        //     );
-        // }
+
+        // * Youtube Chat
+        while let Some(message) = self.youtube_chat.clone().borrow_mut().next() {
+            self.on_message(message);
+        }
 
         // * Messages
         self.messages
