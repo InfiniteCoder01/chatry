@@ -1,0 +1,75 @@
+[gd_scene load_steps=6 format=3 uid="uid://kd2berp6jek6"]
+
+[ext_resource type="Script" path="res://world/basketball/hoop.gd" id="1_gbqtq"]
+[ext_resource type="Script" path="res://world/basketball/score.gd" id="2_xyvwg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lsxqd"]
+size = Vector2(12.6705, 97.2102)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bun1c"]
+size = Vector2(20, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hbi71"]
+size = Vector2(128, 136)
+
+[node name="Hoop" type="Node2D"]
+script = ExtResource("1_gbqtq")
+
+[node name="Left Bar" type="StaticBody2D" parent="."]
+position = Vector2(-80, 0)
+rotation = -0.523599
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Bar"]
+shape = SubResource("RectangleShape2D_lsxqd")
+
+[node name="Outline" type="ColorRect" parent="Left Bar"]
+offset_left = -8.0
+offset_top = -51.0
+offset_right = 8.0
+offset_bottom = 50.0
+color = Color(0, 0, 0, 1)
+
+[node name="Bar" type="ColorRect" parent="Left Bar"]
+offset_left = -6.0
+offset_top = -49.0
+offset_right = 6.0
+offset_bottom = 48.0
+
+[node name="RightBar" type="StaticBody2D" parent="."]
+position = Vector2(80, 0)
+rotation = 0.523599
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBar"]
+shape = SubResource("RectangleShape2D_lsxqd")
+
+[node name="Outline" type="ColorRect" parent="RightBar"]
+offset_left = -8.0
+offset_top = -49.0
+offset_right = 8.0
+offset_bottom = 50.0
+color = Color(0, 0, 0, 1)
+
+[node name="Bar" type="ColorRect" parent="RightBar"]
+offset_left = -6.0
+offset_top = -47.0
+offset_right = 6.0
+offset_bottom = 48.0
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("2_xyvwg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_bun1c")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Area2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 77)
+rotation = -3.14159
+shape = SubResource("RectangleShape2D_hbi71")
+one_way_collision = true
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

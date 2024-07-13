@@ -1,2 +1,2 @@
-aliases = ["c++", "c-with-classes"] 
+aliases = ["c++", "c-plus-plus", "c-with-classes"]
 groups = ["languages"]

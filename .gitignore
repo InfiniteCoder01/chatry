@@ -1,4 +1,6 @@
-target
-private.toml
-deploy.sh
-.direnv
+# Godot 4+ specific ignores
+.godot/
+
+# Rust
+debug/
+target/

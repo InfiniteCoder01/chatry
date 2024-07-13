@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://b3anpbk1jg36p"]
+
+[ext_resource type="Script" path="res://world/world.gd" id="1_ihesm"]
+[ext_resource type="Script" path="res://world/window_border_walls.gd" id="3_s22ic"]
+[ext_resource type="Script" path="res://world/MouseFollow.gd" id="4_j42ae"]
+[ext_resource type="PackedScene" uid="uid://btgcyas7ldd6p" path="res://world/chat/chat.tscn" id="4_numxu"]
+[ext_resource type="Theme" uid="uid://cq1sgso5k7iqx" path="res://world/chat/chat.tres" id="4_unfcv"]
+
+[sub_resource type="GDScript" id="GDScript_55uvp"]
+script/source = "class_name SoftBody2dRigidBody
+extends RigidBody2D
+
+signal rigidbody_created(collision_shape: CollisionShape2D, is_center: bool)
+"
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_ihesm")
+
+[node name="MousePointer" type="Node2D" parent="."]
+script = ExtResource("4_j42ae")
+
+[node name="SoftBody2DRigidBody" type="RigidBody2D" parent="MousePointer"]
+collision_layer = 3
+collision_mask = 2
+mass = 10.0
+script = SubResource("GDScript_55uvp")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MousePointer/SoftBody2DRigidBody"]
+polygon = PackedVector2Array(0, 0, 11, 27, 0, 27)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+script = ExtResource("3_s22ic")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_unfcv")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_bottom = 600.0
+grow_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer"]
+layout_mode = 2
+
+[node name="Chat" parent="CanvasLayer/Control/MarginContainer/VBoxContainer" instance=ExtResource("4_numxu")]
+custom_minimum_size = Vector2(300, 600)
+layout_mode = 2
+
+[node name="Terminal" type="RichTextLabel" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+fit_content = true
+
+[node name="SoundBlaster" type="AudioStreamPlayer" parent="."]

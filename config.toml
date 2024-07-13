@@ -1,5 +1,5 @@
-channels = [ "#InfiniteCoder01", "#CodersChatry" ]
-youtube_channel = "UCK_ZTGJxjrmYn_YbEMqpreA"
-name = "CodersChatry"
+broadcaster_id = "710224102"
+bot_name = "CodersChatry"
+channel = "InfiniteCoder01"
 admins = ["InfiniteCoder01", "CodersChatry"]
-qotd = "The question of the day is: Which web browser to use?"
+qotd = "The question of the day is: Why are you watching me?"

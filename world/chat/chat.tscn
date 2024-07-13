@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://btgcyas7ldd6p"]
+
+[ext_resource type="Script" path="res://world/chat/chat.gd" id="1_ccypp"]
+
+[node name="Control" type="VBoxContainer"]
+offset_right = 305.0
+offset_bottom = 363.0
+script = ExtResource("1_ccypp")
+
+[node name="Messages" type="VBoxContainer" parent="."]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Send" type="LineEdit" parent="."]
+layout_mode = 2
+
+[connection signal="text_submitted" from="Send" to="." method="_on_send_text_submitted"]
