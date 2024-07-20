@@ -16,7 +16,14 @@ func _init() -> void:
 		print("Failed to load config file")
 		return
 
-	config.qotd = config_file.get_value("", "qotd");
+	config.qotd = config_file.get_value("", "qotd")
+	config.admins = PackedStringArray()
+	for admin: String in config_file.get_value("", "admins"):
+		config.admins.append(admin.to_lower())
+
+	config.simple_commands = {}
+	for cmd: String in config_file.get_section_keys("simple_commands"):
+		config.simple_commands[cmd] = config_file.get_value("simple_commands", cmd)
 
 	var private_info := ConfigFile.new()
 	if private_info.load("/mnt/D/Channel/Private/chatry.toml") != OK:
@@ -75,8 +82,9 @@ func quick_command(command: String, args: String) -> void:
 var plushie_timeouts := {}
 var basketball_timeout: SceneTreeTimer = null
 func on_command(command: String, args: String, author: String) -> void:
+	var admin: bool = config.admins.has(author.to_lower())
 	if command == "plushie":
-		if author.to_lower() != "infinitecoder01" && plushie_timeouts.has(author) && plushie_timeouts[author].time_left <= 0.0:
+		if !admin && plushie_timeouts.has(author) && plushie_timeouts[author].time_left > 0.0:
 			return
 		plushie_timeouts[author] = world.get_tree().create_timer(10.0)
 		var plushie_instance := plushie.instantiate()
@@ -93,9 +101,9 @@ func on_command(command: String, args: String, author: String) -> void:
 			10
 		)
 		soft_body.create_softbody2d(true)
-		world.add_child(plushie_instance)
+		world.get_node(^"Plushies").add_child(plushie_instance)
 	elif command == "pick":
-		if author.to_lower() != "infinitecoder01" && plushie_timeouts.has(author) && plushie_timeouts[author].time_left <= 0.0:
+		if !admin && plushie_timeouts.has(author) && plushie_timeouts[author].time_left > 0.0:
 			return
 		plushie_timeouts[author] = world.get_tree().create_timer(10.0)
 		var plushie_instance := plushie.instantiate()
@@ -112,9 +120,9 @@ func on_command(command: String, args: String, author: String) -> void:
 			10
 		)
 		soft_body.create_softbody2d(true)
-		world.add_child(plushie_instance)
+		world.get_node(^"Plushies").add_child(plushie_instance)
 	elif command == "basketball":
-		if author != "InfiniteCoder01" && basketball_timeout && basketball_timeout.time_left > 0.0:
+		if !admin && basketball_timeout && basketball_timeout.time_left > 0.0:
 			return
 		basketball_timeout = world.get_tree().create_timer(120.0)
 		var hoop := preload("res://world/basketball/hoop.tscn").instantiate()
@@ -131,8 +139,8 @@ func on_command(command: String, args: String, author: String) -> void:
 		terminal.push_mono()
 
 		var process := ProcessNode.new();
-		process.cmd = "podman";
-		process.args = PackedStringArray(["run", "-v", "/mnt/Twitch:/home:Z", "-w", "/home", "--cpus", "1", "--memory", "20m", "-i", "twitch-linux", "./compile.sh"]);
+		process.cmd = "docker";
+		process.args = PackedStringArray(["run", "--cpus", "0.5", "--memory", "20m", "--read-only", "-v", "/mnt/Twitch:/home", "-i", "twitch-linux", "./compile.sh"]);
 		process.stdout.connect(
 			func _on_stdout(data: PackedByteArray) -> void:
 				terminal.append_text(data.get_string_from_utf8())
@@ -155,4 +163,7 @@ func on_command(command: String, args: String, author: String) -> void:
 		process.eof_stdin()
 	elif command == "lurk":
 		chat.chat("Have a nice lurk, @%s. Lurkers are a power of Software and Game development streams!" % [author])
+	for cmd: String in config.simple_commands.keys():
+		if command == cmd:
+			chat.chat("@%s %s" % [author, config.simple_commands[cmd]])
 	# TODO: !jail

@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3anpbk1jg36p"]
+[gd_scene load_steps=11 format=3 uid="uid://b3anpbk1jg36p"]
 
 [ext_resource type="Script" path="res://world/world.gd" id="1_ihesm"]
 [ext_resource type="Script" path="res://world/window_border_walls.gd" id="3_s22ic"]
 [ext_resource type="Script" path="res://world/MouseFollow.gd" id="4_j42ae"]
-[ext_resource type="PackedScene" uid="uid://btgcyas7ldd6p" path="res://world/chat/chat.tscn" id="4_numxu"]
-[ext_resource type="Theme" uid="uid://cq1sgso5k7iqx" path="res://world/chat/chat.tres" id="4_unfcv"]
+[ext_resource type="PackedScene" uid="uid://btgcyas7ldd6p" path="res://chat/chat.tscn" id="4_numxu"]
+[ext_resource type="Theme" uid="uid://cq1sgso5k7iqx" path="res://chat/chat.tres" id="4_unfcv"]
+[ext_resource type="PackedScene" uid="uid://sey7dajv83iq" path="res://world/soft_tuber/soft_tuber.tscn" id="6_emk5j"]
+[ext_resource type="FontFile" uid="uid://bd26j8o3m8sbm" path="res://assets/fonts/FiraCode/FiraCodeNerdFontMono-Regular.ttf" id="6_y5h6t"]
+[ext_resource type="FontFile" uid="uid://buwfeoivt8wmw" path="res://assets/fonts/FiraCode/FiraCodeNerdFontMono-Bold.ttf" id="7_a36yu"]
 
 [sub_resource type="GDScript" id="GDScript_55uvp"]
 script/source = "class_name SoftBody2dRigidBody
@@ -12,6 +15,9 @@ extends RigidBody2D
 
 signal rigidbody_created(collision_shape: CollisionShape2D, is_center: bool)
 "
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xdyw6"]
+radius = 1.0
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_ihesm")
@@ -25,8 +31,8 @@ collision_mask = 2
 mass = 10.0
 script = SubResource("GDScript_55uvp")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="MousePointer/SoftBody2DRigidBody"]
-polygon = PackedVector2Array(0, 0, 11, 27, 0, 27)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MousePointer/SoftBody2DRigidBody"]
+shape = SubResource("CircleShape2D_xdyw6")
 
 [node name="Walls" type="StaticBody2D" parent="."]
 script = ExtResource("3_s22ic")
@@ -47,8 +53,8 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -300.0
-offset_bottom = 600.0
+offset_left = -426.0
+offset_bottom = 604.0
 grow_horizontal = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer"]
@@ -60,6 +66,13 @@ layout_mode = 2
 
 [node name="Terminal" type="RichTextLabel" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("6_y5h6t")
+theme_override_fonts/mono_font = ExtResource("6_y5h6t")
+theme_override_fonts/bold_font = ExtResource("7_a36yu")
 fit_content = true
 
+[node name="SoftTuber" parent="CanvasLayer/Control/MarginContainer/VBoxContainer" instance=ExtResource("6_emk5j")]
+
 [node name="SoundBlaster" type="AudioStreamPlayer" parent="."]
+
+[node name="Plushies" type="Node" parent="."]

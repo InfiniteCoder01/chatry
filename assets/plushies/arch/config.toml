@@ -1,2 +1,2 @@
-aliases = ["archlinux", "arch", "arch-btw"]
+aliases = ["arch-linux", "arch-btw"]
 groups = ["distros"]

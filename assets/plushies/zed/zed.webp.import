@@ -1,0 +1,14 @@
+[remap]
+
+importer="kani_dev.imagemagick"
+type="SpriteFrames"
+uid="uid://q08ba1bqrhh7"
+path="res://.godot/imported/zed.webp-087f4ca04d320e9b671e27def4a401ea.res"
+
+[deps]
+
+source_file="res://assets/plushies/zed/zed.webp"
+dest_files=["res://.godot/imported/zed.webp-087f4ca04d320e9b671e27def4a401ea.res"]
+
+[params]
+

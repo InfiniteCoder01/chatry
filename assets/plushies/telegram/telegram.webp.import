@@ -1,0 +1,14 @@
+[remap]
+
+importer="kani_dev.imagemagick"
+type="SpriteFrames"
+uid="uid://cv7yfbd7tj846"
+path="res://.godot/imported/telegram.webp-224110e668e01b12b08565593721d1e2.res"
+
+[deps]
+
+source_file="res://assets/plushies/telegram/telegram.webp"
+dest_files=["res://.godot/imported/telegram.webp-224110e668e01b12b08565593721d1e2.res"]
+
+[params]
+

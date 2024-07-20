@@ -1,0 +1,2 @@
+aliases = ["mozilla-fire-fox", "mozilla-firefox"]
+groups = ["applications", "browsers"]

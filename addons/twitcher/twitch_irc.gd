@@ -323,7 +323,7 @@ func _handle_message(parsed_message : ParsedMessage) -> void:
 
 		"PRIVMSG":
 			var privmsg_tags = TwitchTags.PrivMsg.new(parsed_message.tags);
-			var from_user = parsed_message.server;
+			var from_user = privmsg_tags.display_name if privmsg_tags.display_name != null && privmsg_tags.display_name.length() > 0 else parsed_message.server;
 			from_user = from_user.substr(0, from_user.find("!"))
 			received_privmsg.emit(parsed_message.channel, from_user, parsed_message.message, privmsg_tags);
 

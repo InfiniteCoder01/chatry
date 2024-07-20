@@ -2,4 +2,12 @@ broadcaster_id = "710224102"
 bot_name = "CodersChatry"
 channel = "InfiniteCoder01"
 admins = ["InfiniteCoder01", "CodersChatry"]
-qotd = "The question of the day is: Why are you watching me?"
+qotd = "The question of the day is: Do you think, game engine can improve productivity while making games?"
+
+[simple_commands]
+telegram = "Follow me on telegram: https://t.me/InfiniteCoder02"
+github = "My GitHub: https://github.com/InfiniteCoder01/"
+website = "My Website: https://www.infinitecoder.org"
+itch = "Me on itch.io: https://infinitecoder.itch.io/"
+socials = "All my contacts are here: https://www.infinitecoder.org/socials.html"
+discord = "Join my discord server: https://discord.gg/yHYCKtX9Mt"

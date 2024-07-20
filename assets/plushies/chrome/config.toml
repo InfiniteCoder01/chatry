@@ -1,0 +1,2 @@
+aliases = ["google-chrome"]
+groups = ["applications", "browsers"]
