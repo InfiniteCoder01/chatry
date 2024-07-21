@@ -1,2 +1,2 @@
-aliases = ["rust-lang"]
+aliases = ["oxidize"]
 groups = ["languages"]

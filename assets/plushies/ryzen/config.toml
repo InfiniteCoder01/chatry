@@ -1,2 +1,2 @@
-aliases = ["amd"]
-groups = ["cpus"]
+aliases = ["AMD", "Advanced Micro Devices"]
+groups = ["CPUs"]

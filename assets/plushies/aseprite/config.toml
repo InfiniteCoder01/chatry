@@ -1,2 +1,2 @@
-aliases = ["pixel"] 
+aliases = ["libresprite", "pixel"]
 groups = ["applications"]

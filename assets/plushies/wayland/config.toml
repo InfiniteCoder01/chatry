@@ -1,1 +1,2 @@
+aliases = ["WL"]
 groups = ["graphics", "compositor"]

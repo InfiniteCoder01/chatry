@@ -1,0 +1,2 @@
+aliases = ["X.org"]
+groups = ["graphics", "compositor"]

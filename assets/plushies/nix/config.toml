@@ -1,2 +1,2 @@
-aliases = ["nix-os", "nix-btw", "nix-os-btw", "nixos-btw"]
-groups = ["distros", "package-managers"]
+aliases = ["NixOS"]
+groups = ["distros", "package managers"]

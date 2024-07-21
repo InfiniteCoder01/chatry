@@ -1,2 +1,2 @@
-aliases = ["atmega328p"] 
-groups = ["cpus", "embedded"]
+aliases = ["AT", "atmega328p"]
+groups = ["CPUs", "embedded"]

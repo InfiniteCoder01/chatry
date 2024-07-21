@@ -1,1 +1,2 @@
+aliase = ["friendly interactive shell"]
 groups = ["shells", "languages"]

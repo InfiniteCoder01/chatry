@@ -1,0 +1,2 @@
+aliases = ["orange"]
+groups = ["CPUs", "embedded"]

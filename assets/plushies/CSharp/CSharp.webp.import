@@ -1,0 +1,14 @@
+[remap]
+
+importer="kani_dev.imagemagick"
+type="SpriteFrames"
+uid="uid://darfufnrgthm4"
+path="res://.godot/imported/CSharp.webp-c19d448c9052eb7c1e6089c3079ac04c.res"
+
+[deps]
+
+source_file="res://assets/plushies/CSharp/CSharp.webp"
+dest_files=["res://.godot/imported/CSharp.webp-c19d448c9052eb7c1e6089c3079ac04c.res"]
+
+[params]
+

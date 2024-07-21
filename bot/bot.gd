@@ -10,6 +10,11 @@ var plushie: PackedScene = preload("res://world/plushie/plushie.tscn")
 var world: World
 var chat: TwitchIrcChannel
 
+func strip_special_characters(args: String) -> String:
+	var regex := RegEx.new()
+	regex.compile("[^a-zA-Z0-9#]")
+	return regex.sub(args, "", true)
+
 func _init() -> void:
 	var config_file := ConfigFile.new()
 	if config_file.load("res://config.toml") != OK:
@@ -44,27 +49,31 @@ func _init() -> void:
 
 	# * Load plushies
 	var plushie_dir := DirAccess.open("res://assets/plushies")
+	var test_groups := {}
 	if plushie_dir:
 		plushie_dir.list_dir_begin()
 		var file_name := plushie_dir.get_next()
 		while file_name != "":
 			if plushie_dir.current_is_dir():
 				all_plushies.append(file_name)
-				var aliases := [file_name]
+
 				var plushie_config := ConfigFile.new()
 				if plushie_config.load("res://assets/plushies/" + file_name + "/config.toml") != OK:
 					print("Failed to load config file for plushie '" + file_name + "', skipping")
-				aliases.append_array(plushie_config.get_value("", "aliases", []))
-				for alias: String in aliases:
-					plushies[alias] = file_name
-					plushies[alias.replace('-', "")] = file_name
-					plushies[alias.replace('-', ' ')] = file_name
-					plushies[alias.replace('-', '.')] = file_name
-					plushies[alias.replace('-', '_')] = file_name
+
+				var names := [file_name]
+				names.append_array(plushie_config.get_value("", "names", []))
+				for i in range(names.size()): names[i] = strip_special_characters(names[i]).to_lower()
+				plushies[file_name] = names
+
 				for group: String in plushie_config.get_value("", "groups", []):
+					if !test_groups.has(group): test_groups[group] = []
+					test_groups[group].append(file_name)
+					group = strip_special_characters(group).to_lower()
 					if !groups.has(group): groups[group] = []
 					groups[group].append(file_name)
 			file_name = plushie_dir.get_next()
+		print(JSON.stringify(test_groups, "\t"))
 	else:
 		print("An error occurred when loading plushies.")
 
@@ -81,45 +90,41 @@ func quick_command(command: String, args: String) -> void:
 
 var plushie_timeouts := {}
 var basketball_timeout: SceneTreeTimer = null
+
 func on_command(command: String, args: String, author: String) -> void:
 	var admin: bool = config.admins.has(author.to_lower())
 	if command == "plushie":
 		if !admin && plushie_timeouts.has(author) && plushie_timeouts[author].time_left > 0.0:
 			return
 		plushie_timeouts[author] = world.get_tree().create_timer(10.0)
-		var plushie_instance := plushie.instantiate()
-		var soft_body: SoftBody2D = plushie_instance.get_child(0)
+		var plushie_instance: Plushie = plushie.instantiate()
+		var plushie_id: String
+		args = strip_special_characters(args).to_lower()
 		if args.is_empty():
-			args = all_plushies.pick_random()
-		if plushies.has(args.strip_escapes().to_lower()):
-			soft_body.texture = load("res://assets/plushies/" + plushies[args.strip_escapes().to_lower()] + "/image.png") as Texture2D
-		soft_body.global_position = Vector2(
-			randf_range(
-				10,
-				world.get_viewport_rect().size.x - soft_body.texture.get_width() * soft_body.scale.x - 10
-			),
-			10
-		)
-		soft_body.create_softbody2d(true)
+			plushie_id = all_plushies.pick_random()
+		else:
+			var best_score := 0
+			for id: String in plushies.keys():
+				var score := 0
+				for name: String in plushies[id]:
+					if args.contains(name):
+						score += name.length()
+				if score > best_score:
+					plushie_id = id
+					best_score = score
+
+		if !plushie_id.is_empty(): plushie_instance.assign(plushie_id)
+		plushie_instance.position_randomly(world.get_viewport_rect())
 		world.get_node(^"Plushies").add_child(plushie_instance)
 	elif command == "pick":
 		if !admin && plushie_timeouts.has(author) && plushie_timeouts[author].time_left > 0.0:
 			return
 		plushie_timeouts[author] = world.get_tree().create_timer(10.0)
-		var plushie_instance := plushie.instantiate()
-		var soft_body: SoftBody2D = plushie_instance.get_child(0)
-		if args.is_empty():
-			args = all_plushies.pick_random()
-		if groups.has(args.strip_escapes().to_lower()):
-			soft_body.texture = load("res://assets/plushies/" + groups[args.strip_escapes().to_lower()].pick_random() + "/image.png") as Texture2D
-		soft_body.global_position = Vector2(
-			randf_range(
-				10,
-				world.get_viewport_rect().size.x - soft_body.texture.get_width() * soft_body.scale.x - 10
-			),
-			10
-		)
-		soft_body.create_softbody2d(true)
+		var plushie_instance: Plushie = plushie.instantiate()
+		args = strip_special_characters(args).to_lower()
+		if groups.has(args):
+			plushie_instance.assign(groups[args].pick_random())
+		plushie_instance.position_randomly(world.get_viewport_rect())
 		world.get_node(^"Plushies").add_child(plushie_instance)
 	elif command == "basketball":
 		if !admin && basketball_timeout && basketball_timeout.time_left > 0.0:

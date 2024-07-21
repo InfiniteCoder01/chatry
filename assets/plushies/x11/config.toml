@@ -1,2 +1,0 @@
-aliases = ["xorg"]
-groups = ["graphics", "compositor"]
