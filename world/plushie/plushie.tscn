@@ -821,6 +821,7 @@ internal_vertex_count = 1434
 script = ExtResource("2_rre1d")
 vertex_interval = 40
 min_alpha = 0.01
+margin_offset_edge = 8.0
 bias = 1.5
 softness = 10.0
 radius = 38

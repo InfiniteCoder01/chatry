@@ -6,6 +6,7 @@ func _ready() -> void:
 	self.queue_free()
 
 func assign(id: String) -> void:
+	print("Plushie %s" % id)
 	var soft_body: SoftBody2D = get_child(0)
 	soft_body.texture = load("res://assets/plushies/" + id + "/image.png") as Texture2D
 	soft_body.create_softbody2d(true)

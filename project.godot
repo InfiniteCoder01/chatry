@@ -69,4 +69,3 @@ viewport/transparent_background=true
 auth/scopes/chat=3
 general/images/image_magic="gm"
 general/images/image_transformer="NativeImageTransformer"
-auth/authorization_flow="ImplicitGrantFlow"

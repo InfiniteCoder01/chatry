@@ -49,7 +49,6 @@ func _init() -> void:
 
 	# * Load plushies
 	var plushie_dir := DirAccess.open("res://assets/plushies")
-	var test_groups := {}
 	if plushie_dir:
 		plushie_dir.list_dir_begin()
 		var file_name := plushie_dir.get_next()
@@ -62,18 +61,15 @@ func _init() -> void:
 					print("Failed to load config file for plushie '" + file_name + "', skipping")
 
 				var names := [file_name]
-				names.append_array(plushie_config.get_value("", "names", []))
+				names.append_array(plushie_config.get_value("", "aliases", []))
 				for i in range(names.size()): names[i] = strip_special_characters(names[i]).to_lower()
 				plushies[file_name] = names
 
 				for group: String in plushie_config.get_value("", "groups", []):
-					if !test_groups.has(group): test_groups[group] = []
-					test_groups[group].append(file_name)
 					group = strip_special_characters(group).to_lower()
 					if !groups.has(group): groups[group] = []
 					groups[group].append(file_name)
 			file_name = plushie_dir.get_next()
-		print(JSON.stringify(test_groups, "\t"))
 	else:
 		print("An error occurred when loading plushies.")
 
@@ -145,7 +141,14 @@ func on_command(command: String, args: String, author: String) -> void:
 
 		var process := ProcessNode.new();
 		process.cmd = "docker";
-		process.args = PackedStringArray(["run", "--cpus", "0.5", "--memory", "20m", "--read-only", "-v", "/mnt/Twitch:/home", "-i", "twitch-linux", "./compile.sh"]);
+		process.args = PackedStringArray([
+			"run",
+			"--cpus", "0.5", "--memory", "20m", "--network", "none",
+			"--read-only",
+			"-v", "/mnt/Twitch:/home",
+			"-v", "/mnt/Dev/Bots/Platforms/chatry/container/orco:/orco:ro",
+			"-i", "twitch-linux", "/orco/compile.sh"
+		]);
 		process.stdout.connect(
 			func _on_stdout(data: PackedByteArray) -> void:
 				terminal.append_text(data.get_string_from_utf8())
