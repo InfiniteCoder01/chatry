@@ -23,6 +23,7 @@ driver/enable_input=true
 [autoload]
 
 HttpClientManager="*res://addons/twitcher/communication/http_client_manager.gd"
+Bot="*res://bot/bot.gd"
 
 [debug]
 
@@ -58,6 +59,11 @@ follow={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194328,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
+noplushie_basketball={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":true,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":66,"key_label":0,"unicode":98,"location":0,"echo":false,"script":null)
+]
+}
 
 [rendering]
 
@@ -66,6 +72,13 @@ viewport/transparent_background=true
 
 [twitch]
 
-auth/scopes/chat=3
 general/images/image_magic="gm"
 general/images/image_transformer="NativeImageTransformer"
+auth/scopes/chat=3
+auth/scopes/bits=1
+auth/scopes/channel=111419904
+auth/scopes/moderator=16896
+auth/scopes/user=4096
+auth/api/auth_file_cache="user://auth.key"
+general/logging/enabled=2
+websocket/eventsub/test_server="ws://127.0.0.1:8080/ws"

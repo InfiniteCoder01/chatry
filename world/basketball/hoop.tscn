@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://kd2berp6jek6"]
+[gd_scene load_steps=7 format=3 uid="uid://kd2berp6jek6"]
 
 [ext_resource type="Script" path="res://world/basketball/hoop.gd" id="1_gbqtq"]
 [ext_resource type="Script" path="res://world/basketball/score.gd" id="2_xyvwg"]
+[ext_resource type="Texture2D" uid="uid://kr4j71vwjb5e" path="res://world/basketball/hoop.png" id="3_4gt00"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lsxqd"]
-size = Vector2(12.6705, 97.2102)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b4wey"]
+size = Vector2(17.1133, 199.86)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bun1c"]
 size = Vector2(20, 8)
@@ -15,51 +16,23 @@ size = Vector2(128, 136)
 [node name="Hoop" type="Node2D"]
 script = ExtResource("1_gbqtq")
 
-[node name="Left Bar" type="StaticBody2D" parent="."]
-position = Vector2(-80, 0)
-rotation = -0.523599
+[node name="Collider" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left Bar"]
-shape = SubResource("RectangleShape2D_lsxqd")
+[node name="Left" type="CollisionShape2D" parent="Collider"]
+position = Vector2(-90, 20)
+rotation = -0.314159
+shape = SubResource("RectangleShape2D_b4wey")
 
-[node name="Outline" type="ColorRect" parent="Left Bar"]
-offset_left = -8.0
-offset_top = -51.0
-offset_right = 8.0
-offset_bottom = 50.0
-color = Color(0, 0, 0, 1)
-
-[node name="Bar" type="ColorRect" parent="Left Bar"]
-offset_left = -6.0
-offset_top = -49.0
-offset_right = 6.0
-offset_bottom = 48.0
-
-[node name="RightBar" type="StaticBody2D" parent="."]
-position = Vector2(80, 0)
-rotation = 0.523599
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBar"]
-shape = SubResource("RectangleShape2D_lsxqd")
-
-[node name="Outline" type="ColorRect" parent="RightBar"]
-offset_left = -8.0
-offset_top = -49.0
-offset_right = 8.0
-offset_bottom = 50.0
-color = Color(0, 0, 0, 1)
-
-[node name="Bar" type="ColorRect" parent="RightBar"]
-offset_left = -6.0
-offset_top = -47.0
-offset_right = 6.0
-offset_bottom = 48.0
+[node name="Right" type="CollisionShape2D" parent="Collider"]
+position = Vector2(90, 20)
+rotation = 0.314159
+shape = SubResource("RectangleShape2D_b4wey")
 
 [node name="Area2D" type="Area2D" parent="."]
 script = ExtResource("2_xyvwg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 4)
+position = Vector2(0, 80)
 shape = SubResource("RectangleShape2D_bun1c")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Area2D"]
@@ -67,9 +40,14 @@ shape = SubResource("RectangleShape2D_bun1c")
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, 77)
+position = Vector2(0, 186)
 rotation = -3.14159
 shape = SubResource("RectangleShape2D_hbi71")
 one_way_collision = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(15, 15)
+texture = ExtResource("3_4gt00")
 
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

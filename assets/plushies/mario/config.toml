@@ -1,0 +1,2 @@
+aliases = ["luigi"]
+groups = ["games", "movies"]

@@ -202,6 +202,10 @@ func _send_messages() -> void:
 
 ## Sends join channel message
 func join_channel(channel_name : String) -> ChannelData:
+	if channel_name == "":
+		log.e("No channel is specified to join. The channel name can be set on the TwitchIrcChannel node.");
+		return;
+
 	var lower_channel = channel_name.to_lower();
 	if not channel_maps.has(channel_name) || not channel_maps[channel_name].joined:
 		chat_queue.append("JOIN #" + lower_channel);
@@ -323,8 +327,12 @@ func _handle_message(parsed_message : ParsedMessage) -> void:
 
 		"PRIVMSG":
 			var privmsg_tags = TwitchTags.PrivMsg.new(parsed_message.tags);
-			var from_user = privmsg_tags.display_name if privmsg_tags.display_name != null && privmsg_tags.display_name.length() > 0 else parsed_message.server;
-			from_user = from_user.substr(0, from_user.find("!"))
+			var from_user: String;
+			if privmsg_tags.display_name != null && privmsg_tags.display_name.length() > 0:
+				from_user = privmsg_tags.display_name;
+			else:
+				from_user = parsed_message.server;
+				from_user = from_user.substr(0, from_user.find("!"))
 			received_privmsg.emit(parsed_message.channel, from_user, parsed_message.message, privmsg_tags);
 
 ## Handles the update of rooms when joining the channel or a moderator

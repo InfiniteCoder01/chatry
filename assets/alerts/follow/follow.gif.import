@@ -1,0 +1,14 @@
+[remap]
+
+importer="kani_dev.imagemagick"
+type="SpriteFrames"
+uid="uid://wgpnwlhs81fj"
+path="res://.godot/imported/follow.gif-85a331e2b0f206b8bfa2d1f35045fc53.res"
+
+[deps]
+
+source_file="res://assets/alerts/follow/follow.gif"
+dest_files=["res://.godot/imported/follow.gif-85a331e2b0f206b8bfa2d1f35045fc53.res"]
+
+[params]
+

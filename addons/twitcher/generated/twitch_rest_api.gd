@@ -41,10 +41,7 @@ func request(path: String, method: int, body: Variant = "", content_type: String
 			return await request(path, method, body, content_type, error_count + 1);
 		else:
 			# Give up the request after trying multiple times and
-			# return an empty response with correct error code
-			var empty_response = client.empty_response(request);
-			empty_response.response_code = response.client.get_response_code();
-			return empty_response;
+			return response
 	return response;
 
 ## Starts a commercial on the specified channel.
@@ -3153,7 +3150,7 @@ func get_users(id: Array[String], login: Array[String]) -> TwitchGetUsersRespons
 ## Optional Variant of get_users
 ## Gets information about one or more users.
 ##
-## https://dev.twitch.tv/docs/api/reference#get-users
+## 2
 func get_users_opt(optional: Dictionary) -> TwitchGetUsersResponse:
 	var path = "/helix/users?"
 

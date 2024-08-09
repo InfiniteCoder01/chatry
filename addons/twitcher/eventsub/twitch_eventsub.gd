@@ -124,12 +124,14 @@ func create_subscription(event_name : String, version : String, conditions : Dic
 ## Refer to https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/ for details on
 ## which API versions are available and which conditions are required.
 func subscribe(data: TwitchCreateEventSubSubscriptionBody):
+	log.i("Subscribing to %s" % data.type);
 	var response = await api.create_eventsub_subscription(data);
 
 	if not str(response.response_code).begins_with("2"):
 		log.e("Subscription failed for event '%s'. Error %s: %s" % [data.type, response.response_code, response.response_data.get_string_from_utf8()])
 		return
 	elif (response.response_data.is_empty()):
+		log.i("No response?!")
 		return
 	log.i("Now listening to '%s' events." % data.type)
 

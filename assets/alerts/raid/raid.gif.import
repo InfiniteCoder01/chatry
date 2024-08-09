@@ -1,0 +1,14 @@
+[remap]
+
+importer="kani_dev.imagemagick"
+type="SpriteFrames"
+uid="uid://ca3id4y2q3too"
+path="res://.godot/imported/raid.gif-72cde8ad2912c780cf043c47d4f01a69.res"
+
+[deps]
+
+source_file="res://assets/alerts/raid/raid.gif"
+dest_files=["res://.godot/imported/raid.gif-72cde8ad2912c780cf043c47d4f01a69.res"]
+
+[params]
+

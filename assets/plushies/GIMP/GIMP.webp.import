@@ -1,0 +1,14 @@
+[remap]
+
+importer="kani_dev.imagemagick"
+type="SpriteFrames"
+uid="uid://bgiymlcvjmp3f"
+path="res://.godot/imported/GIMP.webp-fe3eec5d3d0591493d1b36de4ff52e25.res"
+
+[deps]
+
+source_file="res://assets/plushies/GIMP/GIMP.webp"
+dest_files=["res://.godot/imported/GIMP.webp-fe3eec5d3d0591493d1b36de4ff52e25.res"]
+
+[params]
+

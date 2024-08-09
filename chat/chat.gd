@@ -1,14 +1,16 @@
+class_name ChatOverlay
 extends Control
 
 func add_message(from_user: String, message: String, tags: TwitchTags.Message) -> void:
+	print("[%s] %s" % [from_user, message])
 	var badges := await tags.get_badges() as Array[SpriteFrames];
 	var emotes := await tags.get_emotes() as Array[TwitchIRC.EmoteLocation];
 	var color := tags.get_color();
 
-	var label := RichTextLabel.new()
+	var label := ChatMessageLabel.new()
+	label.message_id = tags.raw.id
 	label.bbcode_enabled = true
 	label.fit_content = true
-	label.set_script(preload("res://chat/message.gd"))
 
 	var sprite_effect := SpriteFrameEffect.new();
 	label.install_effect(sprite_effect)
@@ -32,4 +34,4 @@ func add_message(from_user: String, message: String, tags: TwitchTags.Message) -
 	$Messages.add_child(label)
 
 func _on_send_text_submitted(message: String) -> void:
-	Bot.instance.chat.chat(message)
+	Bot.chat.chat(message)

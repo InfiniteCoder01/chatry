@@ -71,12 +71,6 @@ func connect_to_host() -> void:
 	if err != OK:
 		logError("Can't connect to %s cause of %s" % [base_url, error_string(err)]);
 
-## Removes the complete http client. Don't use it after calling this method!
-func shutdown() -> void:
-	client.close();
-	Engine.get_main_loop().process_frame.disconnect(_poll);
-	free();
-
 ## Starts a request that will be handled as soon as the client gets free.
 ## Use HTTPClient.METHOD_* for the method.
 func request(path: String, method: int, headers: Dictionary, body: String) -> RequestData:
@@ -88,7 +82,8 @@ func request(path: String, method: int, headers: Dictionary, body: String) -> Re
 	req.method = method;
 	req.body = body;
 	req.headers = headers;
-	req.client = self;
+	req.client = HTTPClient.new();
+	#req.client = self;
 	requests.append(req);
 	request_added.emit(req);
 	return req;

@@ -1,0 +1,14 @@
+[remap]
+
+importer="kani_dev.imagemagick"
+type="SpriteFrames"
+uid="uid://dgfjs2u45g7v6"
+path="res://.godot/imported/sub.gif-8deee4889e3bfe56431e85d98da0802e.res"
+
+[deps]
+
+source_file="res://assets/alerts/sub/sub.gif"
+dest_files=["res://.godot/imported/sub.gif-8deee4889e3bfe56431e85d98da0802e.res"]
+
+[params]
+

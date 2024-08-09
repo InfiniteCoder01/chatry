@@ -1,13 +1,18 @@
-broadcaster_id = "710224102"
+broadcaster_user_id = "710224102"
 bot_name = "CodersChatry"
 channel = "InfiniteCoder01"
 admins = ["InfiniteCoder01", "CodersChatry"]
-qotd = "The question of the day is: Do you think, game engine can improve productivity while making games?"
+qotd = "The question of the day is: Code or an editor for UI? Markup or Imperative?"
+
+notification_format = "I am live right now on https://twitch.tv/infinitecoder01/ and https://youtube.com/@InfiniteCoder02\n{title}\n[Message will be deleted after stream ends]"
 
 [simple_commands]
 telegram = "Follow me on telegram: https://t.me/InfiniteCoder02"
 github = "My GitHub: https://github.com/InfiniteCoder01/"
 website = "My Website: https://www.infinitecoder.org"
 itch = "Me on itch.io: https://infinitecoder.itch.io/"
-socials = "All my contacts are here: https://www.infinitecoder.org/socials.html"
+socials = "All my contacts are here: https://www.infinitecoder.org/socials"
 discord = "Join my discord server: https://discord.gg/yHYCKtX9Mt"
+
+[redeem_sounds]
+ok_lets_go = "res://assets/sounds/ok_lets_go.wav"

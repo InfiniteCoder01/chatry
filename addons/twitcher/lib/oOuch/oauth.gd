@@ -176,6 +176,7 @@ func _start_login_process(response_type: String):
 		auth_http_server.request_received.connect(_process_implicit_request.bind(auth_http_server));
 
 	var query_param = "&".join([
+			"force_verify=true",
 			"response_type=%s" % response_type.uri_encode(),
 			"client_id=%s" % _setting.client_id.uri_encode(),
 			"scope=%s" % _setting.get_scopes().uri_encode(),
