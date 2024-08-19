@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://darfufnrgthm4"
-path="res://.godot/imported/CSharp.webp-c19d448c9052eb7c1e6089c3079ac04c.ctex"
+uid="uid://b5skrk0dce4cy"
+path="res://.godot/imported/icon.png-7dfbade3c31c6ec953faf2eac2316633.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/plushies/CSharp/CSharp.webp"
-dest_files=["res://.godot/imported/CSharp.webp-c19d448c9052eb7c1e6089c3079ac04c.ctex"]
+source_file="res://addons/BetterProcesses/icon.png"
+dest_files=["res://.godot/imported/icon.png-7dfbade3c31c6ec953faf2eac2316633.ctex"]
 
 [params]
 
