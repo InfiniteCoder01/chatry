@@ -103,7 +103,7 @@ pub impl ProcessNode {
     }
 
     #[func]
-    fn stdin_eof(&mut self) {
+    fn eof_stdin(&mut self) {
         match self.raw_process.take() {
             Some(mut rp) => {
                 rp.eof();

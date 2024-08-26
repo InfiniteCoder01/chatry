@@ -188,6 +188,23 @@ func on_command(command: String, args: String, author: String, tags: TwitchTags.
 		chat.chat("Have a nice lurk, @%s. Lurkers are a power of Software and Game development streams!" % [author])
 	elif command == "unlurk":
 		chat.chat("Welcome back, @%s!" % [author])
+	elif command == "move_to":
+		var coords := args.split(" ")
+		if coords.size() != 2: return
+		var target = Vector2(clampf(float(coords[0]), 0.0, 1.0), clampf(float(coords[1]), 0.0, 1.0)) * Vector2(get_viewport().size)
+		for plushie: Plushie in world.get_node(^"Plushies").get_children():
+			if plushie.viewer_id == privmsg.user_id:
+				plushie.follow_target = target
+				plushie.followers = plushie.closest_rbs(target)
+	elif command == "add_force":
+		var force_str := args.split(" ")
+		if force_str.size() != 2: return
+		var force = Vector2(float(force_str[0]), float(force_str[1])).limit_length(5.0) * 20000
+		for plushie: Plushie in world.get_node(^"Plushies").get_children():
+			if plushie.viewer_id == privmsg.user_id:
+				var plushie_sb: SoftBody2D = plushie.get_child(0)
+				for rb in plushie_sb.get_rigid_bodies():
+					rb.rigidbody.apply_force(force)
 	else:
 		for cmd: String in simple_commands.keys():
 			if command == cmd:
