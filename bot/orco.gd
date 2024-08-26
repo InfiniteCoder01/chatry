@@ -17,7 +17,7 @@ static func execute(code: String, terminal: RichTextLabel) -> void:
 		"--cpus", "0.5", "--memory", "20m", "--network", "none",
 		"--read-only",
 		"-v", "/mnt/Twitch:/home",
-		"-v", "/mnt/Dev/Bots/Platforms/chatry/container/orco:/orco:ro",
+		"-v", "/mnt/Dev/Bots/chatry/container/orco:/orco:ro",
 		"-i", "twitch-linux", "/orco/compile.sh"
 	]);
 	process.stdout.connect(
