@@ -106,7 +106,7 @@ func _on_eventsub_message(type: String, data: Dictionary) -> void:
 		var reward_info := (await TwitchService.api.get_custom_reward([data.reward.id], false)).data[0]
 		var title_id := strip_special_characters(reward_info.title).to_lower()
 		if reward_info.title == "Basketball!":
-			basketball(true)
+			basketball(false)
 		else:
 			if redeem_sounds.has(title_id):
 				world.sound_blaster.stream = load(redeem_sounds[title_id])
@@ -209,7 +209,6 @@ func on_command(command: String, args: String, author: String, tags: TwitchTags.
 		for cmd: String in simple_commands.keys():
 			if command == cmd:
 				chat.chat("@%s %s" % [author, simple_commands[cmd]])
-	# TODO: !jail
 
 var timeouts := {}
 func timeout(author: String, topic: String, time: float) -> bool:
@@ -242,9 +241,10 @@ func random_plushie() -> Plushie:
 	world.get_node(^"Plushies").add_child(plushie_instance)
 	return plushie_instance
 
-func basketball(setup: bool) -> void:
-	var hoop := preload("res://world/basketball/hoop.tscn").instantiate()
-	hoop.position = world.get_viewport_rect().size * Vector2(0.9, 0.5)
-	world.add_child(hoop)
-	if setup:
-		Bot.random_plushie()
+func basketball(tournament: bool) -> void:
+	var old := world.get_node("Court")
+	if old: world.remove_child(old)
+	
+	var court: Court = preload("res://world/basketball/court.tscn").instantiate()
+	court.basketball(tournament)
+	world.add_child(court)

@@ -16,9 +16,9 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("plushie"):
 		Bot.random_plushie()
 	if Input.is_action_just_pressed("basketball"):
-		Bot.basketball(true)
-	if Input.is_action_just_pressed("noplushie_basketball"):
 		Bot.basketball(false)
+	if Input.is_action_just_pressed("tournament"):
+		Bot.basketball(true)
 
 	var mouse := get_global_mouse_position()
 	if Input.is_action_just_pressed("follow"):

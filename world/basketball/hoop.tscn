@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://kd2berp6jek6"]
 
 [ext_resource type="Script" path="res://world/basketball/hoop.gd" id="1_gbqtq"]
-[ext_resource type="Script" path="res://world/basketball/score.gd" id="2_xyvwg"]
+[ext_resource type="Theme" uid="uid://cq1sgso5k7iqx" path="res://chat/chat.tres" id="2_i2rc1"]
 [ext_resource type="Texture2D" uid="uid://kr4j71vwjb5e" path="res://world/basketball/hoop.png" id="3_4gt00"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b4wey"]
@@ -16,6 +16,20 @@ size = Vector2(128, 136)
 [node name="Hoop" type="Node2D"]
 script = ExtResource("1_gbqtq")
 
+[node name="Label" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+offset_left = -504.0
+offset_top = -182.0
+offset_right = 504.0
+offset_bottom = -131.0
+theme = ExtResource("2_i2rc1")
+theme_override_font_sizes/normal_font_size = 50
+bbcode_enabled = true
+fit_content = true
+
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+
 [node name="Collider" type="StaticBody2D" parent="."]
 
 [node name="Left" type="CollisionShape2D" parent="Collider"]
@@ -29,13 +43,10 @@ rotation = 0.314159
 shape = SubResource("RectangleShape2D_b4wey")
 
 [node name="Area2D" type="Area2D" parent="."]
-script = ExtResource("2_xyvwg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 80)
 shape = SubResource("RectangleShape2D_bun1c")
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Area2D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -50,4 +61,4 @@ texture_filter = 1
 scale = Vector2(15, 15)
 texture = ExtResource("3_4gt00")
 
-[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
