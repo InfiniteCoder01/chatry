@@ -1,6 +1,4 @@
 broadcaster_user_id = "710224102"
-bot_name = "CodersChatry"
-channel = "InfiniteCoder01"
 admins = ["InfiniteCoder01", "CodersChatry"]
 qotd = "The question of the day is: Code or an editor for UI? Markup or Imperative?"
 

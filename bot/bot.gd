@@ -3,11 +3,13 @@ extends Node
 var all_plushies := []
 var plushies := {}
 var groups := {}
-var plushie: PackedScene = preload("res://world/plushie/plushie.tscn")
+var plushie_scene: PackedScene = preload("res://world/plushie/plushie.tscn")
 
 var world: World
-var chat: TwitchIrcChannel
+var twitch_bot: TwitchEvent
+var twitch_broadcaster: TwitchEvent
 
+var broadcaster_user_id: String
 var qotd: String
 var admins := PackedStringArray()
 var simple_commands := {}
@@ -20,22 +22,35 @@ func strip_special_characters(args: String) -> String:
 
 func log_message(message: String) -> void:
 	print_rich("[color=lightblue][b][LOG][/b] %s[/color]" % message)
-	var log_file: FileAccess
-	if FileAccess.file_exists("user://bot_log.log"):
-		log_file = FileAccess.open("user://bot_log.log", FileAccess	.READ_WRITE)
-	else:
-		log_file = FileAccess.open("user://bot_log.log", FileAccess.WRITE)
-	if log_file:
-		log_file.seek_end()
-		log_file.store_line(message)
-		log_file.close()
+	#var log_file: FileAccess
+	#if FileAccess.file_exists("user://bot_log.log"):
+		#log_file = FileAccess.open("user://bot_log.log", FileAccess	.READ_WRITE)
+	#else:
+		#log_file = FileAccess.open("user://bot_log.log", FileAccess.WRITE)
+	#if log_file:
+		#log_file.seek_end()
+		#log_file.store_line(message)
+		#log_file.close()
 
-func _ready() -> void:
+func setup() -> void:
+	twitch_broadcaster.connect_api()
+	twitch_bot.connect_api()
+	
+	twitch_bot.on_chat_message.connect(_on_chat_message)
+	twitch_bot.on_follow.connect(_on_follow)
+	twitch_bot.on_raid.connect(_on_raid)
+	twitch_bot.on_new_subscription.connect(_on_new_subscription)
+	twitch_bot.on_resubscription.connect(_on_resubscription)
+	twitch_bot.on_subscription_gift.connect(_on_subscription_gift)
+	twitch_broadcaster.on_custom_point_reward_redeem.connect(_on_redeem)
+	twitch_broadcaster.on_ad_break_start.connect(_on_ad_break_begin)
+	
 	var config_file := ConfigFile.new()
 	if config_file.load("res://config.toml") != OK:
-		print("Failed to load confi	g file")
+		print("Failed to load config file")
 		return
 
+	broadcaster_user_id = config_file.get_value("", "broadcaster_user_id")
 	qotd = config_file.get_value("", "qotd")
 	for admin: String in config_file.get_value("", "admins"):
 		admins.append(admin.to_lower())
@@ -46,7 +61,7 @@ func _ready() -> void:
 	for sound: String in config_file.get_section_keys("redeem_sounds"):
 		redeem_sounds[strip_special_characters(sound)] = config_file.get_value("redeem_sounds", sound)
 
-	Twitch.setup_twitch(config_file)
+	Twitch.setup_twitch()
 	Plushie.connect_heat()
 
 	# * Load plushies
@@ -76,139 +91,144 @@ func _ready() -> void:
 		print("Plushie directory not found!")
 	
 	Twitch.monitor_ads()
+#
+#func _on_eventsub_message(type: String, data: Dictionary) -> void:
+	#log_message("Event '%s': %s" % [type, data])
+	#for message: ChatMessageLabel in world.chat_overlay.get_child(0).get_children():
+		#if message.message.id == data.message_id:
+			#message.queue_free()
 
-func _on_eventsub_message(type: String, data: Dictionary) -> void:
-	log_message("Event '%s': %s" % [type, data])
-	if type == "channel.chat.message_delete":
-		for message: ChatMessageLabel in world.chat_overlay.get_child(0).get_children():
-			if message.message_id == data.message_id:
-				message.queue_free()
-	elif type == "channel.follow":
-		world.alertbox.play("follow", "[b][color=red]%s[/color][/b] joined the community! Thank you!" % data.user_name)
-	elif type == "channel.raid":
-		world.alertbox.play(
-			"raid",
-			"[b][color=red]%s[/color][/b] is raiding with [b][color=blue]%d[/color][/b] viewers!"
-			% [data.from_broadcaster_user_name, data.viewers]
-		)
-		TwitchService.api.send_a_shoutout(data.to_broadcaster_user_id, data.from_broadcaster_user_id, TwitchSetting.broadcaster_id)
-		var plushie_id := find_plushie(data.from_broadcaster_user_name)
-		if !plushie_id.is_empty():
-			for i in range(10):
-				var plushie_instance: Plushie = plushie.instantiate()
-				plushie_instance.assign(plushie_id)
-				plushie_instance.position_randomly(world.get_viewport_rect())
-				world.get_node(^"Plushies").add_child(plushie_instance)
-				await world.get_tree().create_timer(1.0).timeout
-	elif type == "channel.subscribe":
-		world.alertbox.play("sub", "[b][color=red]%s[/color][/b] subscribed as Tier %s! Thank you!" % [data.user_name, data.tier])
-	elif type == "channel.channel_points_custom_reward_redemption.add":
-		var reward_info := (await TwitchService.api.get_custom_reward([data.reward.id], false)).data[0]
-		var title_id := strip_special_characters(reward_info.title).to_lower()
-		if reward_info.title == "Basketball!":
-			basketball(false)
-		else:
-			if redeem_sounds.has(title_id):
-				world.sound_blaster.stream = load(redeem_sounds[title_id])
-				world.sound_blaster.play()
-				return
-		var image: String = reward_info.image.url_4x if reward_info.image else reward_info.default_image.url_4x
-		var sprite_frames := SpriteFrames.new()
-		sprite_frames.set_animation_speed("default", 1.0 / 8.0)
-		sprite_frames.add_frame("default", ImageTexture.create_from_image(Image.load_from_file(await Twitch.cache(image))))
-		world.alertbox.play_raw(
-			sprite_frames,
-			preload("res://assets/alerts/redeem.wav"),
-			(
-				"[b][color=red]%s[/color][/b]" +
-				" redeemed [b][color=blue]%s[/color][/b]" +
-				" for [b][color=blue]%d[/color][/b] strings.\n%s"
-			) % [
-				data.user_name,
-				reward_info.title,
-				reward_info.cost,
-				data.user_input
-			],
-			3.0
-		)
-	elif type == "channel.ad_break.begin":
-		chat.chat("%d second AD has started!" % data.duration_seconds)
-		await get_tree().create_timer(data.duration_seconds).timeout
-		chat.chat("The AD is done!")
-	else: print("Unknown message: %s" % type)
+func _on_follow(follow: GFollowData) -> void:
+	world.alertbox.play("follow", "[b][color=red]%s[/color][/b] joined the community! Thank you!" % follow.user.name)
 
-func _on_chat_message(from_user: String, message: String, tags: TwitchTags.Message) -> void:
-	world.chat_overlay.add_message(from_user, message, tags)
-	if message[0] == '!':
-		var raw_args: PackedStringArray = message.substr(1).split(' ', true, 1)
+func _on_raid(raid: GRaid) -> void:
+	world.alertbox.play(
+		"raid",
+		"[b][color=red]%s[/color][/b] is raiding with [b][color=blue]%d[/color][/b] viewers!"
+		% [raid.from_broadcaster.name, raid.viewers]
+	)
+	#twitch_bot.send_chat_message("/shoutout %s" % raid.from_broadcaster.login)
+	await get_tree().create_timer(3.0).timeout
+	var plushie_id := find_plushie(raid.from_broadcaster.name)
+	if !plushie_id.is_empty():
+		for i in range(10):
+			var plushie_instance: Plushie = plushie_scene.instantiate()
+			plushie_instance.assign(plushie_id)
+			plushie_instance.position_randomly(world.get_viewport_rect())
+			world.get_node(^"Plushies").add_child(plushie_instance)
+			await world.get_tree().create_timer(1.0).timeout
+
+func _on_new_subscription(sub: GNewSubscription) -> void:
+	world.alertbox.play("sub", "[b][color=red]%s[/color][/b] subscribed as Tier %s! Thank you!" % [sub.user.name, sub.tier])
+
+func _on_resubscription(sub: GResubscription) -> void:
+	world.alertbox.play("sub", "[b][color=red]%s[/color][/b] resubscribed as Tier %s! They've been subscribed for %d months! Thank you!" % [sub.user.name, sub.tier, sub.streak_months])
+
+func _on_subscription_gift(sub: GGift) -> void		:
+	world.alertbox.play("sub", "[b][color=red]%s[/color][/b] was gifted a Tier %s sub! Thank you!" % [sub.user.name, sub.tier])
+
+func _on_redeem(redeem: GCustomRewardRedeem) -> void:
+	var title_id := strip_special_characters(redeem.reward.title).to_lower()
+	if title_id == "basketball":
+		basketball(false)
+	else:
+		if redeem_sounds.has(title_id):
+			world.sound_blaster.stream = load(redeem_sounds[title_id])
+			world.sound_blaster.play()
+			return
+	#var image: String = redeem.reward.image_url
+	#var sprite_frames := SpriteFrames.new()
+	#sprite_frames.set_animation_speed("default", 1.0 / 8.0)
+	#sprite_frames.add_frame("default", ImageTexture.create_from_image(Image.load_from_file(await Twitch.cache(image))))
+	#world.alertbox.play_raw(
+		#sprite_frames,
+		#preload("res://assets/alerts/redeem.wav"),
+		#(
+			#"[b][color=red]%s[/color][/b]" +
+			#" redeemed [b][color=blue]%s[/color][/b]" +
+			#" for [b][color=blue]%d[/color][/b] strings.\n%s"
+		#) % [
+			#data.user_name,
+			#reward_info.title,
+			#reward_info.cost,
+			#data.user_input
+		#],
+		#3.0
+	#)
+
+func _on_ad_break_begin(ad_break: GAdBreakBegin) -> void:
+	twitch_bot.send_chat_message("%d second AD has started!" % ad_break.duration_seconds)
+	await get_tree().create_timer(ad_break.duration_seconds).timeout
+	twitch_bot.send_chat_message("The AD is done!")
+
+func _on_chat_message(message: GMessageData) -> void:
+	world.chat_overlay.add_message(message)
+	if message.message.text[0] == '!':
+		var raw_args: PackedStringArray = message.message.text.substr(1).split(' ', true, 1)
 		var command: String = raw_args[0]
 		var args: String = "" if raw_args.size() < 2 else raw_args[1]
-		on_command(command, args, from_user, tags)
+		on_command(command, args, message)
 
 # ******************************************************************** On Command
-func on_command(command: String, args: String, author: String, tags: TwitchTags.Message) -> void:
-	var admin: bool = admins.has(author.to_lower())
-	var privmsg: TwitchTags.PrivMsg = tags.raw
-	if command == "label":
-		if !admin: return
-
-	elif command == "plushie":
-		if !admin && timeout(author, "plushies", 10.0): return
+func on_command(command: String, args: String, message: GMessageData) -> void:
+	var admin: bool = admins.has(message.chatter.login.to_lower())
+	if command == "plushie":
+		if !admin && timeout(message.chatter.login, "plushies", 10.0): return
 		args = find_plushie(args)
 		if args.is_empty():
-			if timeouts.has("plushies"): timeouts["plushies"].erase(author)
+			if timeouts.has("plushies"): timeouts["plushies"].erase(message.chatter.login)
 			return
 
-		var plushie_instance: Plushie = plushie.instantiate()
+		var plushie_instance: Plushie = plushie_scene.instantiate()
 		plushie_instance.assign(args)
 		plushie_instance.position_randomly(world.get_viewport_rect())
-		plushie_instance.viewer_id = privmsg.user_id
+		plushie_instance.viewer_id = message.chatter.id
 		world.get_node(^"Plushies").add_child(plushie_instance)
 	elif command == "pick":
-		if !admin && timeout(author, "plushies", 10.0): return
+		if !admin && timeout(message.chatter.login, "plushies", 10.0): return
 
 		args = strip_special_characters(args).to_lower()
 		if !groups.has(args):
-			if timeouts.has("plushies"): timeouts["plushies"].erase(author)
+			if timeouts.has("plushies"): timeouts["plushies"].erase(message.chatter.login)
 			return
 
-		var plushie_instance: Plushie = plushie.instantiate()
+		var plushie_instance: Plushie = plushie_scene.instantiate()
 		plushie_instance.assign(groups[args].pick_random())
 		plushie_instance.position_randomly(world.get_viewport_rect())
-		plushie_instance.viewer_id = privmsg.user_id
+		plushie_instance.viewer_id = message.chatter.id
 		world.get_node(^"Plushies").add_child(plushie_instance)
 	elif command == "readchat":
 		world.sound_blaster.stream = preload("res://assets/readchat.wav")
 		world.sound_blaster.play()
 	elif command == "qotd":
-		chat.chat("@%s %s" % [author, qotd])
+		twitch_bot.send_chat_message("@%s %s" % [message.chatter.login, qotd])
 	elif command == "orco":
 		OrCo.execute(args, world.get_node(^"%Terminal"))
 	elif command == "lurk":
-		chat.chat("Have a nice lurk, @%s. Lurkers are a power of Software and Game development streams!" % [author])
+		twitch_bot.send_chat_message("Have a nice lurk, @%s. Lurkers are a power of Software and Game development streams!" % [message.chatter.login])
 	elif command == "unlurk":
-		chat.chat("Welcome back, @%s!" % [author])
+		twitch_bot.send_chat_message("Welcome back, @%s!" % [message.chatter.login])
 	elif command == "move_to":
 		var coords := args.split(" ")
 		if coords.size() != 2: return
-		var target = Vector2(clampf(float(coords[0]), 0.0, 1.0), clampf(float(coords[1]), 0.0, 1.0)) * Vector2(get_viewport().size)
+		var target := Vector2(clampf(float(coords[0]), 0.0, 1.0), clampf(float(coords[1]), 0.0, 1.0)) * Vector2(get_viewport().size)
 		for plushie: Plushie in world.get_node(^"Plushies").get_children():
-			if plushie.viewer_id == privmsg.user_id:
+			if plushie.viewer_id == message.chatter.id:
 				plushie.follow_target = target
 				plushie.followers = plushie.closest_rbs(target)
 	elif command == "add_force":
 		var force_str := args.split(" ")
 		if force_str.size() != 2: return
-		var force = Vector2(float(force_str[0]), float(force_str[1])).limit_length(5.0) * 20000
+		var force := Vector2(float(force_str[0]), float(force_str[1])).limit_length(5.0) * 20000
 		for plushie: Plushie in world.get_node(^"Plushies").get_children():
-			if plushie.viewer_id == privmsg.user_id:
+			if plushie.viewer_id == message.chatter.id:
 				var plushie_sb: SoftBody2D = plushie.get_child(0)
 				for rb in plushie_sb.get_rigid_bodies():
 					rb.rigidbody.apply_force(force)
 	else:
 		for cmd: String in simple_commands.keys():
 			if command == cmd:
-				chat.chat("@%s %s" % [author, simple_commands[cmd]])
+				twitch_bot.send_chat_message("@%s %s" % [message.chatter.login, simple_commands[cmd]])
 
 var timeouts := {}
 func timeout(author: String, topic: String, time: float) -> bool:
@@ -235,7 +255,7 @@ func find_plushie(args: String) -> String:
 	return plushie_id
 
 func random_plushie() -> Plushie:
-	var plushie_instance: Plushie = plushie.instantiate()
+	var plushie_instance: Plushie = plushie_scene.instantiate()
 	plushie_instance.assign(plushies.keys().pick_random())
 	plushie_instance.position_randomly(world.get_viewport_rect())
 	world.get_node(^"Plushies").add_child(plushie_instance)

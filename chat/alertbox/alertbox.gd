@@ -8,7 +8,7 @@ extends Control
 var alerts := {}
 
 func _ready() -> void:
-	var reader := GifReader.new()
+	pass # TODO!!!
 
 	var alerts_dir := DirAccess.open("res://assets/alerts")
 	if alerts_dir:
@@ -17,13 +17,13 @@ func _ready() -> void:
 		while alert != "":
 			if alerts_dir.current_is_dir():
 				alerts[alert] = {
-					animation = reader.read("res://assets/alerts/%s/%s.gif" % [alert, alert]),
+					animation = load("res://assets/alerts/%s/%s.gif" % [alert, alert]),
 					sound = load("res://assets/alerts/%s/%s.wav" % [alert, alert])
 				}
 			alert = alerts_dir.get_next()
 	else:
 		print("Alerts directory not found!")
-
+#
 
 func play(alert: String, message: String) -> void:
 	play_raw(alerts[alert].animation, alerts[alert].sound, message, 10.0)
@@ -31,17 +31,18 @@ func play(alert: String, message: String) -> void:
 func play_raw(sprite_frames: SpriteFrames, sound: AudioStream, message: String, sprite_scale: float = 1.0) -> void:
 	sprite.scale = Vector2(sprite_scale, sprite_scale)
 
-	sprite_frames.set_animation_loop("default", false)
+	sprite_frames.set_animation_loop("gif", false)
 	sprite.sprite_frames = sprite_frames
 	sprite.frame = 0
-	sprite.play("default")
+	
+	audio.stream = sound
 
 	var alert_size := sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size() * sprite.scale
 	label.position.y = alert_size.y
 	label.size.x = alert_size.x
 	label.text = "[center]%s[/center]" % message
 
-	audio.stream = sound
+	sprite.play("gif")
 	audio.play()
 
 	await audio.finished

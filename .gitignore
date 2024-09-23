@@ -4,3 +4,6 @@
 # Rust
 debug/
 target/
+
+# Secrets
+.*.env

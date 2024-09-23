@@ -1,3 +1,6 @@
 [submodule "addons/TwitchEventSub/TwitchEventSub-rs"]
 	path = addons/TwitchEventSub/TwitchEventSub-rs
-	url = https://github.com/Owlkaline/TwitchEventSub-rs.git
+	url = https://github.com/InfiniteCoder01/TwitchEventSub-rs
+[submodule "addons/godot-gif"]
+	path = addons/godot-gif
+	url = https://github.com/BOTLANNER/godot-gif

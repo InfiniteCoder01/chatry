@@ -1,14 +1,15 @@
 [remap]
 
-importer="kani_dev.imagemagick"
+importer="import_gif_to_sprite_frames"
 type="SpriteFrames"
-uid="uid://wgpnwlhs81fj"
-path="res://.godot/imported/follow.gif-85a331e2b0f206b8bfa2d1f35045fc53.res"
+uid="uid://dbfq5uyabl40w"
+path="res://.godot/imported/follow.gif-85a331e2b0f206b8bfa2d1f35045fc53.tres"
 
 [deps]
 
 source_file="res://assets/alerts/follow/follow.gif"
-dest_files=["res://.godot/imported/follow.gif-85a331e2b0f206b8bfa2d1f35045fc53.res"]
+dest_files=["res://.godot/imported/follow.gif-85a331e2b0f206b8bfa2d1f35045fc53.tres"]
 
 [params]
 
+frames_per_second=30

@@ -1,14 +1,15 @@
 [remap]
 
-importer="kani_dev.imagemagick"
+importer="import_gif_to_sprite_frames"
 type="SpriteFrames"
-uid="uid://dgfjs2u45g7v6"
-path="res://.godot/imported/sub.gif-8deee4889e3bfe56431e85d98da0802e.res"
+uid="uid://dr0p388f0xb5q"
+path="res://.godot/imported/sub.gif-8deee4889e3bfe56431e85d98da0802e.tres"
 
 [deps]
 
 source_file="res://assets/alerts/sub/sub.gif"
-dest_files=["res://.godot/imported/sub.gif-8deee4889e3bfe56431e85d98da0802e.res"]
+dest_files=["res://.godot/imported/sub.gif-8deee4889e3bfe56431e85d98da0802e.tres"]
 
 [params]
 
+frames_per_second=30

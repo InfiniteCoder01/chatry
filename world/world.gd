@@ -3,14 +3,16 @@ class_name World
 
 @onready var chat_overlay: ChatOverlay = %Chat
 @onready var sound_blaster: AudioStreamPlayer = $SoundBlaster
-@onready var label: RichTextLabel = %Label
 @onready var alertbox: AlertBox = %AlertBox
 
 var followers: Array[SoftBody2D.SoftBodyChild] = []
 
 func _ready() -> void:
-	Bot.world = self
 	get_window().mouse_passthrough = true
+	Bot.world = self
+	Bot.twitch_broadcaster = %TwitchBroadcaster
+	Bot.twitch_bot = %TwitchBot
+	Bot.setup()
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("plushie"):
