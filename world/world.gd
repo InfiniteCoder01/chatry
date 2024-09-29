@@ -1,6 +1,8 @@
 extends Node2D
 class_name World
 
+@onready var control: Control = %Control
+
 @onready var chat_overlay: ChatOverlay = %Chat
 @onready var sound_blaster: AudioStreamPlayer = $SoundBlaster
 @onready var alertbox: AlertBox = %AlertBox
@@ -15,12 +17,10 @@ func _ready() -> void:
 	Bot.setup()
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("plushie"):
-		Bot.random_plushie()
-	if Input.is_action_just_pressed("basketball"):
-		Bot.basketball(false)
-	if Input.is_action_just_pressed("tournament"):
-		Bot.basketball(true)
+	if Input.is_action_just_pressed("tool wheel"):
+		var tool_wheel := preload("res://tool_wheel/tool_wheel.tscn").instantiate()
+		tool_wheel.global_position = get_global_mouse_position()
+		add_child(tool_wheel)
 
 	var mouse := get_global_mouse_position()
 	if Input.is_action_just_pressed("follow"):

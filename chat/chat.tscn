@@ -11,8 +11,3 @@ script = ExtResource("1_ccypp")
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
-
-[node name="Send" type="LineEdit" parent="."]
-layout_mode = 2
-
-[connection signal="text_submitted" from="Send" to="." method="_on_send_text_submitted"]

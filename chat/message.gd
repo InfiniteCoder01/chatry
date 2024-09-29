@@ -7,6 +7,7 @@ func _init(message: GMessageData) -> void:
 	data = message
 	fit_content = true
 	selection_enabled = true
+	context_menu_enabled = true
 
 	#for badge: GBadge in message.badges:
 		#pass

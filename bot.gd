@@ -262,8 +262,8 @@ func random_plushie() -> Plushie:
 	return plushie_instance
 
 func basketball(tournament: bool) -> void:
-	var old := world.get_node("Court")
-	if old: world.remove_child(old)
+	if world.has_node(^"Court"):
+		world.get_node(^"Court").queue_free()
 	
 	var court: Court = preload("res://world/basketball/court.tscn").instantiate()
 	court.basketball(tournament)
