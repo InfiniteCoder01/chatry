@@ -29,7 +29,6 @@ new_subscription = false
 gift_subscription = false
 resubscription = false
 cheer = false
-points_custom_reward_redeem = false
 points_auto_reward_redeem = false
 unique_name_in_owner = true
 
@@ -38,6 +37,7 @@ connect_on_ready = false
 user_token_file = ".bot_user_token.env"
 refresh_token_file = ".bot_refresh_token.env"
 cheer = false
+points_custom_reward_redeem = false
 points_auto_reward_redeem = false
 ad_break_begin = false
 unique_name_in_owner = true

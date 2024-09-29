@@ -22,7 +22,7 @@ driver/enable_input=true
 
 [autoload]
 
-Bot="*res://bot/bot.gd"
+Bot="*res://bot.gd"
 
 [debug]
 

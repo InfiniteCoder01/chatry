@@ -24,7 +24,7 @@ func _init(message: GMessageData) -> void:
 					var img := Image.new()
 					img.load(emote_path)
 					add_image(ImageTexture.create_from_image(img))
-		elif fragment.kind == "mention": append_text("[b][color=blue]%s[/b][/b]" % fragment.text)
+		elif fragment.kind == "mention": append_text("[b][color=green]%s[/color][/b]" % fragment.text)
 
 func _ready() -> void:
 	await get_tree().create_timer(20.0).timeout

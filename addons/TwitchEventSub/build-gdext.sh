@@ -1,4 +1,4 @@
-pushd TwitchEventSub-rs/TwitchEventSub-Godot/
+pushd TwitchEventSub-rs/twitcheventsub-godot/
 cargo build --release
 popd
-cp TwitchEventSub-rs/TwitchEventSub-Godot/target/release/libtwitchevents_godot.so .
+cp TwitchEventSub-rs/target/release/libtwitcheventsub_godot.so .
