@@ -38,7 +38,7 @@ func basketball_tournament() -> void:
 	Bot.basketball(true)
 	
 func cancel_current_game() -> void:
-	Bot.world.remove_child(Bot.world.get_node("Court"))
+	Bot.world.get_node("Court").queue_free()
 
 func extend_current_game() -> void:
 	var court: Court = Bot.world.get_node("Court")

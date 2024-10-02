@@ -27,26 +27,25 @@ static func cache(url: String, ext: String) -> String:
 	return file_path
 
 static func monitor_ads() -> void:
-	pass # TODO!
-	#while true:
-		#var ad_scedule := await TwitchService.api.get_ad_schedule()
-		#if ad_scedule.data.size() < 1 || !ad_scedule.data[0].next_ad_at:
-			#await Bot.world.get_tree().create_timer(20.0).timeout
-			#continue
-#
-		#var next_ad_in := ad_scedule.data[0].next_ad_at as float - Time.get_unix_time_from_system()
-		#if next_ad_in > 60.0 * 3.0:
-			#await Bot.world.get_tree().create_timer(next_ad_in - 60.0 * 3.0).timeout
-			#Bot.chat.chat("Ad break is coming in 3 minutes!")
-#
-			#ad_scedule = await TwitchService.api.get_ad_schedule()
-			#if ad_scedule.data.size() < 1 || !ad_scedule.data[0].next_ad_at:
-				#await Bot.world.get_tree().create_timer(20.0).timeout
-				#continue
-			#next_ad_in = ad_scedule.data[0].next_ad_at as float - Time.get_unix_time_from_system()
-#
-		#if next_ad_in > 60.0:
-			#await Bot.world.get_tree().create_timer(next_ad_in - 60.0).timeout
-			#Bot.chat.chat("Ad break is coming in 1 minute!")
-#
-		#await Bot.world.get_tree().create_timer(5 * 60.0).timeout
+	while true:
+		var ad_scedule := Bot.twitch_broadcaster.get_ad_schedule()
+		if ad_scedule.size() < 1 || !ad_scedule[0].next_ad_at:
+			await Bot.world.get_tree().create_timer(20.0).timeout
+			continue
+
+		var next_ad_in := ad_scedule[0].next_ad_at as float - Time.get_unix_time_from_system()
+		if next_ad_in > 60.0 * 3.0:
+			await Bot.world.get_tree().create_timer(next_ad_in - 60.0 * 3.0).timeout
+			Bot.twitch_bot.send_chat_message("Ad break is coming in 3 minutes!")
+
+			ad_scedule = Bot.twitch_broadcaster.get_ad_schedule()
+			if ad_scedule.size() < 1 || !ad_scedule[0].next_ad_at:
+				await Bot.world.get_tree().create_timer(20.0).timeout
+				continue
+			next_ad_in = ad_scedule[0].next_ad_at as float - Time.get_unix_time_from_system()
+
+		if next_ad_in > 60.0:
+			await Bot.world.get_tree().create_timer(next_ad_in - 60.0).timeout
+			Bot.twitch_bot.send_chat_message("Ad break is coming in 1 minute!")
+
+		await Bot.world.get_tree().create_timer(5 * 60.0).timeout
