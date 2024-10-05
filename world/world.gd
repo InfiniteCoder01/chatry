@@ -3,7 +3,7 @@ class_name World
 
 @onready var control: Control = %Control
 
-@onready var chat_overlay: ChatOverlay = %Chat
+@onready var chat_overlay: 	ChatOverlay = %Chat
 @onready var sound_blaster: AudioStreamPlayer = $SoundBlaster
 @onready var alertbox: AlertBox = %AlertBox
 
