@@ -1,4 +1,3 @@
 pushd TwitchEventSub-rs/twitcheventsub-godot/
-cargo build --release
+cargo build --release && cp ../target/release/libtwitcheventsub_godot.so ../../
 popd
-cp TwitchEventSub-rs/target/release/libtwitcheventsub_godot.so .

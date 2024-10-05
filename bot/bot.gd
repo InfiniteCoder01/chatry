@@ -14,6 +14,7 @@ var qotd: String
 var admins := PackedStringArray()
 var simple_commands := {}
 var redeem_sounds := {}
+var rewards := {}
 
 func strip_special_characters(args: String) -> String:
 	var regex := RegEx.new()
@@ -37,8 +38,9 @@ func setup() -> void:
 	twitch_bot.connect_api()
 	
 	twitch_bot.on_chat_message.connect(_on_chat_message)
+	twitch_bot.on_message_deleted.connect(_on_message_deleted)
 	twitch_bot.on_follow.connect(_on_follow)
-	twitch_bot.on_raid.connect(_on_raid)
+	twitch_broadcaster.on_raid.connect(_on_raid)
 	twitch_bot.on_new_subscription.connect(_on_new_subscription)
 	twitch_bot.on_resubscription.connect(_on_resubscription)
 	twitch_bot.on_subscription_gift.connect(_on_subscription_gift)
@@ -90,24 +92,29 @@ func setup() -> void:
 	else:
 		print("Plushie directory not found!")
 	
+	# Load redeems
+	for reward: GGetCustomReward in twitch_broadcaster.get_custom_rewards():
+		rewards[reward.id] = reward
+	
 	Twitch.monitor_ads()
 #
-#func _on_eventsub_message(type: String, data: Dictionary) -> void:
-	#log_message("Event '%s': %s" % [type, data])
-	#for message: ChatMessageLabel in world.chat_overlay.get_child(0).get_children():
-		#if message.message.id == data.message_id:
-			#message.queue_free()
+func _on_message_deleted(message_deleted: GMessageDeleted) -> void:
+	for message: ChatMessageLabel in world.chat_overlay.get_child(0).get_children():
+		if message.data.message_id == message_deleted.message_id:
+			message.queue_free()
 
 func _on_follow(follow: GFollowData) -> void:
 	world.alertbox.play("follow", "[b][color=red]%s[/color][/b] joined the community! Thank you!" % follow.user.name)
 
 func _on_raid(raid: GRaid) -> void:
+	print("Ha?!")
 	world.alertbox.play(
 		"raid",
 		"[b][color=red]%s[/color][/b] is raiding with [b][color=blue]%d[/color][/b] viewers!"
 		% [raid.from_broadcaster.name, raid.viewers]
 	)
-	#twitch_bot.send_chat_message("/shoutout %s" % raid.from_broadcaster.login)
+
+	twitch_bot.send_shoutout(raid.from_broadcaster.id)
 	await get_tree().create_timer(3.0).timeout
 	var plushie_id := find_plushie(raid.from_broadcaster.name)
 	if !plushie_id.is_empty():
@@ -136,25 +143,27 @@ func _on_redeem(redeem: GCustomRewardRedeem) -> void:
 			world.sound_blaster.stream = load(redeem_sounds[title_id])
 			world.sound_blaster.play()
 			return
-	#var image: String = redeem.reward.image_url
-	#var sprite_frames := SpriteFrames.new()
-	#sprite_frames.set_animation_speed("default", 1.0 / 8.0)
-	#sprite_frames.add_frame("default", ImageTexture.create_from_image(Image.load_from_file(await Twitch.cache(image))))
-				#world.alertbox.play_raw(
-		#sprite_frames,
-		#preload("res://assets/alerts/redeem.wav"),
-		#(
-			#"[b][color=red]%s[/color][/b]" +
-			#" redeemed [b][color=blue]%s[/color][/b]" +
-			#" for [b][color=blue]%d[/color][/b] strings.\n%s"
-		#) % [
-			#data.user_name,
-			#reward_info.title,
-			#reward_info.cost,
-			#data.user_input
-		#],
-		#3.0
-	#)
+	var image_url: String = rewards[redeem.reward.id].image.url_4x
+	var image := ImageTexture.create_from_image(Image.load_from_file(await Twitch.cache(image_url, ".png")))
+	var sprite_frames := SpriteFrames.new()
+	sprite_frames.add_animation("gif")
+	sprite_frames.set_animation_speed("gif", 1.0 / 8.0)
+	sprite_frames.add_frame("gif", image)
+	world.alertbox.play_raw(
+		sprite_frames,
+		preload("res://assets/alerts/redeem.wav"),
+		(
+			"[b][color=red]%s[/color][/b]" +
+			" redeemed [b][color=blue]%s[/color][/b]" +
+			" for [b][color=blue]%d[/color][/b] strings.\n%s"
+		) % [
+			redeem.user.name,
+			redeem.reward.title,
+			redeem.reward.cost,
+			redeem.user_input
+		],
+		3.0
+	)
 
 func _on_ad_break_begin(ad_break: GAdBreakBegin) -> void:
 	twitch_bot.send_chat_message("%d second AD has started!" % ad_break.duration_seconds)

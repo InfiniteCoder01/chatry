@@ -8,8 +8,6 @@ extends Control
 var alerts := {}
 
 func _ready() -> void:
-	pass # TODO!!!
-
 	var alerts_dir := DirAccess.open("res://assets/alerts")
 	if alerts_dir:
 		alerts_dir.list_dir_begin()
@@ -37,7 +35,7 @@ func play_raw(sprite_frames: SpriteFrames, sound: AudioStream, message: String, 
 	
 	audio.stream = sound
 
-	var alert_size := sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size() * sprite.scale
+	var alert_size := sprite_frames.get_frame_texture("gif", sprite.frame).get_size() * sprite.scale
 	label.position.y = alert_size.y
 	label.size.x = alert_size.x
 	label.text = "[center]%s[/center]" % message
