@@ -13,7 +13,7 @@ func _on_area_2d_body_entered(body: RigidBody2D) -> void:
 		score += 1
 		label.text = "[center]Score: %d[/center]" % score
 		timeout = get_tree().create_timer(2.0)
-		aduio_player.stream = preload("res://world/basketball/score.wav")
+		aduio_player.stream = preload("res://world/plushieball/score.wav")
 		aduio_player.play()
 		await get_tree().create_timer(1.0).timeout
 		var plushie: Plushie = body.get_parent().get_parent()

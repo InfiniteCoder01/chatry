@@ -186,6 +186,7 @@ modification_stack = SubResource("SkeletonModificationStack2D_r5eba")
 [node name="Bone-0" type="Bone2D" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/LiveBrick/Skeleton2D"]
 position = Vector2(44.0146, 31.2004)
 rotation = 0.105569
+scale = Vector2(1, 1)
 rest = Transform2D(0.994433, 0.105373, -0.105373, 0.994433, 44.0146, 31.2004)
 auto_calculate_length_and_angle = false
 length = 100.0
@@ -264,7 +265,6 @@ metadata/_local_pose_override_enabled_ = true
 [node name="Bone-6" type="Bone2D" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/LiveBrick/Skeleton2D"]
 position = Vector2(245, 62.5)
 rotation = 2.87534
-scale = Vector2(1, 1)
 rest = Transform2D(-0.964764, 0.263117, -0.263117, -0.964764, 245, 62.5)
 auto_calculate_length_and_angle = false
 length = 100.0

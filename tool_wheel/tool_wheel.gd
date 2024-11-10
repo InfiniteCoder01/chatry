@@ -31,11 +31,11 @@ func get_all_children() -> Array[ToolWheelButton]:
 func random_plushie() -> void:
 	Bot.random_plushie()
 
-func basketball() -> void:
-	Bot.basketball(false)
+func plushieball() -> void:
+	Bot.plushieball(false)
 
-func basketball_tournament() -> void:
-	Bot.basketball(true)
+func plushieball_tournament() -> void:
+	Bot.plushieball(true)
 	
 func cancel_current_game() -> void:
 	Bot.world.get_node("Court").queue_free()

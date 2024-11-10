@@ -38,7 +38,7 @@ offset_top = -18.0
 offset_right = 207.0
 offset_bottom = 18.0
 theme = SubResource("Theme_qo6qr")
-text = "Basketball
+text = "Plushieball
 "
 flat = true
 script = ExtResource("2_2utwo")
@@ -78,7 +78,7 @@ script = ExtResource("2_2utwo")
 
 [connection signal="activated" from="RandomPlushie" to="." method="random_plushie"]
 [connection signal="activated" from="SendMessage" to="." method="send_message"]
-[connection signal="activated" from="Games/Basketball" to="." method="basketball"]
-[connection signal="activated" from="Games/Tournament" to="." method="basketball_tournament"]
+[connection signal="activated" from="Games/Basketball" to="." method="plushieball"]
+[connection signal="activated" from="Games/Tournament" to="." method="plushieball_tournament"]
 [connection signal="activated" from="GameManagement/CancelGame" to="." method="cancel_current_game"]
 [connection signal="activated" from="GameManagement/ExtendGame" to="." method="extend_current_game"]

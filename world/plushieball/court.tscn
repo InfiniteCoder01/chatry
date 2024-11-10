@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://br0iya2blfq5h"]
 
-[ext_resource type="Script" path="res://world/basketball/court.gd" id="1_vhfhr"]
+[ext_resource type="Script" path="res://world/plushieball/court.gd" id="1_vhfhr"]
 
 [node name="Court" type="Node2D"]
 script = ExtResource("1_vhfhr")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kr4j71vwjb5e"
-path="res://.godot/imported/hoop.png-a84230cc35d8a6f0e37201e535d80a5f.ctex"
+uid="uid://7xkeaxv0xvb7"
+path="res://.godot/imported/image.png-1ac3446905210326a310918224ad513f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://world/basketball/hoop.png"
-dest_files=["res://.godot/imported/hoop.png-a84230cc35d8a6f0e37201e535d80a5f.ctex"]
+source_file="res://assets/plushies/Bitcoin/image.png"
+dest_files=["res://.godot/imported/image.png-1ac3446905210326a310918224ad513f.ctex"]
 
 [params]
 

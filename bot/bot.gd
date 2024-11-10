@@ -136,8 +136,8 @@ func _on_subscription_gift(sub: GGift) -> void		:
 
 func _on_redeem(redeem: GCustomRewardRedeem) -> void:
 	var title_id := strip_special_characters(redeem.reward.title).to_lower()
-	if title_id == "basketball":
-		basketball(false)
+	if title_id == "plushieball":
+		plushieball(false)
 	else:	
 		if redeem_sounds.has(title_id):
 			world.sound_blaster.stream = load(redeem_sounds[title_id])
@@ -270,10 +270,10 @@ func random_plushie() -> Plushie:
 	world.get_node(^"Plushies").add_child(plushie_instance)
 	return plushie_instance
 
-func basketball(tournament: bool) -> void:
+func plushieball(tournament: bool) -> void:
 	if world.has_node(^"Court"):
 		world.get_node(^"Court").queue_free()
 	
-	var court: Court = preload("res://world/basketball/court.tscn").instantiate()
-	court.basketball(tournament)
+	var court: Court = preload("res://world/plushieball/court.tscn").instantiate()
+	court.plushieball(tournament)
 	world.add_child(court)

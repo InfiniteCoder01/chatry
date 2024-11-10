@@ -3,8 +3,8 @@ class_name Court
 
 enum Game {
 	None,
-	Basketball,
-	BasketballTournament,
+	Plushieball,
+	PlushieballTournament,
 }
 
 @onready var timer_label: RichTextLabel = %Timer
@@ -16,11 +16,11 @@ func _ready() -> void:
 	timer = get_tree().create_timer(120.0)
 	await timer.timeout
 
-	if game == Game.Basketball:
+	if game == Game.Plushieball:
 		var hoop: Hoop = get_node(^"Hoop")
 		timer_label.text = "[center]You scored %d[/center]" % hoop.score
 		remove_node(hoop)
-	if game == Game.BasketballTournament:
+	if game == Game.PlushieballTournament:
 		game = Game.None
 		var hoop1: Hoop = get_node(^"Hoop1")
 		var hoop2: Hoop = get_node(^"Hoop2")
@@ -43,9 +43,9 @@ func _process(_delta: float) -> void:
 	if game != Game.None:
 		timer_label.text = "[center]%02d:%02d[/center]" % [int(timer.time_left / 60), int(timer.time_left) % 60]
 
-func basketball(tournament: bool) -> void:
+func plushieball(tournament: bool) -> void:
 	var make_hoop := func make_hoop(hoop_position: Vector2, hoop_name: String) -> void:
-		var hoop := preload("res://world/basketball/hoop.tscn").instantiate()
+		var hoop := preload("res://world/plushieball/hoop.tscn").instantiate()
 		hoop.name = hoop_name
 		add_child(hoop)
 		positions[hoop.get_index()] = hoop_position
@@ -53,7 +53,7 @@ func basketball(tournament: bool) -> void:
 	if tournament:
 		make_hoop.call(Vector2(0.1, 0.5), "Hoop1")
 		make_hoop.call(Vector2(0.9, 0.5), "Hoop2")
-		game = Game.BasketballTournament
+		game = Game.PlushieballTournament
 	else:
 		make_hoop.call(Vector2(0.9, 0.5), "Hoop")
-		game = Game.Basketball
+		game = Game.Plushieball

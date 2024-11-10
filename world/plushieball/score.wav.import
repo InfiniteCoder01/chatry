@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://e1v807miigme"
-path="res://.godot/imported/score.wav-67ba229b6975cb53a8deed8c9624063d.sample"
+path="res://.godot/imported/score.wav-0718180eb5124631688d814fdf5cad9a.sample"
 
 [deps]
 
-source_file="res://world/basketball/score.wav"
-dest_files=["res://.godot/imported/score.wav-67ba229b6975cb53a8deed8c9624063d.sample"]
+source_file="res://world/plushieball/score.wav"
+dest_files=["res://.godot/imported/score.wav-0718180eb5124631688d814fdf5cad9a.sample"]
 
 [params]
 
