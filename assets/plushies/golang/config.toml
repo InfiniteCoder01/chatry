@@ -1,2 +1,2 @@
-aliases = ["gopher", "go"]
+aliases = ["gopher", "go", "nolang"]
 groups = ["languages"]

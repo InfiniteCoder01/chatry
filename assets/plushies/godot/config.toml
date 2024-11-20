@@ -1,1 +1,2 @@
-groups = ["Game Engines"]
+aliases = ["gdscript", "gd"]
+groups = ["Game Engines", "languages"]

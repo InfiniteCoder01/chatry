@@ -1,6 +1,6 @@
 broadcaster_user_id = "710224102"
 admins = ["InfiniteCoder01", "CodersChatry"]
-qotd = "The question of the day is: Code or an editor for UI? Markup or Imperative?"
+qotd = "WASM or .NET???"
 
 notification_format = "I am live right now on https://twitch.tv/infinitecoder01/ and https://youtube.com/@InfiniteCoder02\n{title}\n[Message will be deleted after stream ends]"
 
