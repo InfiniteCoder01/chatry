@@ -1,4 +1,0 @@
-[00:00:00.000] (7f0340493b40) INFO   Found user access token!
-[00:00:00.000] (7f0340493b40) INFO   Found refresh token!
-[00:00:00.000] (7f0340493b40) INFO   Running curl command with:
-[00:00:00.000] (7f0340493b40) INFO       url: https://id.twitch.tv/oauth2/validate

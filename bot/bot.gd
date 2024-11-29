@@ -34,16 +34,16 @@ func log_message(message: String) -> void:
 		#log_file.close()
 
 func setup() -> void:
-	twitch_broadcaster.connect_api()	
+	twitch_broadcaster.connect_api()
 	twitch_bot.connect_api()
 	
 	twitch_bot.on_chat_message.connect(_on_chat_message)
 	twitch_bot.on_message_deleted.connect(_on_message_deleted)
 	twitch_bot.on_follow.connect(_on_follow)
 	twitch_broadcaster.on_raid.connect(_on_raid)
-	twitch_bot.on_new_subscription.connect(_on_new_subscription)
-	twitch_bot.on_resubscription.connect(_on_resubscription)
-	twitch_bot.on_subscription_gift.connect(_on_subscription_gift)
+	twitch_broadcaster.on_new_subscription.connect(_on_new_subscription)
+	twitch_broadcaster.on_resubscription.connect(_on_resubscription)
+	twitch_broadcaster.on_subscription_gift.connect(_on_subscription_gift)
 	twitch_broadcaster.on_custom_point_reward_redeem.connect(_on_redeem)
 	twitch_broadcaster.on_ad_break_start.connect(_on_ad_break_begin)
 	
@@ -107,7 +107,6 @@ func _on_follow(follow: GFollowData) -> void:
 	world.alertbox.play("follow", "[b][color=red]%s[/color][/b] joined the community! Thank you!" % follow.user.name)
 
 func _on_raid(raid: GRaid) -> void:
-	print("Ha?!")
 	world.alertbox.play(
 		"raid",
 		"[b][color=red]%s[/color][/b] is raiding with [b][color=blue]%d[/color][/b] viewers!"
@@ -172,7 +171,7 @@ func _on_ad_break_begin(ad_break: GAdBreakBegin) -> void:
 
 func _on_chat_message(message: GMessageData) -> void:
 	world.chat_overlay.add_message(message)
-	if message.message.text[0] == '!':		
+	if message.message.text[0] == '!':
 		var raw_args: PackedStringArray = message.message.text.substr(1).split(' ', true, 1)
 		var command: String = raw_args[0]
 		var args: String = "" if raw_args.size() < 2 else raw_args[1]

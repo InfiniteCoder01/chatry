@@ -1,61 +1,48 @@
-[00:00:00.963] (7f3e8f0fdb40) INFO   Found user access token!
-[00:00:00.963] (7f3e8f0fdb40) INFO   Found refresh token!
-[00:00:00.963] (7f3e8f0fdb40) INFO   Running curl command with:
-[00:00:00.963] (7f3e8f0fdb40) INFO       url: https://id.twitch.tv/oauth2/validate
-[00:00:01.758] (7f3e8f0fdb40) INFO   Running curl command with:
-[00:00:01.758] (7f3e8f0fdb40) INFO       url: https://api.twitch.tv/helix/users
-[00:00:02.077] (7f3e8f0fdb40) INFO   Starting websocket client.
-[00:00:02.274] (7f3e8f0fdb40) INFO   Found user access token!
-[00:00:02.274] (7f3e8f0fdb40) INFO   Found refresh token!
-[00:00:02.274] (7f3e8f0fdb40) INFO   Running curl command with:
-[00:00:02.274] (7f3e8f0fdb40) INFO       url: https://id.twitch.tv/oauth2/validate
-[00:00:02.281] (7f3e5b7fe6c0) INFO   EventSub: ping recieved
-[00:00:02.282] (7f3e5b7fe6c0) INFO   EventSub: Welcome message!
-[00:00:02.282] (7f3e5b7fe6c0) INFO   EventSub: Subscribing to events!
-[00:00:02.282] (7f3e5b7fe6c0) INFO   Running curl command with:
-[00:00:02.282] (7f3e5b7fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:03.053] (7f3e5b7fe6c0) INFO   Running curl command with:
-[00:00:03.053] (7f3e5b7fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:03.094] (7f3e8f0fdb40) INFO   Running curl command with:
-[00:00:03.094] (7f3e8f0fdb40) INFO       url: https://api.twitch.tv/helix/users
-[00:00:03.395] (7f3e5b7fe6c0) INFO   Running curl command with:
-[00:00:03.395] (7f3e5b7fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:04.872] (7f3e8f0fdb40) INFO   Starting websocket client.
-[00:00:05.094] (7f3e5a7fc6c0) INFO   EventSub: ping recieved
-[00:00:05.096] (7f3e8f0fdb40) INFO   Running curl command with:
-[00:00:05.096] (7f3e8f0fdb40) INFO       url: https://api.twitch.tv/helix/channel_points/custom_rewards?&broadcaster_id=710224102
-[00:00:05.099] (7f3e5a7fc6c0) INFO   EventSub: Welcome message!
-[00:00:05.099] (7f3e5a7fc6c0) INFO   EventSub: Subscribing to events!
-[00:00:05.099] (7f3e5a7fc6c0) INFO   Running curl command with:
-[00:00:05.099] (7f3e5a7fc6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:05.458] (7f3e8f0fdb40) INFO   Running curl command with:
-[00:00:05.458] (7f3e8f0fdb40) INFO       url: https://api.twitch.tv/helix/channels/ads?&broadcaster_id=710224102
-[00:00:05.596] (7f3e5a7fc6c0) INFO   Running curl command with:
-[00:00:05.597] (7f3e5a7fc6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:10.366] (7f3e8f0fdb40) INFO   Running curl command with:
-[00:00:10.367] (7f3e8f0fdb40) INFO       url: https://api.twitch.tv/helix/chat/messages
-[00:00:10.916] (7f3e5a7fc6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
-[00:00:10.920] (7f3e5a7fc6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
-[00:00:10.920] (7f3e5a7fc6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
-[00:00:10.920] (7f3e5a7fc6c0) INFO   Running curl command with:
-[00:00:10.920] (7f3e5a7fc6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:11.268] (7f3e5a7fc6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
-[00:00:11.270] (7f3e5a7fc6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
-[00:00:11.270] (7f3e5a7fc6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
-[00:00:11.270] (7f3e5a7fc6c0) INFO   Running curl command with:
-[00:00:11.270] (7f3e5a7fc6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:11.579] (7f3e5a7fc6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
-[00:00:11.583] (7f3e5a7fc6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
-[00:00:11.583] (7f3e5a7fc6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
-[00:00:11.583] (7f3e5a7fc6c0) INFO   Running curl command with:
-[00:00:11.583] (7f3e5a7fc6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:11.891] (7f3e5a7fc6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 400, message: unknown validation error: Key: 'SubscriptionCondition.broadcaster_user_id' Error:Field validation for 'broadcaster_user_id' failed on the 'required' tag
-Key: 'SubscriptionCondition.moderator_user_id' Error:Field validation for 'moderator_user_id' failed on the 'required' tag
-[00:00:11.893] (7f3e5a7fc6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 400, message: unknown validation error: Key: 'SubscriptionCondition.broadcaster_user_id' Error:Field validation for 'broadcaster_user_id' failed on the 'required' tag\nKey: 'SubscriptionCondition.moderator_user_id' Error:Field validation for 'moderator_user_id' failed on the 'required' tag"))
-[00:00:11.893] (7f3e5a7fc6c0) ERROR  EventSub: InvalidOauthToken("status: 400, message: unknown validation error: Key: 'SubscriptionCondition.broadcaster_user_id' Error:Field validation for 'broadcaster_user_id' failed on the 'required' tag\nKey: 'SubscriptionCondition.moderator_user_id' Error:Field validation for 'moderator_user_id' failed on the 'required' tag")
-[00:00:11.893] (7f3e5a7fc6c0) INFO   Running curl command with:
-[00:00:11.893] (7f3e5a7fc6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:12.738] (7f3e5a7fc6c0) INFO   Running curl command with:
-[00:00:12.738] (7f3e5a7fc6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:25.206] (7f3e8f0fdb40) INFO   Running curl command with:
-[00:00:25.207] (7f3e8f0fdb40) INFO       url: https://api.twitch.tv/helix/chat/messages
+[00:00:01.403] (7fbb3b961b40) INFO   Found user access token!
+[00:00:01.403] (7fbb3b961b40) INFO   Found refresh token!
+[00:00:01.403] (7fbb3b961b40) INFO   Running curl command with:
+[00:00:01.403] (7fbb3b961b40) INFO       url: https://id.twitch.tv/oauth2/validate
+[00:00:02.197] (7fbb3b961b40) INFO   Running curl command with:
+[00:00:02.197] (7fbb3b961b40) INFO       url: https://api.twitch.tv/helix/users
+[00:00:02.503] (7fbb3b961b40) INFO   Starting websocket client.
+[00:00:02.733] (7fbb3b961b40) INFO   Found user access token!
+[00:00:02.733] (7fbb3b961b40) INFO   Found refresh token!
+[00:00:02.733] (7fbb3b961b40) INFO   Running curl command with:
+[00:00:02.733] (7fbb3b961b40) INFO       url: https://id.twitch.tv/oauth2/validate
+[00:00:02.736] (7fbb18bfe6c0) INFO   EventSub: ping recieved
+[00:00:02.737] (7fbb18bfe6c0) INFO   EventSub: Welcome message!
+[00:00:02.737] (7fbb18bfe6c0) INFO   EventSub: Subscribing to events!
+[00:00:02.737] (7fbb18bfe6c0) INFO   Running curl command with:
+[00:00:02.737] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:03.227] (7fbb18bfe6c0) INFO   Running curl command with:
+[00:00:03.227] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:03.532] (7fbb3b961b40) INFO   Running curl command with:
+[00:00:03.532] (7fbb3b961b40) INFO       url: https://api.twitch.tv/helix/users
+[00:00:03.545] (7fbb18bfe6c0) INFO   Running curl command with:
+[00:00:03.545] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:03.838] (7fbb3b961b40) INFO   Starting websocket client.
+[00:00:03.880] (7fbb18bfe6c0) INFO   Running curl command with:
+[00:00:03.880] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:03.986] (7fbafffff6c0) INFO   EventSub: ping recieved
+[00:00:03.986] (7fbafffff6c0) INFO   EventSub: Welcome message!
+[00:00:03.986] (7fbafffff6c0) INFO   EventSub: Subscribing to events!
+[00:00:03.986] (7fbafffff6c0) INFO   Running curl command with:
+[00:00:03.986] (7fbafffff6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:03.995] (7fbb3b961b40) INFO   Running curl command with:
+[00:00:03.995] (7fbb3b961b40) INFO       url: https://api.twitch.tv/helix/channel_points/custom_rewards?&broadcaster_id=710224102
+[00:00:04.206] (7fbb18bfe6c0) INFO   Running curl command with:
+[00:00:04.206] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:04.308] (7fbb3b961b40) INFO   Running curl command with:
+[00:00:04.308] (7fbb3b961b40) INFO       url: https://api.twitch.tv/helix/channels/ads?&broadcaster_id=710224102
+[00:00:04.472] (7fbafffff6c0) INFO   Running curl command with:
+[00:00:04.472] (7fbafffff6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:04.711] (7fbb18bfe6c0) INFO   Running curl command with:
+[00:00:04.711] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:04.851] (7fbafffff6c0) INFO   Running curl command with:
+[00:00:04.851] (7fbafffff6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:05.031] (7fbb18bfe6c0) INFO   Running curl command with:
+[00:00:05.031] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:15.163] (7fbb3b961b40) INFO   Running curl command with:
+[00:00:15.163] (7fbb3b961b40) INFO       url: https://api.twitch.tv/helix/chat/messages
+[00:00:45.562] (7fbb18bfe6c0) INFO   EventSub: Keep alive: 30
+[00:00:45.568] (7fbafffff6c0) INFO   EventSub: Keep alive: 30
