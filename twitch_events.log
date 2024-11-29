@@ -1,48 +1,222 @@
-[00:00:01.403] (7fbb3b961b40) INFO   Found user access token!
-[00:00:01.403] (7fbb3b961b40) INFO   Found refresh token!
-[00:00:01.403] (7fbb3b961b40) INFO   Running curl command with:
-[00:00:01.403] (7fbb3b961b40) INFO       url: https://id.twitch.tv/oauth2/validate
-[00:00:02.197] (7fbb3b961b40) INFO   Running curl command with:
-[00:00:02.197] (7fbb3b961b40) INFO       url: https://api.twitch.tv/helix/users
-[00:00:02.503] (7fbb3b961b40) INFO   Starting websocket client.
-[00:00:02.733] (7fbb3b961b40) INFO   Found user access token!
-[00:00:02.733] (7fbb3b961b40) INFO   Found refresh token!
-[00:00:02.733] (7fbb3b961b40) INFO   Running curl command with:
-[00:00:02.733] (7fbb3b961b40) INFO       url: https://id.twitch.tv/oauth2/validate
-[00:00:02.736] (7fbb18bfe6c0) INFO   EventSub: ping recieved
-[00:00:02.737] (7fbb18bfe6c0) INFO   EventSub: Welcome message!
-[00:00:02.737] (7fbb18bfe6c0) INFO   EventSub: Subscribing to events!
-[00:00:02.737] (7fbb18bfe6c0) INFO   Running curl command with:
-[00:00:02.737] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:03.227] (7fbb18bfe6c0) INFO   Running curl command with:
-[00:00:03.227] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:03.532] (7fbb3b961b40) INFO   Running curl command with:
-[00:00:03.532] (7fbb3b961b40) INFO       url: https://api.twitch.tv/helix/users
-[00:00:03.545] (7fbb18bfe6c0) INFO   Running curl command with:
-[00:00:03.545] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:03.838] (7fbb3b961b40) INFO   Starting websocket client.
-[00:00:03.880] (7fbb18bfe6c0) INFO   Running curl command with:
-[00:00:03.880] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:03.986] (7fbafffff6c0) INFO   EventSub: ping recieved
-[00:00:03.986] (7fbafffff6c0) INFO   EventSub: Welcome message!
-[00:00:03.986] (7fbafffff6c0) INFO   EventSub: Subscribing to events!
-[00:00:03.986] (7fbafffff6c0) INFO   Running curl command with:
-[00:00:03.986] (7fbafffff6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:03.995] (7fbb3b961b40) INFO   Running curl command with:
-[00:00:03.995] (7fbb3b961b40) INFO       url: https://api.twitch.tv/helix/channel_points/custom_rewards?&broadcaster_id=710224102
-[00:00:04.206] (7fbb18bfe6c0) INFO   Running curl command with:
-[00:00:04.206] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:04.308] (7fbb3b961b40) INFO   Running curl command with:
-[00:00:04.308] (7fbb3b961b40) INFO       url: https://api.twitch.tv/helix/channels/ads?&broadcaster_id=710224102
-[00:00:04.472] (7fbafffff6c0) INFO   Running curl command with:
-[00:00:04.472] (7fbafffff6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:04.711] (7fbb18bfe6c0) INFO   Running curl command with:
-[00:00:04.711] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:04.851] (7fbafffff6c0) INFO   Running curl command with:
-[00:00:04.851] (7fbafffff6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:05.031] (7fbb18bfe6c0) INFO   Running curl command with:
-[00:00:05.031] (7fbb18bfe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
-[00:00:15.163] (7fbb3b961b40) INFO   Running curl command with:
-[00:00:15.163] (7fbb3b961b40) INFO       url: https://api.twitch.tv/helix/chat/messages
-[00:00:45.562] (7fbb18bfe6c0) INFO   EventSub: Keep alive: 30
-[00:00:45.568] (7fbafffff6c0) INFO   EventSub: Keep alive: 30
+[00:00:01.192] (7f68a6378b40) INFO   Found user access token!
+[00:00:01.192] (7f68a6378b40) INFO   Found refresh token!
+[00:00:01.192] (7f68a6378b40) INFO   Running curl command with:
+[00:00:01.192] (7f68a6378b40) INFO       url: https://id.twitch.tv/oauth2/validate
+[00:00:01.997] (7f68a6378b40) INFO   Starting websocket client.
+[00:00:02.182] (7f68a6378b40) INFO   Running curl command with:
+[00:00:02.182] (7f68a6378b40) INFO       url: https://api.twitch.tv/helix/users
+[00:00:02.185] (7f6884ffe6c0) INFO   EventSub: ping recieved
+[00:00:02.186] (7f6884ffe6c0) INFO   EventSub: Welcome message!
+[00:00:02.186] (7f6884ffe6c0) INFO   EventSub: Subscribing to events!
+[00:00:02.186] (7f6884ffe6c0) INFO   Running curl command with:
+[00:00:02.186] (7f6884ffe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:02.469] (7f68a6378b40) INFO   Found user access token!
+[00:00:02.469] (7f68a6378b40) INFO   Found refresh token!
+[00:00:02.469] (7f68a6378b40) INFO   Running curl command with:
+[00:00:02.469] (7f68a6378b40) INFO       url: https://id.twitch.tv/oauth2/validate
+[00:00:02.689] (7f6884ffe6c0) INFO   Running curl command with:
+[00:00:02.689] (7f6884ffe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:02.979] (7f6884ffe6c0) INFO   Running curl command with:
+[00:00:02.980] (7f6884ffe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:03.269] (7f68a6378b40) INFO   Starting websocket client.
+[00:00:03.317] (7f6884ffe6c0) INFO   Running curl command with:
+[00:00:03.317] (7f6884ffe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:03.441] (7f68a6378b40) INFO   Running curl command with:
+[00:00:03.441] (7f68a6378b40) INFO       url: https://api.twitch.tv/helix/users
+[00:00:03.446] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:00:03.446] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:00:03.446] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:00:03.446] (7f68797fe6c0) INFO   Running curl command with:
+[00:00:03.446] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:03.997] (7f68a6378b40) INFO   Running curl command with:
+[00:00:03.997] (7f68a6378b40) INFO       url: https://api.twitch.tv/helix/channel_points/custom_rewards?&broadcaster_id=710224102
+[00:00:04.087] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:00:04.091] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:00:04.091] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:00:04.301] (7f6884ffe6c0) INFO   Running curl command with:
+[00:00:04.301] (7f6884ffe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:04.304] (7f68a6378b40) INFO   Running curl command with:
+[00:00:04.304] (7f68a6378b40) INFO       url: https://api.twitch.tv/helix/channels/ads?&broadcaster_id=710224102
+[00:00:04.781] (7f6884ffe6c0) INFO   Running curl command with:
+[00:00:04.781] (7f6884ffe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:05.148] (7f6884ffe6c0) INFO   Running curl command with:
+[00:00:05.149] (7f6884ffe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:05.677] (7f6884ffe6c0) INFO   Running curl command with:
+[00:00:05.677] (7f6884ffe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:06.021] (7f6884ffe6c0) INFO   Running curl command with:
+[00:00:06.021] (7f6884ffe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:13.456] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:00:14.676] (7f68a6378b40) INFO   Running curl command with:
+[00:00:14.676] (7f68a6378b40) INFO       url: https://api.twitch.tv/helix/chat/messages
+[00:00:18.457] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:00:19.568] (7f68a6378b40) INFO   Running curl command with:
+[00:00:19.568] (7f68a6378b40) INFO       url: https://api.twitch.tv/helix/chat/messages
+[00:00:20.003] (7f68a6378b40) INFO   Running curl command with:
+[00:00:20.003] (7f68a6378b40) INFO       url: https://api.twitch.tv/helix/chat/messages
+[00:00:48.457] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:00:48.732] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:00:48.732] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:00:48.733] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:00:48.733] (7f68797fe6c0) INFO   Running curl command with:
+[00:00:48.733] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:00:49.063] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:00:49.071] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:00:49.072] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:00:58.740] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:01:02.187] (7f6884ffe6c0) INFO   EventSub: ping recieved
+[00:01:03.735] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:01:33.735] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:01:33.955] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:01:33.955] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:01:33.955] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:01:33.955] (7f68797fe6c0) INFO   Running curl command with:
+[00:01:33.956] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:01:34.237] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:01:34.240] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:01:34.240] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:01:43.963] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:01:48.964] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:02:02.187] (7f6884ffe6c0) INFO   EventSub: ping recieved
+[00:02:04.722] (7f6884ffe6c0) INFO   EventSub: Keep alive: 29
+[00:02:18.964] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:02:19.321] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:02:19.321] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:02:19.322] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:02:19.322] (7f68797fe6c0) INFO   Running curl command with:
+[00:02:19.322] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:02:19.711] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:02:19.716] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:02:19.716] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:02:29.329] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:02:34.331] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:03:02.186] (7f6884ffe6c0) INFO   EventSub: ping recieved
+[00:03:02.386] (7f6884ffe6c0) INFO   EventSub: Keep alive: 29
+[00:03:04.341] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:03:04.590] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:03:04.590] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:03:04.590] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:03:04.590] (7f68797fe6c0) INFO   Running curl command with:
+[00:03:04.590] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:03:04.990] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:03:04.997] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:03:04.997] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:03:14.596] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:03:19.598] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:03:32.386] (7f6884ffe6c0) INFO   EventSub: Keep alive: 29
+[00:03:49.598] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:03:49.944] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:03:49.944] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:03:49.944] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:03:49.944] (7f68797fe6c0) INFO   Running curl command with:
+[00:03:49.945] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:03:50.291] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:03:50.300] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:03:50.300] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:03:59.951] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:04:01.939] (7f68a6378b40) INFO   Running curl command with:
+[00:04:01.939] (7f68a6378b40) INFO       url: https://api.twitch.tv/helix/chat/shoutouts?&from_broadcaster_id=710224102&to_broadcaster_id=940800142&moderator_id=940800142
+[00:04:02.186] (7f6884ffe6c0) INFO   EventSub: ping recieved
+[00:04:02.312] (7f68a6378b40) ERROR  Token missing subscription: Subscription::ChannelShoutoutCreate
+[00:04:02.337] (7f68a6378b40) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(TokenMissingSubscription(ChannelShoutoutCreate))
+[00:04:04.950] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:04:31.929] (7f6884ffe6c0) INFO   EventSub: Keep alive: 29
+[00:04:34.951] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:04:35.260] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:04:35.260] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:04:35.260] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:04:35.260] (7f68797fe6c0) INFO   Running curl command with:
+[00:04:35.260] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:04:35.618] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:04:35.623] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:04:35.623] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:04:45.266] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:04:50.266] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:05:01.930] (7f6884ffe6c0) INFO   EventSub: Keep alive: 29
+[00:05:02.187] (7f6884ffe6c0) INFO   EventSub: ping recieved
+[00:05:20.266] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:05:20.441] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:05:20.442] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:05:20.442] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:05:20.442] (7f68797fe6c0) INFO   Running curl command with:
+[00:05:20.442] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:05:20.833] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:05:20.837] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:05:20.837] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:05:30.448] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:05:31.931] (7f6884ffe6c0) INFO   EventSub: Keep alive: 30
+[00:05:35.449] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:05:46.275] (7f68a6378b40) INFO   Running curl command with:
+[00:05:46.275] (7f68a6378b40) INFO       url: https://api.twitch.tv/helix/chat/messages
+[00:05:55.973] (7f68a6378b40) INFO   Running curl command with:
+[00:05:55.973] (7f68a6378b40) INFO       url: https://api.twitch.tv/helix/chat/messages
+[00:06:02.186] (7f6884ffe6c0) INFO   EventSub: ping recieved
+[00:06:05.450] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:06:05.694] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:06:05.694] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:06:05.694] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:06:05.694] (7f68797fe6c0) INFO   Running curl command with:
+[00:06:05.694] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:06:06.110] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:06:06.116] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:06:06.116] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:06:15.699] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:06:20.701] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:06:50.701] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:06:50.966] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:06:50.966] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:06:50.966] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:06:50.966] (7f68797fe6c0) INFO   Running curl command with:
+[00:06:50.966] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:06:51.304] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:06:51.308] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:06:51.308] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:07:00.970] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:07:02.187] (7f6884ffe6c0) INFO   EventSub: ping recieved
+[00:07:05.970] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:07:35.971] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:07:36.274] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:07:36.274] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:07:36.275] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:07:36.275] (7f68797fe6c0) INFO   Running curl command with:
+[00:07:36.275] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:07:36.630] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:07:36.635] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:07:36.635] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:07:46.279] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:07:51.280] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:08:02.186] (7f6884ffe6c0) INFO   EventSub: ping recieved
+[00:08:15.833] (7f6884ffe6c0) INFO   EventSub: Keep alive: 29
+[00:08:21.280] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:08:21.503] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:08:21.503] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:08:21.503] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:08:21.503] (7f68797fe6c0) INFO   Running curl command with:
+[00:08:21.503] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:08:21.852] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:08:21.855] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:08:21.855] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:08:31.512] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:08:36.513] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:09:02.188] (7f6884ffe6c0) INFO   EventSub: ping recieved
+[00:09:06.513] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:09:06.681] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:09:06.681] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:09:06.682] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:09:06.682] (7f68797fe6c0) INFO   Running curl command with:
+[00:09:06.682] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:09:06.979] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:09:06.982] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:09:06.982] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")
+[00:09:16.436] (7f6884ffe6c0) INFO   EventSub: Keep alive: 30
+[00:09:16.692] (7f68797fe6c0) WARN   EventSub: Close message received: Some(CloseFrame { code: Library(4003), reason: "connection unused" })
+[00:09:21.692] (7f68797fe6c0) ERROR  EventSub: Connected closed or already closed
+[00:09:46.433] (7f6884ffe6c0) INFO   EventSub: Keep alive: 29
+[00:09:51.692] (7f68797fe6c0) WARN   EventSub: Attempting reconnect.
+[00:09:51.882] (7f68797fe6c0) INFO   EventSub: ping recieved
+[00:09:51.882] (7f68797fe6c0) INFO   EventSub: Welcome message!
+[00:09:51.883] (7f68797fe6c0) INFO   EventSub: Subscribing to events!
+[00:09:51.883] (7f68797fe6c0) INFO   Running curl command with:
+[00:09:51.883] (7f68797fe6c0) INFO       url: https://api.twitch.tv/helix/eventsub/subscriptions
+[00:09:52.180] (7f68797fe6c0) ERROR  Unhandled error: https://api.twitch.tv/helix/eventsub/subscriptions, status: 403, message: subscription missing proper authorization
+[00:09:52.183] (7f68797fe6c0) WARN   regen 401 called with result being an error, but wasnt token refresh required: Err(InvalidOauthToken("status: 403, message: subscription missing proper authorization"))
+[00:09:52.183] (7f68797fe6c0) ERROR  EventSub: InvalidOauthToken("status: 403, message: subscription missing proper authorization")

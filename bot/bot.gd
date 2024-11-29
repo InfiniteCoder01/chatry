@@ -25,7 +25,7 @@ func log_message(message: String) -> void:
 	print_rich("[color=lightblue][b][LOG][/b] %s[/color]" % message)
 	#var log_file: FileAccess
 	#if FileAccess.file_exists("user://bot_log.log"):
-		#log_file = FileAccess.open("user://bot_log.log", FileAccess	.READ_WRITE)
+		#log_file = FileAccess.open("user://bot_log.log", FileAccess.READ_WRITE)
 	#else:
 		#log_file = FileAccess.open("user://bot_log.log", FileAccess.WRITE)
 	#if log_file:
@@ -34,18 +34,15 @@ func log_message(message: String) -> void:
 		#log_file.close()
 
 func setup() -> void:
-	twitch_broadcaster.connect_api()
-	twitch_bot.connect_api()
-	
-	twitch_bot.on_chat_message.connect(_on_chat_message)
-	twitch_bot.on_message_deleted.connect(_on_message_deleted)
-	twitch_bot.on_follow.connect(_on_follow)
-	twitch_broadcaster.on_raid.connect(_on_raid)
-	twitch_broadcaster.on_new_subscription.connect(_on_new_subscription)
-	twitch_broadcaster.on_resubscription.connect(_on_resubscription)
-	twitch_broadcaster.on_subscription_gift.connect(_on_subscription_gift)
-	twitch_broadcaster.on_custom_point_reward_redeem.connect(_on_redeem)
-	twitch_broadcaster.on_ad_break_start.connect(_on_ad_break_begin)
+	twitch_broadcaster.chat_message.connect(_on_chat_message)
+	twitch_broadcaster.message_deleted.connect(_on_message_deleted)
+	twitch_broadcaster.follow.connect(_on_follow)
+	twitch_broadcaster.raid.connect(_on_raid)
+	twitch_broadcaster.new_subscription.connect(_on_new_subscription)
+	twitch_broadcaster.resubscription.connect(_on_resubscription)
+	twitch_broadcaster.subscription_gift.connect(_on_subscription_gift)
+	twitch_broadcaster.custom_point_reward_redeem.connect(_on_redeem)
+	twitch_broadcaster.ad_break_start.connect(_on_ad_break_begin)
 	
 	var config_file := ConfigFile.new()
 	if config_file.load("res://config.toml") != OK:

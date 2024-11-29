@@ -87,25 +87,23 @@ script = ExtResource("1_ihesm")
 [node name="TwitchAPI" type="Node" parent="."]
 
 [node name="TwitchBroadcaster" type="TwitchEvent" parent="TwitchAPI"]
-connect_on_ready = false
-follow = false
-cheer = false
-points_auto_reward_redeem = false
+channel_cheer = false
+channel_points_auto_reward_redeem = false
+channel_message_deleted = true
 unique_name_in_owner = true
 
 [node name="TwitchBot" type="TwitchEvent" parent="TwitchAPI"]
-connect_on_ready = false
 user_token_file = ".bot_user_token.env"
 refresh_token_file = ".bot_refresh_token.env"
-raid = false
-new_subscription = false
-gift_subscription = false
-resubscription = false
-cheer = false
-points_custom_reward_redeem = false
-points_auto_reward_redeem = false
-moderator_deleted_message = true
-ad_break_begin = false
+channel_follow = false
+channel_raid = false
+channel_new_subscription = false
+channel_gift_subscription = false
+channel_resubscription = false
+channel_cheer = false
+channel_points_custom_reward_redeem = false
+channel_points_auto_reward_redeem = false
+channel_ad_break_begin = false
 unique_name_in_owner = true
 
 [node name="Walls" type="StaticBody2D" parent="."]
