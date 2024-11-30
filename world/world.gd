@@ -17,12 +17,12 @@ func _ready() -> void:
 	Bot.setup()
 
 func _process(_delta: float) -> void:
+	var mouse := get_global_mouse_position()
 	if Input.is_action_just_pressed("tool wheel"):
 		var tool_wheel := preload("res://tool_wheel/tool_wheel.tscn").instantiate()
-		tool_wheel.global_position = get_global_mouse_position()
+		tool_wheel.global_position = mouse
 		add_child(tool_wheel)
 
-	var mouse := get_global_mouse_position()
 	if Input.is_action_just_pressed("follow"):
 		followers = []
 		var best_distance := 0.0
@@ -38,6 +38,11 @@ func _process(_delta: float) -> void:
 				followers.clear()
 				break
 			follower.rigidbody.apply_force((mouse - follower.rigidbody.global_position) * 100.0 / followers.size())
+
+	if Input.is_action_just_pressed("attack"):
+		var triangle = preload("res://world/weapons/triangle.tscn").instantiate()
+		triangle.global_position = mouse
+		add_child(triangle)
 
 func _notification(what: int) -> void:
 	match what:

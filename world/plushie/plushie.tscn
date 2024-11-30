@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://bavfpjnmb84r2"]
+[gd_scene load_steps=130 format=3 uid="uid://bavfpjnmb84r2"]
 
 [ext_resource type="Script" path="res://world/plushie/plushie.gd" id="1_2bxup"]
 [ext_resource type="Texture2D" uid="uid://7u4jretta2ba" path="res://world/plushie/NoImagePlaceholder.svg" id="1_8k4jb"]
@@ -506,9 +506,191 @@ modifications/59 = SubResource("SkeletonModification2DLookAt_54o3k")
 modifications/60 = SubResource("SkeletonModification2DLookAt_yhqy5")
 modifications/61 = SubResource("SkeletonModification2DLookAt_lq8nk")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_m3y0k"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_lhswj"]
 resource_local_to_scene = true
-size = Vector2(14.7, 14.7)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7bdde"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tiec1"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wea36"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n0i4p"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1h6ux"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rmhs7"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dk2ki"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tbr51"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gg6vw"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cvmw6"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ndfb0"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3tc4k"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_chc4p"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ytohv"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jcqh6"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fcjqn"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6qvt3"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_itf6r"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bhfco"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3dnjl"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ssm7w"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_av0b4"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uxom0"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y1oon"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mjdo0"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ctw7q"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7yuv3"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ad0ut"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ggfbh"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1rhwc"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r8ng8"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uvwad"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5mybs"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0w3sm"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gm6pr"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_agy3b"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6sx5a"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ix60u"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uo4mq"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3ty4u"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iir30"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8mp48"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w65jm"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r0sbd"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ch52r"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3c37y"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wf425"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_41vpu"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w0nm6"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v40xj"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u5ieh"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lhtxa"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ot2vj"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ave5x"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j17iq"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fprbu"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hiu5g"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_38jef"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uml62"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d513a"]
+resource_local_to_scene = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2ffy2"]
+resource_local_to_scene = true
 
 [node name="Plushie" type="Node"]
 script = ExtResource("1_2bxup")
@@ -528,7 +710,8 @@ min_alpha = 0.01
 margin_offset_edge = 10.0
 bias = 1.5
 softness = 10.0
-radius = 49
+shape_type = "Circle"
+break_distance_ratio = 2.0
 
 [node name="Skeleton2D" type="Skeleton2D" parent="SoftBody2D"]
 visible = false
@@ -1357,7 +1540,7 @@ metadata/bone_name = &"Bone-0"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-0"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_lhswj")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-0"]
 visible = false
@@ -1396,7 +1579,7 @@ metadata/bone_name = &"Bone-1"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-1"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_7bdde")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-1"]
 visible = false
@@ -1451,7 +1634,7 @@ metadata/bone_name = &"Bone-2"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-2"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_tiec1")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-2"]
 visible = false
@@ -1506,7 +1689,7 @@ metadata/bone_name = &"Bone-3"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-3"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_wea36")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-3"]
 visible = false
@@ -1561,7 +1744,7 @@ metadata/bone_name = &"Bone-4"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-4"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_n0i4p")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-4"]
 visible = false
@@ -1616,7 +1799,7 @@ metadata/bone_name = &"Bone-5"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-5"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_1h6ux")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-5"]
 visible = false
@@ -1671,7 +1854,7 @@ metadata/bone_name = &"Bone-6"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-6"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_rmhs7")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-6"]
 visible = false
@@ -1750,7 +1933,7 @@ metadata/bone_name = &"Bone-7"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-7"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_dk2ki")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-7"]
 visible = false
@@ -1829,7 +2012,7 @@ metadata/bone_name = &"Bone-8"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-8"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_tbr51")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-8"]
 visible = false
@@ -1908,7 +2091,7 @@ metadata/bone_name = &"Bone-9"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-9"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_gg6vw")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-9"]
 visible = false
@@ -1987,7 +2170,7 @@ metadata/bone_name = &"Bone-10"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-10"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_cvmw6")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-10"]
 visible = false
@@ -2042,7 +2225,7 @@ metadata/bone_name = &"Bone-11"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-11"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_ndfb0")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-11"]
 visible = false
@@ -2121,7 +2304,7 @@ metadata/bone_name = &"Bone-12"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-12"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_3tc4k")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-12"]
 visible = false
@@ -2200,7 +2383,7 @@ metadata/bone_name = &"Bone-13"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-13"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_chc4p")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-13"]
 visible = false
@@ -2279,7 +2462,7 @@ metadata/bone_name = &"Bone-14"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-14"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_ytohv")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-14"]
 visible = false
@@ -2358,7 +2541,7 @@ metadata/bone_name = &"Bone-15"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-15"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_jcqh6")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-15"]
 visible = false
@@ -2413,7 +2596,7 @@ metadata/bone_name = &"Bone-16"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-16"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_fcjqn")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-16"]
 visible = false
@@ -2492,7 +2675,7 @@ metadata/bone_name = &"Bone-17"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-17"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_6qvt3")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-17"]
 visible = false
@@ -2571,7 +2754,7 @@ metadata/bone_name = &"Bone-18"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-18"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_itf6r")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-18"]
 visible = false
@@ -2650,7 +2833,7 @@ metadata/bone_name = &"Bone-19"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-19"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_bhfco")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-19"]
 visible = false
@@ -2729,7 +2912,7 @@ metadata/bone_name = &"Bone-20"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-20"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_3dnjl")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-20"]
 visible = false
@@ -2784,7 +2967,7 @@ metadata/bone_name = &"Bone-21"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-21"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_ssm7w")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-21"]
 visible = false
@@ -2863,7 +3046,7 @@ metadata/bone_name = &"Bone-22"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-22"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_av0b4")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-22"]
 visible = false
@@ -2942,7 +3125,7 @@ metadata/bone_name = &"Bone-23"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-23"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_uxom0")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-23"]
 visible = false
@@ -3021,7 +3204,7 @@ metadata/bone_name = &"Bone-24"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-24"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_y1oon")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-24"]
 visible = false
@@ -3100,7 +3283,7 @@ metadata/bone_name = &"Bone-25"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-25"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_mjdo0")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-25"]
 visible = false
@@ -3155,7 +3338,7 @@ metadata/bone_name = &"Bone-26"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-26"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_ctw7q")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-26"]
 visible = false
@@ -3210,7 +3393,7 @@ metadata/bone_name = &"Bone-27"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-27"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_7yuv3")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-27"]
 visible = false
@@ -3257,7 +3440,7 @@ metadata/bone_name = &"Bone-28"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-28"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_ad0ut")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-28"]
 visible = false
@@ -3336,7 +3519,7 @@ metadata/bone_name = &"Bone-29"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-29"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_ggfbh")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-29"]
 visible = false
@@ -3415,7 +3598,7 @@ metadata/bone_name = &"Bone-30"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-30"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_1rhwc")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-30"]
 visible = false
@@ -3486,7 +3669,7 @@ metadata/bone_name = &"Bone-31"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-31"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_r8ng8")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-31"]
 visible = false
@@ -3533,7 +3716,7 @@ metadata/bone_name = &"Bone-32"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-32"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_uvwad")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-32"]
 visible = false
@@ -3612,7 +3795,7 @@ metadata/bone_name = &"Bone-33"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-33"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_5mybs")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-33"]
 visible = false
@@ -3691,7 +3874,7 @@ metadata/bone_name = &"Bone-34"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-34"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_0w3sm")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-34"]
 visible = false
@@ -3770,7 +3953,7 @@ metadata/bone_name = &"Bone-35"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-35"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_gm6pr")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-35"]
 visible = false
@@ -3825,7 +4008,7 @@ metadata/bone_name = &"Bone-36"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-36"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_agy3b")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-36"]
 visible = false
@@ -3904,7 +4087,7 @@ metadata/bone_name = &"Bone-37"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-37"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_6sx5a")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-37"]
 visible = false
@@ -3983,7 +4166,7 @@ metadata/bone_name = &"Bone-38"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-38"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_ix60u")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-38"]
 visible = false
@@ -4062,7 +4245,7 @@ metadata/bone_name = &"Bone-39"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-39"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_uo4mq")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-39"]
 visible = false
@@ -4117,7 +4300,7 @@ metadata/bone_name = &"Bone-40"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-40"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_3ty4u")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-40"]
 visible = false
@@ -4196,7 +4379,7 @@ metadata/bone_name = &"Bone-41"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-41"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_iir30")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-41"]
 visible = false
@@ -4275,7 +4458,7 @@ metadata/bone_name = &"Bone-42"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-42"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_8mp48")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-42"]
 visible = false
@@ -4354,7 +4537,7 @@ metadata/bone_name = &"Bone-43"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-43"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_w65jm")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-43"]
 visible = false
@@ -4409,7 +4592,7 @@ metadata/bone_name = &"Bone-44"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-44"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_r0sbd")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-44"]
 visible = false
@@ -4464,7 +4647,7 @@ metadata/bone_name = &"Bone-45"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-45"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_ch52r")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-45"]
 visible = false
@@ -4543,7 +4726,7 @@ metadata/bone_name = &"Bone-46"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-46"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_3c37y")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-46"]
 visible = false
@@ -4622,7 +4805,7 @@ metadata/bone_name = &"Bone-47"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-47"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_wf425")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-47"]
 visible = false
@@ -4701,7 +4884,7 @@ metadata/bone_name = &"Bone-48"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-48"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_41vpu")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-48"]
 visible = false
@@ -4780,7 +4963,7 @@ metadata/bone_name = &"Bone-49"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-49"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_w0nm6")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-49"]
 visible = false
@@ -4819,7 +5002,7 @@ metadata/bone_name = &"Bone-50"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-50"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_v40xj")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-50"]
 visible = false
@@ -4874,7 +5057,7 @@ metadata/bone_name = &"Bone-51"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-51"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_u5ieh")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-51"]
 visible = false
@@ -4929,7 +5112,7 @@ metadata/bone_name = &"Bone-52"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-52"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_lhtxa")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-52"]
 visible = false
@@ -4984,7 +5167,7 @@ metadata/bone_name = &"Bone-53"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-53"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_ot2vj")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-53"]
 visible = false
@@ -5039,7 +5222,7 @@ metadata/bone_name = &"Bone-54"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-54"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_ave5x")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-54"]
 visible = false
@@ -5118,7 +5301,7 @@ metadata/bone_name = &"Bone-55"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-55"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_j17iq")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-55"]
 visible = false
@@ -5197,7 +5380,7 @@ metadata/bone_name = &"Bone-56"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-56"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_fprbu")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-56"]
 visible = false
@@ -5276,7 +5459,7 @@ metadata/bone_name = &"Bone-57"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-57"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_hiu5g")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-57"]
 visible = false
@@ -5331,7 +5514,7 @@ metadata/bone_name = &"Bone-58"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-58"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_38jef")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-58"]
 visible = false
@@ -5386,7 +5569,7 @@ metadata/bone_name = &"Bone-59"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-59"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_uml62")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-59"]
 visible = false
@@ -5441,7 +5624,7 @@ metadata/bone_name = &"Bone-60"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-60"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_d513a")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-60"]
 visible = false
@@ -5496,7 +5679,7 @@ metadata/bone_name = &"Bone-61"
 
 [node name="RectangleShape2D" type="CollisionShape2D" parent="SoftBody2D/Bone-61"]
 visible = false
-shape = SubResource("RectangleShape2D_m3y0k")
+shape = SubResource("CircleShape2D_2ffy2")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="SoftBody2D/Bone-61"]
 visible = false

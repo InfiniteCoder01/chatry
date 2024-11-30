@@ -207,8 +207,8 @@ func on_command(command: String, args: String, message: GMessageData) -> void:
 		world.sound_blaster.play()
 	elif command == "qotd":
 		twitch_bot.send_chat_message("@%s %s" % [message.chatter.login, qotd])
-	elif command == "orco":
-		OrCo.execute(args, world.get_node(^"%Terminal"))
+	elif command == ">":
+		Uiua.execute(args, world.get_node(^"%Terminal"))
 	elif command == "lurk":
 		twitch_bot.send_chat_message("Have a nice lurk, @%s. Lurkers are a power of Software and Game development streams!" % [message.chatter.login])
 	elif command == "unlurk":

@@ -10,7 +10,9 @@ func _init(message: GMessageData) -> void:
 	context_menu_enabled = true
 
 	#for badge: GBadge in message.badges:
-		#pass
+		#print(badge.id)
+		#print(badge.set_id)
+		#print(badge.info)
 
 	append_text("[b][color=%s]%s[/color]: [/b]" % [message.colour, message.chatter.name]);
 	for fragment: GFragments in message.message.fragments:
