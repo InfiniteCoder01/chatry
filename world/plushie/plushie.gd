@@ -29,7 +29,7 @@ var viewer_id: String = "STREAMER"
 func _ready() -> void:
 	heat_message.connect(_on_heat_message)
 	await get_tree().create_timer(60.0).timeout
-	#self.queue_free()
+	self.queue_free()
 
 func assign(id: String) -> void:
 	if id.is_empty(): return
@@ -90,6 +90,8 @@ func _process(_delta: float) -> void:
 			for collision in rb.get_colliding_bodies():
 				collisions.append(collision)
 		
+		var joints_removed := 0
+		var max_joints_per_frame: int = min(attack_hits, 30)
 		for collision in collisions:
 			if collision.get_parent() == null: continue
 			var plushie = collision.get_parent().get_parent()
@@ -97,8 +99,9 @@ func _process(_delta: float) -> void:
 				var rb = plushie.soft_body._soft_body_rigidbodies_dict[collision]
 				for joint in rb.joints:
 					plushie.soft_body.remove_joint(rb, joint)
-					attack_hits -= 1
-					if attack_hits <= 0:
+					joints_removed += 1
+					if joints_removed >= max_joints_per_frame:
 						attack_target = null
 						break
-				if attack_hits <= 0: break
+				if joints_removed >= max_joints_per_frame: break
+		attack_hits -= joints_removed
