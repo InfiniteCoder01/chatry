@@ -221,12 +221,19 @@ func on_command(command: String, args: String, message: GMessageData) -> void:
 			if plushie.viewer_id == message.chatter.id:
 				plushie.soft_body.apply_force(force)
 	elif command == "punch":
-		for plushie: Plushie in world.plushies.get_children():
-			if plushie.viewer_id != message.chatter.id: continue
-			for victim: Plushie in world.plushies.get_children():
-					if victim.viewer_id == message.chatter.id: continue
-					plushie.attack(victim)
-					break
+		var target := find_plushie(args)
+		for victim: Plushie in world.plushies.get_children():
+			if victim.viewer_id == message.chatter.id: continue
+			if victim.name != target && !target.is_empty(): continue
+			var victim_center = victim.soft_body.get_bones_center_position();
+			
+			var plushies = world.plushies.get_children()
+			plushies.sort_custom(func(a, b): return a.soft_body.get_bones_center_position().distance_squared_to(victim_center) < b.soft_body.get_bones_center_position().distance_squared_to(victim_center))
+			for plushie: Plushie in plushies:
+				if plushie.viewer_id != message.chatter.id: continue
+				plushie.attack(victim)
+				break
+			break
 	else:
 		for cmd: String in simple_commands.keys():
 			if command == cmd:

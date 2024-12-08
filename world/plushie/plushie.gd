@@ -24,19 +24,21 @@ static func connect_heat() -> void:
 	)
 
 var viewer_id: String = "STREAMER"
+var plushie_id: String
 @onready var soft_body: SoftBody2D = $SoftBody2D
+
+func assign(id: String) -> void:
+	if id.is_empty(): return
+	name = id
+	print("Plushie %s" % id)
+	soft_body = $SoftBody2D
+	soft_body.texture = load("res://assets/plushies/" + id + "/image.png") as Texture2D
+	soft_body.create_softbody2d(true)
 
 func _ready() -> void:
 	heat_message.connect(_on_heat_message)
 	await get_tree().create_timer(60.0).timeout
 	self.queue_free()
-
-func assign(id: String) -> void:
-	if id.is_empty(): return
-	print("Plushie %s" % id)
-	soft_body = $SoftBody2D
-	soft_body.texture = load("res://assets/plushies/" + id + "/image.png") as Texture2D
-	soft_body.create_softbody2d(true)
 
 func position_randomly(rect: Rect2) -> void:
 	soft_body.global_position = Vector2(
