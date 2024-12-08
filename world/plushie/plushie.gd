@@ -62,7 +62,7 @@ func closest_rbs(target: Vector2) -> Array[SoftBody2D.SoftBodyChild]:
 func _on_heat_message(message: Dictionary) -> void:
 	#Bot.log_message("Heat message: %s" % message)
 	if message.type == "click" && message.id == viewer_id:
-		var target = Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
+		var target := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
 		soft_body.apply_impulse((target - soft_body.get_bones_center_position()) * 2.0)
 
 var attack_target: Plushie
@@ -94,9 +94,9 @@ func _process(_delta: float) -> void:
 		var max_joints_per_frame: int = min(attack_hits, 30)
 		for collision in collisions:
 			if collision.get_parent() == null: continue
-			var plushie = collision.get_parent().get_parent()
+			var plushie := collision.get_parent().get_parent()
 			if plushie is Plushie && plushie != self:
-				var rb = plushie.soft_body._soft_body_rigidbodies_dict[collision]
+				var rb: SoftBody2D.SoftBodyChild = plushie.soft_body._soft_body_rigidbodies_dict[collision]
 				for joint in rb.joints:
 					plushie.soft_body.remove_joint(rb, joint)
 					joints_removed += 1
