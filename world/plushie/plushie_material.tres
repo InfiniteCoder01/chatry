@@ -1,6 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bc2xi2x6deva"]
-
-[ext_resource type="Shader" path="res://world/plushie/plushie.gdshader" id="1_h8nsm"]
-
-[resource]
-shader = ExtResource("1_h8nsm")

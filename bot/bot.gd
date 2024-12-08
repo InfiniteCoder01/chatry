@@ -118,7 +118,7 @@ func _on_raid(raid: GRaid) -> void:
 			var plushie_instance: Plushie = plushie_scene.instantiate()
 			plushie_instance.assign(plushie_id)
 			plushie_instance.position_randomly(world.get_viewport_rect())
-			world.get_node(^"Plushies").add_child(plushie_instance)
+			world.plushies.add_child(plushie_instance)
 			await world.get_tree().create_timer(1.0).timeout
 
 func _on_new_subscription(sub: GNewSubscription) -> void:
@@ -188,7 +188,7 @@ func on_command(command: String, args: String, message: GMessageData) -> void:
 		plushie_instance.assign(args)
 		plushie_instance.position_randomly(world.get_viewport_rect())
 		plushie_instance.viewer_id = message.chatter.id
-		world.get_node(^"Plushies").add_child(plushie_instance)
+		world.plushies.add_child(plushie_instance)
 	elif command == "pick":
 		if !admin && timeout(message.chatter.login, "plushies", 10.0): return
 
@@ -201,7 +201,7 @@ func on_command(command: String, args: String, message: GMessageData) -> void:
 		plushie_instance.assign(groups[args].pick_random())
 		plushie_instance.position_randomly(world.get_viewport_rect())
 		plushie_instance.viewer_id = message.chatter.id
-		world.get_node(^"Plushies").add_child(plushie_instance)
+		world.plushies.add_child(plushie_instance)
 	elif command == "readchat":
 		world.sound_blaster.stream = preload("res://assets/readchat.wav")
 		world.sound_blaster.play()
@@ -213,23 +213,20 @@ func on_command(command: String, args: String, message: GMessageData) -> void:
 		twitch_bot.send_chat_message("Have a nice lurk, @%s. Lurkers are a power of Software and Game development streams!" % [message.chatter.login])
 	elif command == "unlurk":
 		twitch_bot.send_chat_message("Welcome back, @%s!" % [message.chatter.login])
-	elif command == "move_to":
-		var coords := args.split(" ")
-		if coords.size() != 2: return
-		var target := Vector2(clampf(float(coords[0]), 0.0, 1.0), clampf(float(coords[1]), 0.0, 1.0)) * Vector2(get_viewport().size)
-		for plushie: Plushie in world.get_node(^"Plushies").get_children():
-			if plushie.viewer_id == message.chatter.id:
-				plushie.follow_target = target
-				plushie.followers = plushie.closest_rbs(target)
 	elif command == "add_force":
 		var force_str := args.split(" ")
 		if force_str.size() != 2: return
 		var force := Vector2(float(force_str[0]), float(force_str[1])).limit_length(5.0) * 20000
-		for plushie: Plushie in world.get_node(^"Plushies").get_children():
+		for plushie: Plushie in world.plushies.get_children():
 			if plushie.viewer_id == message.chatter.id:
-				var plushie_sb: SoftBody2D = plushie.get_child(0)
-				for rb in plushie_sb.get_rigid_bodies():
-					rb.rigidbody.apply_force(force)
+				plushie.soft_body.apply_force(force)
+	elif command == "punch":
+		for plushie: Plushie in world.plushies.get_children():
+			if plushie.viewer_id != message.chatter.id: continue
+			for victim: Plushie in world.plushies.get_children():
+					if victim.viewer_id == message.chatter.id: continue
+					plushie.attack(victim)
+					break
 	else:
 		for cmd: String in simple_commands.keys():
 			if command == cmd:
@@ -263,7 +260,7 @@ func random_plushie() -> Plushie:
 	var plushie_instance: Plushie = plushie_scene.instantiate()
 	plushie_instance.assign(plushies.keys().pick_random())
 	plushie_instance.position_randomly(world.get_viewport_rect())
-	world.get_node(^"Plushies").add_child(plushie_instance)
+	world.plushies.add_child(plushie_instance)
 	return plushie_instance
 
 func plushieball(tournament: bool) -> void:

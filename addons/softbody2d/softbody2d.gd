@@ -1231,6 +1231,7 @@ func _update_soft_body_rigidbodies(skeleton_node:Skeleton2D = null):
 			# dont add joints we are about to delete
 			if !joint.is_queued_for_deletion():
 				softbodyrb.joints.append(joint)
+		if softbodyrb.joints.is_empty(): continue
 		result.append(softbodyrb)
 		_soft_body_rigidbodies_dict[softbodyrb.rigidbody] = softbodyrb
 	_soft_body_rigidbodies_array = result

@@ -16,7 +16,7 @@ Ims    = $"!ims tmpim/_" &fwa $"tmpim/_" on: ImsCvt
 		if text == "!clear":
 			terminal.clear()
 		elif text.begins_with("\"!ims "):
-			var filename = "/mnt/Twitch/" + text.substr(6, text.length() - 7)
+			var filename := "/mnt/Twitch/" + text.substr(6, text.length() - 7)
 			if filename.ends_with(".gif"):
 				terminal.add_image(GifManager.animated_texture_from_file(filename))
 			else:

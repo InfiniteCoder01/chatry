@@ -23,22 +23,22 @@ static func connect_heat() -> void:
 			else: Bot.log_message("Unknown heat message: %s" % message)
 	)
 
-var viewer_id: String
+var viewer_id: String = "STREAMER"
+@onready var soft_body: SoftBody2D = $SoftBody2D
 
 func _ready() -> void:
 	heat_message.connect(_on_heat_message)
-	await get_tree().create_timer(30.0).timeout
-	self.queue_free()
+	await get_tree().create_timer(60.0).timeout
+	#self.queue_free()
 
 func assign(id: String) -> void:
 	if id.is_empty(): return
 	print("Plushie %s" % id)
-	var soft_body: SoftBody2D = get_child(0)
+	soft_body = $SoftBody2D
 	soft_body.texture = load("res://assets/plushies/" + id + "/image.png") as Texture2D
 	soft_body.create_softbody2d(true)
 
 func position_randomly(rect: Rect2) -> void:
-	var soft_body: SoftBody2D = get_child(0)
 	soft_body.global_position = Vector2(
 		randf_range(
 			10,
@@ -48,8 +48,7 @@ func position_randomly(rect: Rect2) -> void:
 	)
 
 func closest_rbs(target: Vector2) -> Array[SoftBody2D.SoftBodyChild]:
-	var plushie: SoftBody2D = $SoftBody2D
-	var rigid_bodies := plushie.get_rigid_bodies()
+	var rigid_bodies := soft_body.get_rigid_bodies()
 	var indices := range(rigid_bodies.size())
 	indices.sort_custom(func ord(a: int, b: int) -> bool:
 		return (rigid_bodies[a].rigidbody.global_position.distance_squared_to(target) <
@@ -60,14 +59,46 @@ func closest_rbs(target: Vector2) -> Array[SoftBody2D.SoftBodyChild]:
 		closest.append(rigid_bodies[indices[i]])
 	return closest
 
-var followers: Array[SoftBody2D.SoftBodyChild] = []
-var follow_target: Vector2
 func _on_heat_message(message: Dictionary) -> void:
 	#Bot.log_message("Heat message: %s" % message)
 	if message.type == "click" && message.id == viewer_id:
-		follow_target = Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
-		followers = closest_rbs(follow_target)
+		var target = Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
+		soft_body.apply_impulse((target - soft_body.get_bones_center_position()) * 2.0)
+
+var attack_target: Plushie
+var attack_hits: int
+func attack(target: Plushie) -> void:
+	var target_pos := target.soft_body.get_bones_center_position()
+	var impulse := (target_pos - soft_body.get_bones_center_position()) * 3
+	soft_body.apply_impulse(impulse)
+	attack_target = target
+	attack_hits = (impulse.length() / 60) as int
+	for pb in soft_body.get_rigid_bodies():
+		var rb := pb.rigidbody as RigidBody2D
+		rb.contact_monitor = true
+		rb.max_contacts_reported = 5
 
 func _process(_delta: float) -> void:
-	for follower in followers:
-		follower.rigidbody.apply_force((follow_target - follower.rigidbody.global_position) * 100.0 / followers.size())
+	if soft_body.get_rigid_bodies().is_empty():
+		queue_free()
+		return
+
+	if attack_target != null && attack_hits > 0:
+		var collisions: Array[Node2D] = []
+		for pb in soft_body.get_rigid_bodies():
+			var rb := pb.rigidbody as RigidBody2D
+			for collision in rb.get_colliding_bodies():
+				collisions.append(collision)
+		
+		for collision in collisions:
+			if collision.get_parent() == null: continue
+			var plushie = collision.get_parent().get_parent()
+			if plushie is Plushie && plushie != self:
+				var rb = plushie.soft_body._soft_body_rigidbodies_dict[collision]
+				for joint in rb.joints:
+					plushie.soft_body.remove_joint(rb, joint)
+					attack_hits -= 1
+					if attack_hits <= 0:
+						attack_target = null
+						break
+				if attack_hits <= 0: break
