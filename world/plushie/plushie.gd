@@ -1,6 +1,7 @@
 class_name Plushie
 extends Node
 
+# ******************************************************************** Heat
 static var heat_websocket := WebSocketPeer.new()
 static var heat_message: Signal
 
@@ -23,6 +24,13 @@ static func connect_heat() -> void:
 			else: Bot.log_message("Unknown heat message: %s" % message)
 	)
 
+func _on_heat_message(message: Dictionary) -> void:
+	#Bot.log_message("Heat message: %s" % message)
+	if message.type == "click" && message.id == viewer_id:
+		var target := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
+		soft_body.apply_impulse((target - soft_body.get_bones_center_position()) * 2.0)
+
+# ******************************************************************** Creation
 var viewer_id: String = "STREAMER"
 var plushie_id: String
 @onready var soft_body: SoftBody2D = $SoftBody2D
@@ -35,11 +43,6 @@ func assign(id: String) -> void:
 	soft_body.texture = load("res://assets/plushies/" + id + "/image.png") as Texture2D
 	soft_body.create_softbody2d(true)
 
-func _ready() -> void:
-	heat_message.connect(_on_heat_message)
-	await get_tree().create_timer(60.0).timeout
-	self.queue_free()
-
 func position_randomly(rect: Rect2) -> void:
 	soft_body.global_position = Vector2(
 		randf_range(
@@ -49,6 +52,12 @@ func position_randomly(rect: Rect2) -> void:
 		10
 	)
 
+func _ready() -> void:
+	heat_message.connect(_on_heat_message)
+	await get_tree().create_timer(60.0).timeout
+	self.queue_free()
+
+# ******************************************************************** Utility
 func closest_rbs(target: Vector2) -> Array[SoftBody2D.SoftBodyChild]:
 	var rigid_bodies := soft_body.get_rigid_bodies()
 	var indices := range(rigid_bodies.size())
@@ -61,12 +70,7 @@ func closest_rbs(target: Vector2) -> Array[SoftBody2D.SoftBodyChild]:
 		closest.append(rigid_bodies[indices[i]])
 	return closest
 
-func _on_heat_message(message: Dictionary) -> void:
-	#Bot.log_message("Heat message: %s" % message)
-	if message.type == "click" && message.id == viewer_id:
-		var target := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
-		soft_body.apply_impulse((target - soft_body.get_bones_center_position()) * 2.0)
-
+# ******************************************************************** Functionality
 var attack_target: Plushie
 var attack_hits: int
 func attack(target: Plushie) -> void:
@@ -80,6 +84,11 @@ func attack(target: Plushie) -> void:
 		rb.contact_monitor = true
 		rb.max_contacts_reported = 5
 
+func put_out():
+	for rb in soft_body.get_rigid_bodies():
+		rb.rigidbody.fire.emitting = false
+
+# ******************************************************************** Process
 func _process(_delta: float) -> void:
 	if soft_body.get_rigid_bodies().is_empty():
 		queue_free()

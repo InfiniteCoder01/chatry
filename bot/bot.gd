@@ -260,6 +260,10 @@ func on_command(command: String, args: String, message: GMessageData) -> void:
 				projectile.position = fire_pos
 				projectile.apply_impulse(impulse)
 				world.add_child(projectile)
+	elif command == "put_out":
+		var name = find_plushie(args)
+		for plushie in viewer_plushies(message.chatter.id):
+			if plushie.name == name: plushie.put_out()
 	else:
 		for cmd: String in simple_commands.keys():
 			if command == cmd:
