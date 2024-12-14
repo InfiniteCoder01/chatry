@@ -86,21 +86,20 @@ func _process(_delta: float) -> void:
 		return
 
 	if attack_target != null && attack_hits > 0:
-		var collisions: Array[Node2D] = []
+		var collisions: Array[Bone] = []
 		for pb in soft_body.get_rigid_bodies():
 			var rb := pb.rigidbody as RigidBody2D
 			for collision in rb.get_colliding_bodies():
-				collisions.append(collision)
+				if collision is Bone:
+					collisions.append(collision)
 		
 		var joints_removed := 0
 		var max_joints_per_frame: int = min(attack_hits, 30)
 		for collision in collisions:
-			if collision.get_parent() == null: continue
-			var plushie := collision.get_parent().get_parent()
-			if plushie is Plushie && plushie != self:
-				var rb: SoftBody2D.SoftBodyChild = plushie.soft_body._soft_body_rigidbodies_dict[collision]
+			if collision.plushie != self:
+				var rb: SoftBody2D.SoftBodyChild = collision.plushie.soft_body._soft_body_rigidbodies_dict[collision]
 				for joint in rb.joints:
-					plushie.soft_body.remove_joint(rb, joint)
+					collision.plushie.soft_body.remove_joint(rb, joint)
 					joints_removed += 1
 					if joints_removed >= max_joints_per_frame:
 						attack_target = null

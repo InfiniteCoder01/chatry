@@ -41,15 +41,19 @@ func _process(_delta: float) -> void:
 			follower.rigidbody.apply_force((mouse - follower.rigidbody.global_position) * 100.0 / followers.size())
 
 	if Input.is_action_just_pressed("attack"):
-		var closest: Plushie = null
-		for victim: Plushie in plushies.get_children():
-			if closest == null || mouse.distance_squared_to(victim.soft_body.get_bones_center_position()) < mouse.distance_squared_to(closest.soft_body.get_bones_center_position()):
-				closest = victim
-		for plushie: Plushie in plushies.get_children():
-			if plushie.viewer_id != "STREAMER": continue
-			if plushie == closest: continue
-			plushie.attack(closest)
-			break
+		var fireball = preload("res://world/plushie/projectiles/fireball.tscn").instantiate()
+		fireball.position = mouse
+		add_child(fireball)
+			
+		#var closest: Plushie = null
+		#for victim: Plushie in plushies.get_children():
+			#if closest == null || mouse.distance_squared_to(victim.soft_body.get_bones_center_position()) < mouse.distance_squared_to(closest.soft_body.get_bones_center_position()):
+				#closest = victim
+		#for plushie: Plushie in plushies.get_children():
+			#if plushie.viewer_id != "STREAMER": continue
+			#if plushie == closest: continue
+			#plushie.attack(closest)
+			#break
 
 func _notification(what: int) -> void:
 	match what:
