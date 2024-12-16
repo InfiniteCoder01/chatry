@@ -134,7 +134,11 @@ func _on_redeem(redeem: GCustomRewardRedeem) -> void:
 	var title_id := strip_special_characters(redeem.reward.title).to_lower()
 	if title_id == "plushieball":
 		plushieball(false)
-	else:	
+	elif title_id == "fire":
+		if "fire" not in Store.viewer(redeem.user): Store.viewer(redeem.user).fire = 0
+		Store.viewer(redeem.user).fire += 3
+		Store.save()
+	else:
 		if redeem_sounds.has(title_id):
 			world.sound_blaster.stream = load(redeem_sounds[title_id])
 			world.sound_blaster.play()
@@ -175,11 +179,11 @@ func _on_chat_message(message: GMessageData) -> void:
 		on_command(command, args, message)
 
 func viewer_plushies(viewer_id: String) -> Array[Plushie]:
-	var plushies: Array[Plushie] = []
+	var viewer_plushies: Array[Plushie] = []
 	for plushie: Plushie in world.plushies.get_children():
 		if plushie.viewer_id == viewer_id:
-			plushies.append(plushie)
-	return plushies
+			viewer_plushies.append(plushie)
+	return viewer_plushies
 
 func attack_targets(target: String, viewer_id: String) -> Array[Plushie]:
 	target = "" if target.is_empty() else find_plushie(target)
@@ -190,9 +194,9 @@ func attack_targets(target: String, viewer_id: String) -> Array[Plushie]:
 		targets.append(victim)
 	return targets
 
-func closest_plushie(plushies: Array[Plushie], to: Vector2) -> Plushie:
+func closest_plushie(plushies_list: Array[Plushie], to: Vector2) -> Plushie:
 	var closest: Plushie = null
-	for plushie in plushies:
+	for plushie in plushies_list:
 		if closest == null || plushie.soft_body.get_bones_center_position().distance_squared_to(to) < closest.soft_body.get_bones_center_position().distance_squared_to(to):
 			closest = plushie
 	return closest
@@ -202,15 +206,24 @@ func on_command(command: String, args: String, message: GMessageData) -> void:
 	var admin: bool = admins.has(message.chatter.login.to_lower())
 	if command == "plushie":
 		if !admin && timeout(message.chatter.login, "plushies", 10.0): return
-		args = find_plushie(args)
-		if args.is_empty():
+		var args_arr = args.split("!")
+		var plushie_name = find_plushie(args_arr[0])
+		if plushie_name.is_empty():
 			if timeouts.has("plushies"): timeouts["plushies"].erase(message.chatter.login)
 			return
 
+		var bangs := Array(args_arr).map(func (bang): return bang.strip_edges()) if args_arr.size() > 1 else []
+
 		var plushie_instance: Plushie = plushie_scene.instantiate()
-		plushie_instance.assign(args)
+		plushie_instance.assign(plushie_name)
 		plushie_instance.position_randomly(world.get_viewport_rect())
 		plushie_instance.viewer_id = message.chatter.id
+		
+		if "fire" in bangs && "fire" in Store.viewer(message.chatter) && Store.viewer(message.chatter).fire > 0:
+			Store.viewer(message.chatter).fire -= 1
+			Store.save()
+			plushie_instance.has_fire = true
+		
 		world.plushies.add_child(plushie_instance)
 	elif command == "pick":
 		if !admin && timeout(message.chatter.login, "plushies", 10.0): return
@@ -245,25 +258,26 @@ func on_command(command: String, args: String, message: GMessageData) -> void:
 	elif command == "punch":
 		var target: Plushie = attack_targets(args, message.chatter.id).pick_random()
 		if target != null:
-			var target_center = target.soft_body.get_bones_center_position()
-			var plushie = closest_plushie(viewer_plushies(message.chatter.id), target_center)
+			var target_center := target.soft_body.get_bones_center_position()
+			var plushie := closest_plushie(viewer_plushies(message.chatter.id), target_center)
 			if plushie != null: plushie.attack(target)
 	elif command == "fire":
 		var target: Plushie = attack_targets(args, message.chatter.id).pick_random()
 		if target != null:
-			var target_center = target.soft_body.get_bones_center_position()
-			var plushie = closest_plushie(viewer_plushies(message.chatter.id), target_center)
+			var target_center := target.soft_body.get_bones_center_position()
+			var plushie := closest_plushie(viewer_plushies(message.chatter.id).filter(func (plushie): return plushie.has_fire), target_center)
 			if plushie != null:
-				var fire_pos = plushie.soft_body.get_bones_center_position() + Vector2(0, -200)
+				var fire_pos := plushie.soft_body.get_bones_center_position() + Vector2(0, -200)
 				var impulse: Vector2 = (target_center - fire_pos) * 3
 				var projectile: RigidBody2D = preload("res://world/plushie/projectiles/fireball.tscn").instantiate()
 				projectile.position = fire_pos
+				projectile.viewer_id = message.chatter.id
 				projectile.apply_impulse(impulse)
 				world.add_child(projectile)
 	elif command == "put_out":
-		var name = find_plushie(args)
+		var plushie_name := find_plushie(args)
 		for plushie in viewer_plushies(message.chatter.id):
-			if plushie.name == name: plushie.put_out()
+			if plushie.name == plushie_name: plushie.put_out()
 	else:
 		for cmd: String in simple_commands.keys():
 			if command == cmd:

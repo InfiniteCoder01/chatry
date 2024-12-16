@@ -5,7 +5,7 @@ class_name Bone
 var plushie: Plushie
 var drop := false
 
-func _ready():
+func _ready() -> void:
 	plushie = get_parent().get_parent()
 
 func _process(_delta: float) -> void:
@@ -17,7 +17,7 @@ func _process(_delta: float) -> void:
 	elif drop:
 		plushie.soft_body.remove_joint(rb, rb.joints[0])
 
-func set_on_fire():
+func set_on_fire() -> void:
 	fire.emitting = true
 	await get_tree().create_timer(4.0).timeout
 	if !fire.emitting: return

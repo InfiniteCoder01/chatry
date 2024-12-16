@@ -35,6 +35,8 @@ var viewer_id: String = "STREAMER"
 var plushie_id: String
 @onready var soft_body: SoftBody2D = $SoftBody2D
 
+var has_fire := false
+
 func assign(id: String) -> void:
 	if id.is_empty(): return
 	name = id
@@ -84,7 +86,7 @@ func attack(target: Plushie) -> void:
 		rb.contact_monitor = true
 		rb.max_contacts_reported = 5
 
-func put_out():
+func put_out() -> void:
 	for rb in soft_body.get_rigid_bodies():
 		rb.rigidbody.fire.emitting = false
 

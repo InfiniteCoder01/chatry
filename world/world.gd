@@ -41,7 +41,7 @@ func _process(_delta: float) -> void:
 			follower.rigidbody.apply_force((mouse - follower.rigidbody.global_position) * 100.0 / followers.size())
 
 	if Input.is_action_just_pressed("attack"):
-		var fireball = preload("res://world/plushie/projectiles/fireball.tscn").instantiate()
+		var fireball := preload("res://world/plushie/projectiles/fireball.tscn").instantiate()
 		fireball.position = mouse
 		add_child(fireball)
 			
