@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwxsd4bw4vdpb"
-path="res://.godot/imported/Instruct1.png-698c6faa3ef3ac4960807faa3e028bd6.ctex"
+uid="uid://dyomhuf0100wl"
+path="res://.godot/imported/hare.png-3286237686803c48b786aad36840deeb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Todo_Manager/doc/images/Instruct1.png"
-dest_files=["res://.godot/imported/Instruct1.png-698c6faa3ef3ac4960807faa3e028bd6.ctex"]
+source_file="res://assets/plushies/hare/hare.png"
+dest_files=["res://.godot/imported/hare.png-3286237686803c48b786aad36840deeb.ctex"]
 
 [params]
 

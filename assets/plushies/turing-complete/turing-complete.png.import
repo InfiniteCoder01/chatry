@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxtrxfvgp3jcb"
-path="res://.godot/imported/example2.png-2e3a8f9cd1e178daf22b83dc0513f37a.ctex"
+uid="uid://6c2k4ohqsekr"
+path="res://.godot/imported/turing-complete.png-f7ddccf8acba65aeaefc0e13c2d52653.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Todo_Manager/doc/images/example2.png"
-dest_files=["res://.godot/imported/example2.png-2e3a8f9cd1e178daf22b83dc0513f37a.ctex"]
+source_file="res://assets/plushies/turing-complete/turing-complete.png"
+dest_files=["res://.godot/imported/turing-complete.png-f7ddccf8acba65aeaefc0e13c2d52653.ctex"]
 
 [params]
 

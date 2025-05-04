@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cijnqnoylkk0p"
-path="res://.godot/imported/TODO_Manager_Logo.png-e07d7ec75201c66b732ef87ec1bece15.ctex"
+uid="uid://0al68wdqlrur"
+path="res://.godot/imported/image.png-0626ca523b1430e7ac9633fab1c719be.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Todo_Manager/doc/images/TODO_Manager_Logo.png"
-dest_files=["res://.godot/imported/TODO_Manager_Logo.png-e07d7ec75201c66b732ef87ec1bece15.ctex"]
+source_file="res://assets/plushies/hare/image.png"
+dest_files=["res://.godot/imported/image.png-0626ca523b1430e7ac9633fab1c719be.ctex"]
 
 [params]
 
