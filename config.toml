@@ -1,16 +1,12 @@
-broadcaster_user_id = "710224102"
-admins = ["InfiniteCoder01", "CodersChatry"]
-qotd = "RISC-V or ARM"
-
-notification_format = "I am live right now on https://twitch.tv/infinitecoder01/ and https://youtube.com/@InfiniteCoder02\n{title}\n[Message will be deleted after stream ends]"
-
 [simple_commands]
+qotd = "The question of the day is: RISC-V or ARM?"
+
+lurk = "Have a nice lurk! Lurkers are a power of Software and Game development streams!"
+unlurk = "Welcome back!"
+
 telegram = "Follow me on telegram: https://t.me/InfiniteCoder02"
 github = "My GitHub: https://github.com/InfiniteCoder01/"
 website = "My Website: https://www.infinitecoder.org"
 itch = "Me on itch.io: https://infinitecoder.itch.io/"
 socials = "All my contacts are here: https://www.infinitecoder.org/socials"
 discord = "Join my discord server: https://discord.gg/yHYCKtX9Mt"
-
-[redeem_sounds]
-ok_lets_go = "res://assets/sounds/ok_lets_go.wav"

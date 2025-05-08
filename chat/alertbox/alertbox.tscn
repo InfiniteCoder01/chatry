@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c7bfnl1ninq1o"]
 
-[ext_resource type="Script" path="res://chat/alertbox/alertbox.gd" id="1_bkr4e"]
+[ext_resource type="Script" uid="uid://ceuwjcm8uyo0" path="res://chat/alertbox/alertbox.gd" id="1_bkr4e"]
 
 [node name="AlertBox" type="Control"]
 layout_mode = 3

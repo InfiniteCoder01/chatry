@@ -1,7 +1,9 @@
 extends Node2D
 
+var world: World
+
 func _ready() -> void:
-	if Bot.world.has_node("Court"):
+	if world.has_node("Court"):
 		remove_child($Games)
 	else:
 		remove_child($GameManagement)
@@ -29,23 +31,24 @@ func get_all_children() -> Array[ToolWheelButton]:
 	return children
 	
 func random_plushie() -> void:
-	Bot.random_plushie()
+	var plushie: Plushie = Twitch.all_plushies.pick_random().instantiate()
+	plushie.position_randomly(world.get_viewport_rect())
+	world.plushies.add_child(plushie)
 
 func plushieball() -> void:
-	Bot.plushieball(false)
+	world.plushieball(false)
 
 func plushieball_tournament() -> void:
-	Bot.plushieball(true)
+	world.plushieball(true)
 	
 func cancel_current_game() -> void:
-	Bot.world.get_node("Court").queue_free()
+	world.get_node("Court").queue_free()
 
 func extend_current_game() -> void:
-	var court: Court = Bot.world.get_node("Court")
+	var court: Court = world.get_node("Court")
 	court.timer.time_left += 120.0
-
 
 func send_message() -> void:
 	var send_box := preload("res://tool_wheel/send_box/send_box.tscn").instantiate()
 	send_box.global_position = global_position - send_box.size / 2
-	Bot.world.control.add_child(send_box)
+	world.control.add_child(send_box)

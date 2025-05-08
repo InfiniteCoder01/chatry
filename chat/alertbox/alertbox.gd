@@ -21,7 +21,8 @@ func _ready() -> void:
 			alert = alerts_dir.get_next()
 	else:
 		print("Alerts directory not found!")
-#
+
+	Twitch.broadcaster_eventsub.event.connect(_on_twitch_eventsub_event)
 
 func play(alert: String, message: String) -> void:
 	play_raw(alerts[alert].animation, alerts[alert].sound, message, 10.0)
@@ -47,3 +48,48 @@ func play_raw(sprite_frames: SpriteFrames, sound: AudioStream, message: String, 
 	await sprite.animation_finished
 	sprite.sprite_frames = null
 	label.text = ""
+
+func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
+	if type == "channel.follow":
+		play("follow", "[b][color=red]%s[/color][/b] joined the community! Thank you!" % data.user_name)
+	elif type == "channel.raid":
+		play(
+			"raid",
+			"[b][color=red]%s[/color][/b] is raiding with [b][color=blue]%d[/color][/b] viewers!"
+			% [data.from_broadcaster_user_name, data.viewers]
+		)
+	elif type == "channel.subscribe":
+		play("sub", "[b][color=red]%s[/color][/b] subscribed as Tier %s! Thank you!" % [data.user_name, data.tier])
+	elif type == "channel.subscription.gift":
+		play("sub", "[b][color=red]%s[/color][/b] was gifted a Tier %s sub! Thank you!" % [data.user_name, data.tier])
+	elif type == "channel.channel_points_custom_reward_redemption.add":
+		var opt := TwitchGetCustomReward.Opt.create()
+		opt.id = [data.reward.id]
+		var reward := await Twitch.broadcaster_api.get_custom_reward(opt, Twitch.chat.broadcaster_user.id)
+		
+		var image_url := reward.data[0].image.url_4x if reward.data[0].image != null else reward.data[0].default_image.url_4x
+		var image := ImageTexture.create_from_image(Image.load_from_file(await Cache.cache(image_url)))
+		var sprite_frames := SpriteFrames.new()
+		sprite_frames.add_animation("gif")
+		sprite_frames.set_animation_speed("gif", 1.0 / 8.0)
+		sprite_frames.add_frame("gif", image)
+		
+		var sound := preload("res://assets/alerts/redeem.wav")
+		if data.reward.title == "\"Ok, let\'s go!\"":
+			sound = preload("res://assets/sounds/ok_lets_go.wav")
+		
+		play_raw(
+			sprite_frames,
+			sound,
+			(
+				"[b][color=red]%s[/color][/b]" +
+				" redeemed [b][color=blue]%s[/color][/b]" +
+				" for [b][color=blue]%d[/color][/b] strings.\n%s"
+			) % [
+				data.user_name,
+				data.reward.title,
+				data.reward.cost,
+				data.user_input,
+			],
+			3.0
+		)

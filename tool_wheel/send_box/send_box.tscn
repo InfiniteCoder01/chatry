@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c0axrl1jbfaya"]
 
-[ext_resource type="Script" path="res://tool_wheel/send_box/send_box.gd" id="1_lw5sb"]
+[ext_resource type="Script" uid="uid://18i8q2ush2qc" path="res://tool_wheel/send_box/send_box.gd" id="1_lw5sb"]
 
 [node name="SendBox" type="HBoxContainer"]
 offset_right = 249.0

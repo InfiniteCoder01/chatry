@@ -1,8 +1,8 @@
 [gd_scene load_steps=27 format=3 uid="uid://sey7dajv83iq"]
 
-[ext_resource type="Script" path="res://world/soft_tuber/soft_tuber.gd" id="1_xugjn"]
+[ext_resource type="Script" uid="uid://br2b1rx8qb3j4" path="res://world/soft_tuber/soft_tuber.gd" id="1_xugjn"]
 [ext_resource type="Texture2D" uid="uid://uq0h6ekiegn1" path="res://world/soft_tuber/photo.png" id="2_8cgcc"]
-[ext_resource type="Script" path="res://addons/softbody2d/softbody2d.gd" id="3_psnph"]
+[ext_resource type="Script" uid="uid://cppohjidkd0fv" path="res://addons/softbody2d/softbody2d.gd" id="3_psnph"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_wic24"]
 

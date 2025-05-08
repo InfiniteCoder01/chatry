@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://btgcyas7ldd6p"]
 
-[ext_resource type="Script" path="res://chat/chat.gd" id="1_ccypp"]
+[ext_resource type="Script" uid="uid://cnr0pl2y002ik" path="res://chat/chat.gd" id="1_ccypp"]
 
 [node name="Control" type="VBoxContainer"]
 offset_right = 305.0

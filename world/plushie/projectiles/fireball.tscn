@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bvbwjgdifjlfg"]
 
-[ext_resource type="Script" path="res://world/plushie/projectiles/fireball.gd" id="1_8w3k4"]
+[ext_resource type="Script" uid="uid://mj4jgy3q1wnh" path="res://world/plushie/projectiles/fireball.gd" id="1_8w3k4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aww33"]
 resource_local_to_scene = true
@@ -28,6 +28,7 @@ emission_ring_axis = Vector3(0, 0, 1)
 emission_ring_height = 1.0
 emission_ring_radius = 50.0
 emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
 inherit_velocity_ratio = 0.022
 direction = Vector3(0, -1, 0)
 spread = 0.0

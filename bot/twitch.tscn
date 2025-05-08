@@ -1,0 +1,329 @@
+[gd_scene load_steps=37 format=3 uid="uid://r6ifncja7he"]
+
+[ext_resource type="Script" uid="uid://cgqmjinikpf3q" path="res://bot/twitch.gd" id="1_avmgg"]
+[ext_resource type="Script" uid="uid://i8st3lv0lidh" path="res://addons/twitcher/twitch_service.gd" id="1_yboov"]
+[ext_resource type="Resource" uid="uid://ry64ckbckh6m" path="res://addons/twitcher/twitch_oauth_setting.tres" id="2_avmgg"]
+[ext_resource type="Script" path="res://addons/twitcher/lib/oOuch/crypto_key_provider.gd" id="3_0k8vj"]
+[ext_resource type="Script" uid="uid://b3n3et8mebjcc" path="res://addons/twitcher/auth/twitch_oauth_scopes.gd" id="3_are2j"]
+[ext_resource type="Script" uid="uid://00xbijwpi8xa" path="res://addons/twitcher/lib/oOuch/oauth_setting.gd" id="4_nquir"]
+[ext_resource type="Script" uid="uid://cw30cwveway65" path="res://addons/twitcher/generated/twitch_api.gd" id="5_nquir"]
+[ext_resource type="Script" uid="uid://blmhj3j00yk45" path="res://addons/twitcher/eventsub/twitch_eventsub.gd" id="6_g44ll"]
+[ext_resource type="Resource" uid="uid://c4scwuk8q0r40" path="res://addons/twitcher/lib/oOuch/default_key_provider.tres" id="6_qpb44"]
+[ext_resource type="Script" path="res://addons/twitcher/lib/oOuch/oauth_token.gd" id="7_q542u"]
+[ext_resource type="Script" uid="uid://d4lyup0vy1wtu" path="res://addons/twitcher/media/twitch_media_loader.gd" id="7_qpb44"]
+[ext_resource type="Script" uid="uid://iv0mgv0lu8b0" path="res://addons/twitcher/auth/twitch_auth.gd" id="8_nquir"]
+[ext_resource type="Texture2D" uid="uid://g1dbcjksbotw" path="res://addons/twitcher/assets/fallback_texture.tres" id="8_q542u"]
+[ext_resource type="Script" uid="uid://6v8jnfjwbnhm" path="res://addons/twitcher/media/twitch_image_transformer.gd" id="9_68dwe"]
+[ext_resource type="Script" uid="uid://bf0wi70haua35" path="res://addons/twitcher/lib/oOuch/oauth.gd" id="9_q542u"]
+[ext_resource type="Script" uid="uid://blnbogtrshw4r" path="res://addons/twitcher/auth/twitch_token_handler.gd" id="10_68dwe"]
+[ext_resource type="Script" uid="uid://dcq1bvfrqimqq" path="res://addons/twitcher/chat/twitch_chat.gd" id="10_xyylq"]
+[ext_resource type="Script" uid="uid://cnmohrdxqihr0" path="res://addons/twitcher/generated/twitch_user.gd" id="11_jfaip"]
+[ext_resource type="Script" path="res://addons/twitcher/eventsub/twitch_eventsub_config.gd" id="13_xyylq"]
+[ext_resource type="Script" uid="uid://bmluckfvgm1c2" path="res://addons/twitcher/chat/twitch_command.gd" id="18_68dwe"]
+
+[sub_resource type="Resource" id="Resource_54bgt"]
+script = ExtResource("3_0k8vj")
+encrpytion_secret_location = "user://encryption_key.cfg"
+
+[sub_resource type="Resource" id="Resource_68dwe"]
+script = ExtResource("4_nquir")
+redirect_url = "http://localhost:7170"
+well_known_url = ""
+token_url = "https://id.twitch.tv/oauth2/token"
+authorization_url = "https://id.twitch.tv/oauth2/authorize"
+device_authorization_url = "https://id.twitch.tv/oauth2/device"
+cache_file = "user://auth.conf"
+client_id = "oiwroapnzpputm2e2ln8ebusqiggei"
+authorization_flow = 0
+_encryption_key_provider = SubResource("Resource_54bgt")
+client_secret = "Ryj5hLaR2HmtuhJkXHM2BNnh3ssBbSufQ3UGm94gTnY="
+
+[sub_resource type="Resource" id="Resource_4utia"]
+script = ExtResource("3_are2j")
+used_scopes = Array[StringName]([&"user:read:chat", &"user:write:chat", &"moderator:manage:shoutouts"])
+metadata/_custom_type_script = "uid://b3n3et8mebjcc"
+
+[sub_resource type="Resource" id="Resource_xyylq"]
+script = ExtResource("7_q542u")
+_crypto_key_provider = ExtResource("6_qpb44")
+_identifier = "Bot"
+_cache_path = "user://bot_auth.conf"
+
+[sub_resource type="Resource" id="Resource_qpb44"]
+script = ExtResource("9_68dwe")
+fallback_texture = ExtResource("8_q542u")
+
+[sub_resource type="Resource" id="Resource_q542u"]
+script = ExtResource("11_jfaip")
+id = "710224102"
+login = "infinitecoder01"
+display_name = "InfiniteCoder01"
+type = ""
+broadcaster_type = "affiliate"
+description = "Hi! My name is Dima and I like coding in Rust, C and C++!"
+profile_image_url = "https://static-cdn.jtvnw.net/jtv_user_pictures/541a2357-81c4-49bf-9448-e6e8704bb772-profile_image-300x300.png"
+offline_image_url = ""
+view_count = 0
+email = ""
+created_at = "2021-07-23T16:18:21Z"
+
+[sub_resource type="Resource" id="Resource_jfaip"]
+script = ExtResource("3_are2j")
+used_scopes = Array[StringName]([&"user:write:chat", &"moderator:read:followers", &"channel:read:subscriptions", &"channel:read:redemptions", &"channel:manage:redemptions", &"user:read:chat"])
+metadata/_custom_type_script = "uid://b3n3et8mebjcc"
+
+[sub_resource type="Resource" id="Resource_g44ll"]
+script = ExtResource("7_q542u")
+_crypto_key_provider = ExtResource("6_qpb44")
+_identifier = "Broadcaster"
+_cache_path = "user://auth.conf"
+metadata/_custom_type_script = "uid://b52xp7c23ucfk"
+
+[sub_resource type="Resource" id="Resource_y5e8h"]
+script = ExtResource("11_jfaip")
+id = "710224102"
+login = "infinitecoder01"
+display_name = "InfiniteCoder01"
+type = ""
+broadcaster_type = "affiliate"
+description = "Hi! My name is Dima and I like coding in Rust, C and C++!"
+profile_image_url = "https://static-cdn.jtvnw.net/jtv_user_pictures/541a2357-81c4-49bf-9448-e6e8704bb772-profile_image-300x300.png"
+offline_image_url = ""
+view_count = 0
+email = ""
+created_at = "2021-07-23T16:18:21Z"
+
+[sub_resource type="Resource" id="Resource_hvtc4"]
+script = ExtResource("11_jfaip")
+id = "710224102"
+login = "infinitecoder01"
+display_name = "InfiniteCoder01"
+type = ""
+broadcaster_type = "affiliate"
+description = "Hi! My name is Dima and I like coding in Rust, C and C++!"
+profile_image_url = "https://static-cdn.jtvnw.net/jtv_user_pictures/541a2357-81c4-49bf-9448-e6e8704bb772-profile_image-300x300.png"
+offline_image_url = ""
+view_count = 0
+email = ""
+created_at = "2021-07-23T16:18:21Z"
+
+[sub_resource type="Resource" id="Resource_c0nbd"]
+script = ExtResource("13_xyylq")
+type = 37
+condition = {
+&"broadcaster_user_id": "710224102",
+&"reward_id": ""
+}
+metadata/_custom_type_script = "uid://cjug64e3433g0"
+metadata/broadcaster_user_id_user = SubResource("Resource_y5e8h")
+metadata/moderator_user_id_user = SubResource("Resource_hvtc4")
+
+[sub_resource type="Resource" id="Resource_m45fd"]
+script = ExtResource("13_xyylq")
+type = 5
+condition = {
+&"broadcaster_user_id": "710224102",
+&"moderator_user_id": "710224102"
+}
+metadata/_custom_type_script = "uid://cjug64e3433g0"
+metadata/broadcaster_user_id_user = SubResource("Resource_y5e8h")
+metadata/moderator_user_id_user = SubResource("Resource_y5e8h")
+
+[sub_resource type="Resource" id="Resource_3ow4j"]
+script = ExtResource("13_xyylq")
+type = 20
+condition = {
+&"to_broadcaster_user_id": "710224102"
+}
+metadata/_custom_type_script = "uid://cjug64e3433g0"
+metadata/broadcaster_user_id_user = SubResource("Resource_hvtc4")
+metadata/moderator_user_id_user = SubResource("Resource_hvtc4")
+metadata/to_broadcaster_user_id_user = SubResource("Resource_y5e8h")
+
+[sub_resource type="Resource" id="Resource_nmfof"]
+script = ExtResource("13_xyylq")
+type = 15
+condition = {
+&"broadcaster_user_id": "710224102"
+}
+metadata/_custom_type_script = "uid://cjug64e3433g0"
+metadata/broadcaster_user_id_user = SubResource("Resource_y5e8h")
+metadata/moderator_user_id_user = SubResource("Resource_hvtc4")
+
+[sub_resource type="Resource" id="Resource_5gcrs"]
+script = ExtResource("13_xyylq")
+type = 17
+condition = {
+&"broadcaster_user_id": "710224102"
+}
+metadata/_custom_type_script = "uid://cjug64e3433g0"
+metadata/broadcaster_user_id_user = SubResource("Resource_y5e8h")
+metadata/moderator_user_id_user = SubResource("Resource_hvtc4")
+
+[sub_resource type="Resource" id="Resource_jcd2f"]
+script = ExtResource("11_jfaip")
+id = "710224102"
+login = "infinitecoder01"
+display_name = "InfiniteCoder01"
+type = ""
+broadcaster_type = "affiliate"
+description = "Hi! My name is Dima and I like coding in Rust, C and C++!"
+profile_image_url = "https://static-cdn.jtvnw.net/jtv_user_pictures/541a2357-81c4-49bf-9448-e6e8704bb772-profile_image-300x300.png"
+offline_image_url = ""
+view_count = 0
+email = ""
+created_at = "2021-07-23T16:18:21Z"
+
+[node name="Twitch" type="Node"]
+script = ExtResource("1_avmgg")
+
+[node name="Bot" type="Node" parent="."]
+script = ExtResource("1_yboov")
+oauth_setting = SubResource("Resource_68dwe")
+scopes = SubResource("Resource_4utia")
+token = SubResource("Resource_xyylq")
+
+[node name="Commands" type="Node" parent="Bot"]
+
+[node name="Plushie" type="Node" parent="Bot/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_68dwe")
+command = "plushie"
+aliases = Array[String](["plushy"])
+description = "Distract me with a wild plushie! There are many to choose from"
+eventsub = NodePath("../../TwitchEventsub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Pick" type="Node" parent="Bot/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_68dwe")
+command = "pick"
+description = "Pick a wild plushie from a group"
+eventsub = NodePath("../../TwitchEventsub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Readchat" type="Node" parent="Bot/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_68dwe")
+command = "readchat"
+description = "Can you read chat, please?"
+eventsub = NodePath("../../TwitchEventsub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="AddForce" type="Node" parent="Bot/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_68dwe")
+command = "add_force"
+aliases = Array[String](["addforce", "jump"])
+description = "Go, plushie, go!"
+args_min = 2
+eventsub = NodePath("../../TwitchEventsub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="PutOut" type="Node" parent="Bot/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_68dwe")
+command = "put_out"
+aliases = Array[String](["putout"])
+description = "Stop the plushie from burning"
+eventsub = NodePath("../../TwitchEventsub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Punch" type="Node" parent="Bot/Commands" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_68dwe")
+command = "punch"
+aliases = Array[String](["fight", "attack"])
+description = "3... 2.. 1. FIGHT!"
+args_min = 1
+eventsub = NodePath("../../TwitchEventsub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="TwitchAuth" type="Node" parent="Bot"]
+script = ExtResource("8_nquir")
+oauth_setting = SubResource("Resource_68dwe")
+force_verify = true
+token = SubResource("Resource_xyylq")
+scopes = SubResource("Resource_4utia")
+metadata/_custom_type_script = "uid://iv0mgv0lu8b0"
+
+[node name="OAuth" type="Node" parent="Bot/TwitchAuth" node_paths=PackedStringArray("token_handler")]
+script = ExtResource("9_q542u")
+oauth_setting = SubResource("Resource_68dwe")
+scopes = SubResource("Resource_4utia")
+token_handler = NodePath("../TokenHandler")
+
+[node name="TokenHandler" type="Node" parent="Bot/TwitchAuth"]
+script = ExtResource("10_68dwe")
+oauth_setting = SubResource("Resource_68dwe")
+token = SubResource("Resource_xyylq")
+
+[node name="TwitchAPI" type="Node" parent="Bot"]
+script = ExtResource("5_nquir")
+token = SubResource("Resource_xyylq")
+oauth_setting = SubResource("Resource_68dwe")
+
+[node name="TwitchEventsub" type="Node" parent="Bot" node_paths=PackedStringArray("api")]
+script = ExtResource("6_g44ll")
+api = NodePath("../TwitchAPI")
+scopes = SubResource("Resource_4utia")
+
+[node name="TwitchMediaLoader" type="Node" parent="Bot" node_paths=PackedStringArray("api")]
+script = ExtResource("7_qpb44")
+api = NodePath("../TwitchAPI")
+image_transformer = SubResource("Resource_qpb44")
+metadata/_custom_type_script = "uid://d4lyup0vy1wtu"
+
+[node name="TwitchChat" type="Node" parent="Bot" node_paths=PackedStringArray("media_loader", "eventsub", "api")]
+script = ExtResource("10_xyylq")
+broadcaster_user = SubResource("Resource_q542u")
+media_loader = NodePath("../TwitchMediaLoader")
+eventsub = NodePath("../TwitchEventsub")
+api = NodePath("../TwitchAPI")
+metadata/_custom_type_script = "uid://dcq1bvfrqimqq"
+
+[node name="Broadcaster" type="Node" parent="."]
+script = ExtResource("1_yboov")
+oauth_setting = ExtResource("2_avmgg")
+scopes = SubResource("Resource_jfaip")
+token = SubResource("Resource_g44ll")
+
+[node name="TwitchAuth" type="Node" parent="Broadcaster"]
+script = ExtResource("8_nquir")
+oauth_setting = ExtResource("2_avmgg")
+force_verify = true
+token = SubResource("Resource_g44ll")
+scopes = SubResource("Resource_jfaip")
+metadata/_custom_type_script = "uid://iv0mgv0lu8b0"
+
+[node name="OAuth" type="Node" parent="Broadcaster/TwitchAuth" node_paths=PackedStringArray("token_handler")]
+script = ExtResource("9_q542u")
+oauth_setting = ExtResource("2_avmgg")
+scopes = SubResource("Resource_jfaip")
+token_handler = NodePath("../TokenHandler")
+
+[node name="TokenHandler" type="Node" parent="Broadcaster/TwitchAuth"]
+script = ExtResource("10_68dwe")
+oauth_setting = ExtResource("2_avmgg")
+token = SubResource("Resource_g44ll")
+
+[node name="TwitchAPI" type="Node" parent="Broadcaster"]
+script = ExtResource("5_nquir")
+token = SubResource("Resource_g44ll")
+oauth_setting = ExtResource("2_avmgg")
+metadata/_custom_type_script = "uid://cw30cwveway65"
+
+[node name="TwitchEventsub" type="Node" parent="Broadcaster" node_paths=PackedStringArray("api")]
+script = ExtResource("6_g44ll")
+api = NodePath("../TwitchAPI")
+_subscriptions = Array[ExtResource("13_xyylq")]([SubResource("Resource_c0nbd"), SubResource("Resource_m45fd"), SubResource("Resource_3ow4j"), SubResource("Resource_nmfof"), SubResource("Resource_5gcrs")])
+scopes = SubResource("Resource_jfaip")
+metadata/_custom_type_script = "uid://blmhj3j00yk45"
+
+[node name="TwitchChat" type="Node" parent="Broadcaster" node_paths=PackedStringArray("media_loader", "eventsub", "api")]
+script = ExtResource("10_xyylq")
+broadcaster_user = SubResource("Resource_jcd2f")
+media_loader = NodePath("../../Bot/TwitchMediaLoader")
+eventsub = NodePath("../TwitchEventsub")
+api = NodePath("../TwitchAPI")
+metadata/_custom_type_script = "uid://dcq1bvfrqimqq"
+
+[node name="SoundBlaster" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="command_received" from="Bot/Commands/Readchat" to="." method="_on_readchat"]
+[connection signal="event" from="Broadcaster/TwitchEventsub" to="." method="_on_twitch_eventsub_event"]

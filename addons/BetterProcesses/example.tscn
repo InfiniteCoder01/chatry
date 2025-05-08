@@ -1,7 +1,5 @@
 [gd_scene load_steps=6 format=3 uid="uid://yf5505fsktwh"]
 
-[ext_resource type="Texture2D" uid="uid://dkabu3a043y8t" path="res://icon.svg" id="1_wyh6u"]
-
 [sub_resource type="GDScript" id="GDScript_mi5wd"]
 script/source = "extends RichTextLabel
 
@@ -25,6 +23,9 @@ func _on_process_manager_stderr(data):
 func _on_process_node_finished(returnCode:int):
 	setTextBox(\"<<FINISHED WITH {0} >>\".format([returnCode]),true)
 "
+
+[sub_resource type="Resource" id="Resource_5xpwj"]
+metadata/__load_path__ = "res://icon.svg"
 
 [sub_resource type="Animation" id="Animation_fspp7"]
 length = 0.001
@@ -59,8 +60,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lkfnh"]
 _data = {
-"RESET": SubResource("Animation_fspp7"),
-"spin": SubResource("Animation_xk6si")
+&"RESET": SubResource("Animation_fspp7"),
+&"spin": SubResource("Animation_xk6si")
 }
 
 [node name="PanelContainer" type="PanelContainer"]
@@ -94,7 +95,7 @@ args = PackedStringArray("google.com", "-n", "10")
 [node name="Icon" type="Sprite2D" parent="."]
 z_index = -1
 position = Vector2(114, 93)
-texture = ExtResource("1_wyh6u")
+texture = SubResource("Resource_5xpwj")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Icon"]
 autoplay = "spin"

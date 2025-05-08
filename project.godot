@@ -12,7 +12,7 @@ config_version=5
 
 config/name="chatry"
 run/main_scene="res://world/world.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [audio]
@@ -22,11 +22,15 @@ driver/enable_input=true
 
 [autoload]
 
-Bot="*res://bot/bot.gd"
+Twitch="*res://bot/twitch.tscn"
 Store="*res://bot/store.gd"
+Cache="*res://cache.gd"
 
 [debug]
 
+gdscript/warnings/shadowed_variable=0
+gdscript/warnings/shadowed_variable_base_class=0
+gdscript/warnings/shadowed_global_identifier=0
 gdscript/warnings/untyped_declaration=1
 
 [display]
@@ -40,7 +44,7 @@ window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/softbody2d/plugin.cfg", "res://addons/wakatime/plugin.cfg")
+enabled=PackedStringArray("res://addons/softbody2d/plugin.cfg", "res://addons/twitcher/plugin.cfg", "res://addons/wakatime/plugin.cfg")
 
 [input]
 
@@ -60,6 +64,10 @@ attack={
 ]
 }
 
+[physics]
+
+common/max_physics_steps_per_frame=16
+
 [rendering]
 
 environment/defaults/default_clear_color=Color(0.301961, 0.301961, 0.301961, 0)
@@ -77,3 +85,11 @@ auth/scopes/user=4096
 auth/api/auth_file_cache="user://auth.key"
 general/logging/enabled=2
 websocket/eventsub/test_server="ws://127.0.0.1:8080/ws"
+
+[twitcher]
+
+editor/game_oauth_token="res://addons/twitcher/default_oauth_token.tres"
+editor/game_oauth_setting="res://addons/twitcher/twitch_oauth_setting.tres"
+editor/project_preset=&"Overlay"
+editor/show_setup_on_startup=false
+logs/TwitchAPI="debug"

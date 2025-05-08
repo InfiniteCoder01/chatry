@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://buqujgoglb2u"]
 
-[ext_resource type="Script" path="res://tool_wheel/tool_wheel.gd" id="1_md3vk"]
-[ext_resource type="Script" path="res://tool_wheel/button.gd" id="2_2utwo"]
+[ext_resource type="Script" uid="uid://bh5s28uqn3df6" path="res://tool_wheel/tool_wheel.gd" id="1_md3vk"]
+[ext_resource type="Script" uid="uid://dbmvfr17vscbx" path="res://tool_wheel/button.gd" id="2_2utwo"]
 
 [sub_resource type="Theme" id="Theme_qo6qr"]
 Button/constants/outline_size = 10
