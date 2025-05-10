@@ -12,7 +12,7 @@ extends Node
 
 @onready var sound_blaster: AudioStreamPlayer = %SoundBlaster
 
-var plushies: Dictionary = {}
+var plushies: Dictionary[String, PlushieProto] = {}
 var all_plushies: Array[PlushieProto] = []
 var plushie_groups: Dictionary = {}
 
@@ -92,7 +92,7 @@ func timeout(author: String, topic: String, time: float) -> bool:
 const MOD_STREAMER_VIP := TwitchCommand.PermissionFlag.MOD | TwitchCommand.PermissionFlag.STREAMER | TwitchCommand.PermissionFlag.VIP
 
 func connect_command(name: String, callback: Callable) -> void:
-	get_node("Bot/Commands/" + name).command_received.connect(callback)
+	$Bot/Commands.find_child(name).command_received.connect(callback)
 
 func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 	if type == "channel.raid":

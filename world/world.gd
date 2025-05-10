@@ -13,6 +13,7 @@ func _ready() -> void:
 	Twitch.connect_command("Plushie", _on_plushie)
 	Twitch.connect_command("Pick", _on_pick)
 	Twitch.connect_command("Punch", _on_punch)
+	Twitch.connect_command("TeamPlushie", _on_tplushie)
 
 func _process(_delta: float) -> void:
 	var mouse := get_global_mouse_position()
@@ -78,7 +79,7 @@ func _on_plushie(from_username: String, info: TwitchCommandInfo, args: PackedStr
 	var proto: PlushieProto = Twitch.all_plushies.pick_random() if args.is_empty() else Twitch.find_plushie(" ".join(args))
 	if proto == null: return
 	var plushie := proto.instantiate()
-	plushie.chatter = await Twitch.bot.get_user(from_username)
+	#plushie.chatter = await Twitch.bot.get_user(from_username)
 	plushie.position_randomly(get_viewport_rect())
 	plushies.add_child(plushie)
 
@@ -92,7 +93,30 @@ func _on_pick(from_username: String, info: TwitchCommandInfo, args: PackedString
 		return
 	var proto: PlushieProto = Twitch.plushie_groups[name].pick_random()
 	var plushie := proto.instantiate()
+	#plushie.chatter = await Twitch.bot.get_user(from_username)
+	plushie.position_randomly(get_viewport_rect())
+	plushies.add_child(plushie)
+
+func _on_tplushie(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	var flags := info.command._get_perm_flag_from_tags(info.original_message)
+	if flags & Twitch.MOD_STREAMER_VIP == 0 && Twitch.timeout(from_username, "plushies", 10.0): return
+
+	var chatter := Store.viewer(from_username)
+	var member: Store.CaughtPlushie = chatter.team.pick_random() if args.is_empty() else chatter.get_team_member(args[0])
+	if member == null: return
+	
+	for plushie: Plushie in plushies.get_children():
+		if (plushie.chatter != null &&
+			plushie.chatter.login == from_username &&
+			plushie.member != null &&
+			plushie.member.name == member.name
+		): return
+	
+	var proto := Twitch.plushies[Twitch.strip_special_characters(member.proto_name).to_lower()]
+	var plushie := proto.instantiate()
+	
 	plushie.chatter = await Twitch.bot.get_user(from_username)
+	plushie.member = member
 	plushie.position_randomly(get_viewport_rect())
 	plushies.add_child(plushie)
 

@@ -34,6 +34,7 @@ func _on_heat_message(message: Dictionary) -> void:
 
 var proto: PlushieProto
 var chatter: TwitchUser
+var member: Store.CaughtPlushie
 
 var lifetime_remaining: float
 
