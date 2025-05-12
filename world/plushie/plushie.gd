@@ -33,8 +33,13 @@ func _on_heat_message(message: Dictionary) -> void:
 @onready var soft_body: SoftBody2D = $SoftBody2D
 
 var proto: PlushieProto
-var chatter: TwitchUser
-var member: Store.CaughtPlushie
+var chatter: TwitchUser = null
+var caught: Store.CaughtPlushie = null
+
+#func stats() -> PlushieProto.Stats:
+	#if member != null:
+		#return member.stats
+	#return proto.default_stats
 
 var lifetime_remaining: float
 
@@ -69,6 +74,14 @@ func _ready() -> void:
 	)
 
 # ******************************************************************** Utility
+func name_matches(name: String) -> bool:
+	name = PlushieLib.strip(name)
+	var names: Array[String] = proto.aliases.duplicate()
+	names.append(proto.name)
+	for this_name in names:
+		if name == PlushieLib.strip(this_name): return true
+	return false
+
 func closest_rbs(target: Vector2) -> Array[SoftBody2D.SoftBodyChild]:
 	var rigid_bodies := soft_body.get_rigid_bodies()
 	var indices := range(rigid_bodies.size())

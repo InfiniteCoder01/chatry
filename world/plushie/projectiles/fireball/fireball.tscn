@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bvbwjgdifjlfg"]
 
-[ext_resource type="Script" uid="uid://mj4jgy3q1wnh" path="res://world/plushie/projectiles/fireball.gd" id="1_8w3k4"]
+[ext_resource type="Script" uid="uid://mj4jgy3q1wnh" path="res://world/plushie/projectiles/fireball/fireball.gd" id="1_8w3k4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aww33"]
 resource_local_to_scene = true

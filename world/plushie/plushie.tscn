@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://dnqya1xjl01mp" path="res://world/plushie/plushie.gd" id="1_2bxup"]
 [ext_resource type="Texture2D" uid="uid://7u4jretta2ba" path="res://world/plushie/NoImagePlaceholder.svg" id="1_8k4jb"]
 [ext_resource type="Script" uid="uid://cyfo4u3xm6qw1" path="res://addons/softbody2d/softbody2d.gd" id="2_rre1d"]
-[ext_resource type="PackedScene" uid="uid://bpyjgt823pde7" path="res://world/plushie/bone.tscn" id="4_t6ag3"]
-[ext_resource type="Script" uid="uid://2mnx7g4cvge2" path="res://world/plushie/bone.gd" id="5_8r2ce"]
+[ext_resource type="PackedScene" uid="uid://bpyjgt823pde7" path="res://world/plushie/bone/bone.tscn" id="4_t6ag3"]
+[ext_resource type="Script" uid="uid://2mnx7g4cvge2" path="res://world/plushie/bone/bone.gd" id="5_8r2ce"]
 
 [sub_resource type="Shader" id="Shader_lqmqj"]
 code = "shader_type canvas_item;

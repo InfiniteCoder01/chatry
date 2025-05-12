@@ -23,6 +23,7 @@ driver/enable_input=true
 [autoload]
 
 Twitch="*res://bot/twitch.tscn"
+PlushieLib="*res://world/plushie/plushie_lib.gd"
 Store="*res://bot/store.gd"
 Cache="*res://cache.gd"
 
@@ -32,6 +33,7 @@ gdscript/warnings/shadowed_variable=0
 gdscript/warnings/shadowed_variable_base_class=0
 gdscript/warnings/shadowed_global_identifier=0
 gdscript/warnings/untyped_declaration=1
+gdscript/warnings/confusable_local_declaration=0
 
 [display]
 

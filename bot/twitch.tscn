@@ -189,6 +189,7 @@ token = SubResource("Resource_xyylq")
 script = ExtResource("18_68dwe")
 command = "readchat"
 description = "Can you read chat, please?"
+args_max = 0
 eventsub = NodePath("../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
@@ -217,6 +218,7 @@ command = "add_force"
 aliases = Array[String](["addforce", "jump"])
 description = "Go, plushie, go!"
 args_min = 2
+args_max = 2
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
@@ -225,6 +227,7 @@ script = ExtResource("18_68dwe")
 command = "put_out"
 aliases = Array[String](["putout"])
 description = "Stop the plushie from burning"
+args_max = 0
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
@@ -233,29 +236,20 @@ script = ExtResource("18_68dwe")
 command = "punch"
 aliases = Array[String](["fight", "attack"])
 description = "3... 2.. 1. FIGHT!"
-args_min = 1
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[node name="Team" type="Node" parent="Bot/Commands"]
+[node name="Team_" type="Node" parent="Bot/Commands"]
 
-[node name="PlushieDex" type="Node" parent="Bot/Commands/Team" node_paths=PackedStringArray("eventsub")]
+[node name="Team" type="Node" parent="Bot/Commands/Team_" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
-command = "plushiedex"
-aliases = Array[String](["plushydex"])
+command = "team"
 description = "See what plushies you have"
+args_max = 1
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[node name="Catch" type="Node" parent="Bot/Commands/Team" node_paths=PackedStringArray("eventsub")]
-script = ExtResource("18_68dwe")
-command = "catch"
-description = "Catch a plushie"
-args_min = 1
-eventsub = NodePath("../../../TwitchEventsub")
-metadata/_custom_type_script = "uid://bmluckfvgm1c2"
-
-[node name="Rename" type="Node" parent="Bot/Commands/Team" node_paths=PackedStringArray("eventsub")]
+[node name="Rename" type="Node" parent="Bot/Commands/Team_" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
 command = "rename"
 aliases = Array[String](["name"])
@@ -265,11 +259,29 @@ args_max = 2
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[node name="TeamPlushie" type="Node" parent="Bot/Commands/Team" node_paths=PackedStringArray("eventsub")]
+[node name="TeamPlushie" type="Node" parent="Bot/Commands/Team_" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
 command = "tplushie"
 aliases = Array[String](["tplushy"])
 description = "Summon a plushy from your team"
+args_max = 1
+eventsub = NodePath("../../../TwitchEventsub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Catch" type="Node" parent="Bot/Commands/Team_" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_68dwe")
+command = "catch"
+description = "Catch a plushie"
+args_min = 1
+eventsub = NodePath("../../../TwitchEventsub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="PlushieDex" type="Node" parent="Bot/Commands/Team_" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_68dwe")
+command = "plushiedex"
+aliases = Array[String](["plushydex"])
+description = "See what plushies you have"
+args_max = 0
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
