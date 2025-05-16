@@ -1,1 +1,2 @@
+aliases = ["snapcraft"]
 groups = ["Package Managers"]

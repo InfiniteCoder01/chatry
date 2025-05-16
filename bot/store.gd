@@ -11,6 +11,10 @@ class Viewer:
 			if plushie.name.to_lower() == name.to_lower():
 				return plushie
 		return null
+	
+	func receive(plushie: CaughtPlushie) -> void:
+		team.append(plushie)
+		plushiedex[plushie.proto_name] = true
 
 class CaughtPlushie:
 	extends RefCounted
@@ -27,13 +31,15 @@ class CaughtPlushie:
 
 var viewers: Dictionary[String, Viewer] = {}
 
-func viewer(login: String) -> Viewer:
+func viewer(login: String, create: bool = false) -> Viewer:
 	if login not in viewers:
+		if !create: return Viewer.new()
 		viewers[login] = Viewer.new()
 	return viewers[login]
 
 # ----------------------------------------------
 const STORE_PATH := "/mnt/D/Channel/store.json"
+
 func _ready() -> void:
 	var file := FileAccess.open(STORE_PATH, FileAccess.READ)
 	Serializer.deserialize(self, JSON.parse_string(file.get_as_text()))
@@ -85,6 +91,22 @@ func _ready() -> void:
 	Twitch.connect_command("PlushieDex", func _on_plushiedex(from_username: String, info: TwitchCommandInfo, _args: PackedStringArray) -> void:
 		var chatter := viewer(from_username)
 		Twitch.chat.send_message("You have caught %d/%d plushies!" % [chatter.plushiedex.size(), PlushieLib.all.size()], info.original_message.message_id)
+	)
+
+	Twitch.connect_command("Gift", func _on_gift(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
+		var recipient_login := args[0].to_lower()
+		if !Twitch.recent_chatters.has(recipient_login): return
+		
+		var chatter := viewer(from_username)
+		var plushie := chatter.get_team_member(args[1])
+		if plushie == null: return
+		
+		var recipient := viewer(recipient_login, true)
+		recipient.receive(plushie)
+		chatter.team.erase(plushie)
+		save()
+
+		Twitch.chat.send_message("@%s now got %s!" % [args[0], plushie.name])
 	)
 
 func save() -> void:

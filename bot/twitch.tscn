@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://r6ifncja7he"]
+[gd_scene load_steps=39 format=3 uid="uid://r6ifncja7he"]
 
 [ext_resource type="Script" uid="uid://cgqmjinikpf3q" path="res://bot/twitch.gd" id="1_avmgg"]
 [ext_resource type="Script" uid="uid://i8st3lv0lidh" path="res://addons/twitcher/twitch_service.gd" id="1_yboov"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://iv0mgv0lu8b0" path="res://addons/twitcher/auth/twitch_auth.gd" id="8_nquir"]
 [ext_resource type="Texture2D" uid="uid://g1dbcjksbotw" path="res://addons/twitcher/assets/fallback_texture.tres" id="8_q542u"]
 [ext_resource type="Script" uid="uid://6v8jnfjwbnhm" path="res://addons/twitcher/media/twitch_image_transformer.gd" id="9_68dwe"]
+[ext_resource type="Script" uid="uid://ch0rxi1ogjx3q" path="res://addons/twitcher/chat/twitch_command_help.gd" id="9_jfaip"]
 [ext_resource type="Script" uid="uid://bf0wi70haua35" path="res://addons/twitcher/lib/oOuch/oauth.gd" id="9_q542u"]
 [ext_resource type="Script" uid="uid://blnbogtrshw4r" path="res://addons/twitcher/auth/twitch_token_handler.gd" id="10_68dwe"]
 [ext_resource type="Script" uid="uid://dcq1bvfrqimqq" path="res://addons/twitcher/chat/twitch_chat.gd" id="10_xyylq"]
@@ -48,6 +49,20 @@ script = ExtResource("7_q542u")
 _crypto_key_provider = ExtResource("6_qpb44")
 _identifier = "Bot"
 _cache_path = "user://bot_auth.conf"
+
+[sub_resource type="Resource" id="Resource_d1nhj"]
+script = ExtResource("11_jfaip")
+id = "940800142"
+login = "coderschatry"
+display_name = "CodersChatry"
+type = ""
+broadcaster_type = ""
+description = "I'm Chatry, bot for InfiniteCoder01 channel (https://www.twitch.tv/infinitecoder01)"
+profile_image_url = "https://static-cdn.jtvnw.net/user-default-pictures-uv/de130ab0-def7-11e9-b668-784f43822e80-profile_image-300x300.png"
+offline_image_url = ""
+view_count = 0
+email = ""
+created_at = "2023-08-06T13:39:19Z"
 
 [sub_resource type="Resource" id="Resource_qpb44"]
 script = ExtResource("9_68dwe")
@@ -193,6 +208,13 @@ args_max = 0
 eventsub = NodePath("../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
+[node name="TwitchCommandHelp" type="Node" parent="Bot/Commands" node_paths=PackedStringArray("twitch_api", "eventsub")]
+script = ExtResource("9_jfaip")
+twitch_api = NodePath("../../TwitchAPI")
+sender_user = SubResource("Resource_d1nhj")
+eventsub = NodePath("../../TwitchEventsub")
+metadata/_custom_type_script = "uid://ch0rxi1ogjx3q"
+
 [node name="Spawn" type="Node" parent="Bot/Commands"]
 
 [node name="Plushie" type="Node" parent="Bot/Commands/Spawn" node_paths=PackedStringArray("eventsub")]
@@ -263,7 +285,7 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 script = ExtResource("18_68dwe")
 command = "tplushie"
 aliases = Array[String](["tplushy"])
-description = "Summon a plushy from your team"
+description = "Summon a plushie from your team"
 args_max = 1
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
@@ -280,8 +302,17 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 script = ExtResource("18_68dwe")
 command = "plushiedex"
 aliases = Array[String](["plushydex"])
-description = "See what plushies you have"
+description = "All the plushies you have ever had"
 args_max = 0
+eventsub = NodePath("../../../TwitchEventsub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Gift" type="Node" parent="Bot/Commands/Team_" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_68dwe")
+command = "gift"
+description = "Gift your plushie to somebody"
+args_min = 2
+args_max = 2
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 

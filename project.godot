@@ -94,4 +94,3 @@ editor/game_oauth_token="res://addons/twitcher/default_oauth_token.tres"
 editor/game_oauth_setting="res://addons/twitcher/twitch_oauth_setting.tres"
 editor/project_preset=&"Overlay"
 editor/show_setup_on_startup=false
-logs/TwitchAPI="debug"

@@ -54,10 +54,12 @@ func _notification(what: int) -> void:
 # -------------------------------------------------------------------------- Twitch
 func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 	if type == "channel.raid":
-		var plushie := PlushieLib.find(data.from_broadcaster_user_name)
+		var plushie := PlushieLib.find(data.from_broadcaster_user_login)
 		if plushie == null: return
+
 		for i in range(10):
 			var plushie_instance: Plushie = plushie.instantiate()
+			plushie_instance.chatter = await Twitch.bot.get_user_by_id(data.from_broadcaster_user_id);
 			plushie_instance.position_randomly(get_viewport_rect())
 			plushies.add_child(plushie_instance)
 			await get_tree().create_timer(1.0).timeout

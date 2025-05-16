@@ -36,10 +36,10 @@ var proto: PlushieProto
 var chatter: TwitchUser = null
 var caught: Store.CaughtPlushie = null
 
-#func stats() -> PlushieProto.Stats:
-	#if member != null:
-		#return member.stats
-	#return proto.default_stats
+func stats() -> PlushieProto.Stats:
+	if caught != null:
+		return caught.stats
+	return proto.stats
 
 var lifetime_remaining: float
 
@@ -99,15 +99,25 @@ var attack_target: Plushie
 var attack_hits: int
 func attack(target: Plushie) -> void:
 	var target_pos := target.soft_body.get_bones_center_position()
-	var impulse := (target_pos - soft_body.get_bones_center_position()) * 0.6
-	impulse = impulse.limit_length(300.0)
+	var impulse := (target_pos - soft_body.get_bones_center_position())
+	
+	var my_stats := stats()
+	var victim_stats := target.stats()
+	var power := float(my_stats.attack) / victim_stats.defense
+	if target.proto.groups.has("cpus") || target.proto.groups.has("embedded"):
+		power *= 1.3
+
+	impulse = impulse.normalized() * 200.0 * min(sqrt(power), 1.5)
 	soft_body.apply_impulse(impulse)
 	attack_target = target
-	attack_hits = (impulse.length() / 60) as int
+	attack_hits = int(5 * power)
+	# languages editors cpus embedded terminals distros graphics applications
+	# browsers games mediaplatforms git compositor messengers
+	# streamers movies gameengines shells periodictable packagemanagers des
 	for pb in soft_body.get_rigid_bodies():
 		var rb := pb.rigidbody as RigidBody2D
 		rb.contact_monitor = true
-		rb.max_contacts_reported = 5
+		rb.max_contacts_reported = 3
 
 func put_out() -> void:
 	for rb in soft_body.get_rigid_bodies():
@@ -115,7 +125,12 @@ func put_out() -> void:
 
 ## ******************************************************************** Process
 func _process(delta: float) -> void:
-	if soft_body.get_rigid_bodies().is_empty():
+	var exists := false
+	for pb in soft_body.get_rigid_bodies():
+		if !pb.joints.is_empty():
+			exists = true
+			break
+	if !exists:
 		queue_free()
 		return
 
@@ -128,20 +143,17 @@ func _process(delta: float) -> void:
 		var collisions: Array[Bone] = []
 		for pb in soft_body.get_rigid_bodies():
 			var rb := pb.rigidbody as RigidBody2D
-			for collision in rb.get_colliding_bodies():
-				if collision is Bone:
-					collisions.append(collision)
+			collisions.append_array(rb.get_colliding_bodies().filter(func pred(collision: Node2D) -> bool:
+				return collision is Bone and collision.plushie == attack_target
+			))
 		
 		var joints_removed := 0
 		var max_joints_per_frame: int = min(attack_hits, 30)
 		for collision in collisions:
-			if collision.plushie != self:
-				var rb: SoftBody2D.SoftBodyChild = collision.plushie.soft_body._soft_body_rigidbodies_dict[collision]
-				for joint in rb.joints:
-					collision.plushie.soft_body.remove_joint(rb, joint)
-					joints_removed += 1
-					if joints_removed >= max_joints_per_frame:
-						attack_target = null
-						break
+			var rb: SoftBody2D.SoftBodyChild = collision.plushie.soft_body._soft_body_rigidbodies_dict[collision]
+			for joint in rb.joints:
+				collision.plushie.soft_body.remove_joint(rb, joint)
+				joints_removed += 1
 				if joints_removed >= max_joints_per_frame: break
+			if joints_removed >= max_joints_per_frame: break
 		attack_hits -= joints_removed

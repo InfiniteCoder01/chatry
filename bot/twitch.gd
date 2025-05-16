@@ -12,7 +12,8 @@ extends Node
 
 @onready var sound_blaster: AudioStreamPlayer = %SoundBlaster
 
-var simple_commands: Dictionary = {}
+var simple_commands: Dictionary[String, String] = {}
+var recent_chatters: Dictionary[String, bool]
 
 func _ready() -> void:
 	print("Authorize bot")
@@ -44,10 +45,12 @@ func connect_command(name: String, callback: Callable) -> void:
 func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 	if type == "channel.raid":
 		await bot.shoutout(await bot.get_user_by_id(data.from_broadcaster_user_id))
-	elif type == "channel.chat.message" && data.message.text.begins_with("!") && simple_commands.has(data.message.text.substr(1)):
-		var resp: String = simple_commands[data.message.text.substr(1)]
-		resp = resp.replace("@user", "@%s" % data.chatter_user_name)
-		chat.send_message(resp, data.message_id)
+	elif type == "channel.chat.message":
+		recent_chatters[data.chatter_user_login] = true
+		if data.message.text.begins_with("!") && simple_commands.has(data.message.text.substr(1)):
+			var resp := simple_commands[data.message.text.substr(1)]
+			resp = resp.replace("@user", "@%s" % data.chatter_user_name)
+			chat.send_message(resp, data.message_id)
 
 func _on_readchat(_from_username: String, _info: TwitchCommandInfo, _args: PackedStringArray) -> void:
 	sound_blaster.stream = preload("res://assets/readchat.wav")

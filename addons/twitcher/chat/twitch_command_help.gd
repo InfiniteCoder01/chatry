@@ -20,11 +20,6 @@ func _ready() -> void:
 		push_error("Command is missing TwitchAPI to answer!")
 		return
 	
-	var response: TwitchGetUsers.Response = await twitch_api.get_users(TwitchGetUsers.Opt.new())
-	_current_user = response.data[0]
-	if sender_user == null: sender_user = _current_user
-	
-	
 func _on_command_receive(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if info.original_message is TwitchChatMessage:
 		var help_message: String = _generate_help_message(args, false)
