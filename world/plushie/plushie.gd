@@ -27,7 +27,7 @@ static func connect_heat() -> void:
 func _on_heat_message(message: Dictionary) -> void:
 	if message.type == "click" && message.id == chatter.id:
 		var target := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
-		soft_body.apply_impulse((target - soft_body.get_bones_center_position()) * 2.0)
+		soft_body.apply_impulse((target - soft_body.get_bones_center_position()) * 0.3)
 
 ## ******************************************************************** Creation
 @onready var soft_body: SoftBody2D = $SoftBody2D
