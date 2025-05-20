@@ -42,6 +42,8 @@ func stats() -> PlushieProto.Stats:
 	return proto.stats
 
 var lifetime_remaining: float
+var health: float
+var joints_max: int
 
 func load() -> void:
 	if proto == null: return
@@ -51,6 +53,10 @@ func load() -> void:
 	soft_body.texture = load("res://assets/plushies/" + proto.name + "/image.png") as Texture2D
 	soft_body.create_softbody2d(true)
 	lifetime_remaining = 60.0
+	health = 1.0
+	joints_max = 0
+	for pb in soft_body.get_rigid_bodies():
+		joints_max += pb.joints.size()
 
 func position_randomly(rect: Rect2) -> void:
 	soft_body.global_position = Vector2(
@@ -71,6 +77,20 @@ func _ready() -> void:
 	Twitch.connect_command("PutOut", func _on_put_out(from_username: String, _info: TwitchCommandInfo, _args: PackedStringArray) -> void:
 		if chatter == null || chatter.login != from_username: return
 		put_out()
+	)
+	Twitch.connect_command("Catch", func _on_catch(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+		if caught != null: return
+		if proto != PlushieLib.find(" ".join(args)): return
+		if randf() < 0.01 / health / sqrt(stats().attack):
+			caught = Store.CaughtPlushie.new()
+			caught.proto_name = proto.name
+			caught.name = proto.name
+			Store.viewer(from_username, true).receive(caught)
+			Store.save()
+			queue_free()
+			Twitch.chat.send_message("%s was caught!" % caught.name, info.original_message.message_id)
+		else:
+			Twitch.chat.send_message("You couldn't catch %s!" % proto.name, info.original_message.message_id)
 	)
 
 # ******************************************************************** Utility
@@ -125,12 +145,10 @@ func put_out() -> void:
 
 ## ******************************************************************** Process
 func _process(delta: float) -> void:
-	var exists := false
+	health = 0.0
 	for pb in soft_body.get_rigid_bodies():
-		if !pb.joints.is_empty():
-			exists = true
-			break
-	if !exists:
+		health += float(pb.joints.size()) / joints_max
+	if health <= 0.001:
 		queue_free()
 		return
 

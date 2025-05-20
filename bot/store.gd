@@ -68,13 +68,6 @@ func _ready() -> void:
 			msg += "!"
 		Twitch.chat.send_message(msg, info.original_message.message_id)
 	)
-#
-	#Twitch.connect_command("Catch", func _on_catch(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
-		#var proto: PlushieProto = PlushieProto.find_plushie(" ".join(args))
-		#if proto == null: return
-		##viewer(from_username).team.append(CaughtPlushie.new(proto.name))
-		#save()
-	#)
 
 	Twitch.connect_command("Rename", func _on_catch(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
 		var chatter := viewer(from_username)

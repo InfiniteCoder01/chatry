@@ -40,7 +40,6 @@ static var instance: TwitchService
 @onready var auth: TwitchAuth
 @onready var eventsub: TwitchEventsub
 @onready var api: TwitchAPI
-@onready var chat_node: TwitchChat
 @onready var irc: TwitchIRC
 @onready var media_loader: TwitchMediaLoader
 
@@ -73,7 +72,6 @@ func _exit_tree() -> void:
 func _on_child_entered(node: Node) -> void:
 	if node is TwitchAuth: auth = node
 	if node is TwitchAPI: api = node
-	if node is TwitchChat: chat_node = node
 	if node is TwitchEventsub: eventsub = node
 	if node is TwitchIRC: irc = node
 	if node is TwitchMediaLoader: media_loader = node
@@ -97,7 +95,6 @@ func _set_in_child(property: String, value: Variant) -> void:
 func _on_child_exiting(node: Node) -> void:
 	if node is TwitchAuth: auth = null
 	if node is TwitchAPI: api = null
-	if node is TwitchChat: chat_node = null
 	if node is TwitchEventsub: eventsub = null
 	if node is TwitchIRC: irc = null
 	if node is TwitchMediaLoader: media_loader = null
@@ -240,32 +237,47 @@ func get_subscriptions() -> Array[TwitchEventsubConfig]:
 
 #region Chat
 
-func chat(message: String, target_broadcaster_id: String = "", sender_id: String = "") -> void:
-	if sender_id == "":
-		var current_user = await get_current_user()
-		sender_id = current_user.id
-	if target_broadcaster_id == "": 
-		var current_user = await get_current_user()
-		target_broadcaster_id = current_user.id
-	var body = TwitchSendChatMessage.Body.create(target_broadcaster_id, sender_id, message)
+func chat(message: String, broadcaster: TwitchUser = null, sender: TwitchUser = null) -> void:
+	var current_user = await get_current_user()
+	if not sender:
+		if not current_user: return
+		sender = current_user
+	if not broadcaster: 
+		if not current_user: return
+		broadcaster = current_user
+	var body = TwitchSendChatMessage.Body.create(broadcaster.id, sender.id, message)
 	api.send_chat_message(body)
 
 
 ## Sends out a shoutout to a specific user
-func shoutout(user: TwitchUser) -> void:
-	var broadcaster_id = chat_node.broadcaster_user.id
-	if broadcaster_id == "": return
-	api.send_a_shoutout(broadcaster_id, (await get_current_user()).id, user.id)
+func shoutout(user: TwitchUser, broadcaster: TwitchUser = null, moderator: TwitchUser = null) -> void:
+	var current_user: TwitchUser = await get_current_user()
+	
+	if not broadcaster:
+		if not current_user: return
+		broadcaster = current_user
+		
+	if not moderator:
+		if not current_user: return
+		moderator = current_user
+	api.send_a_shoutout(broadcaster.id, moderator.id, user.id)
 
 
 ## Sends a announcement message to the chat
-func announcment(message: String, color: TwitchAnnouncementColor = TwitchAnnouncementColor.PRIMARY):
-	var broadcaster_id = chat_node.broadcaster_user.id
-	if broadcaster_id == "": return
+func announcment(message: String, color: TwitchAnnouncementColor = TwitchAnnouncementColor.PRIMARY, broadcaster: TwitchUser = null, moderator: TwitchUser = null):
+	var current_user: TwitchUser = await get_current_user()
+	if not broadcaster:
+		if not current_user: return
+		broadcaster = current_user
+	
+	if not moderator:
+		if not current_user: return
+		moderator = current_user
+	
 	var body = TwitchSendChatAnnouncement.Body.new()
 	body.message = message
 	body.color = color.value
-	api.send_chat_announcement(body, broadcaster_id, broadcaster_id)
+	api.send_chat_announcement(body, moderator.id, broadcaster.id)
 
 
 ## Add a new command handler and register it for a command.

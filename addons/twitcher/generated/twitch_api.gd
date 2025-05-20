@@ -1364,7 +1364,7 @@ func create_eventsub_subscription(body: TwitchCreateEventSubSubscription.Body) -
 	var response: BufferedHTTPClient.ResponseData = await request(path, HTTPClient.METHOD_POST, body, "application/json")
 	
 	var result: Variant = JSON.parse_string(response.response_data.get_string_from_utf8())
-	var parsed_result: TwitchCreateEventSubSubscription.Response = TwitchCreateEventSubSubscription.Response.from_json(result as Dictionary)
+	var parsed_result: TwitchCreateEventSubSubscription.Response = TwitchCreateEventSubSubscription.Response.from_json(result)
 	parsed_result.response = response
 	return parsed_result
 

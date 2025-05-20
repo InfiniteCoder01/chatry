@@ -30,18 +30,18 @@ func play(alert: String, message: String) -> void:
 func play_raw(sprite_frames: SpriteFrames, sound: AudioStream, message: String, sprite_scale: float = 1.0) -> void:
 	sprite.scale = Vector2(sprite_scale, sprite_scale)
 
-	sprite_frames.set_animation_loop("gif", false)
+	sprite_frames.set_animation_loop("default", false)
 	sprite.sprite_frames = sprite_frames
 	sprite.frame = 0
 	
 	audio.stream = sound
 
-	var alert_size := sprite_frames.get_frame_texture("gif", sprite.frame).get_size() * sprite.scale
+	var alert_size := sprite_frames.get_frame_texture("default", sprite.frame).get_size() * sprite.scale
 	label.position.y = alert_size.y
 	label.size.x = alert_size.x
 	label.text = "[center]%s[/center]" % message
 
-	sprite.play("gif")
+	sprite.play("default")
 	audio.play()
 
 	await audio.finished
@@ -70,9 +70,9 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 		var image_url := reward.data[0].image.url_4x if reward.data[0].image != null else reward.data[0].default_image.url_4x
 		var image := ImageTexture.create_from_image(Image.load_from_file(await Cache.cache(image_url)))
 		var sprite_frames := SpriteFrames.new()
-		sprite_frames.add_animation("gif")
-		sprite_frames.set_animation_speed("gif", 1.0 / 8.0)
-		sprite_frames.add_frame("gif", image)
+		sprite_frames.add_animation("default")
+		sprite_frames.set_animation_speed("default", 1.0 / 8.0)
+		sprite_frames.add_frame("default", image)
 		
 		var sound := preload("res://assets/alerts/redeem.wav")
 		if data.reward.title == "\"Ok, let\'s go!\"":

@@ -44,7 +44,7 @@ func connect_command(name: String, callback: Callable) -> void:
 
 func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 	if type == "channel.raid":
-		await bot.shoutout(await bot.get_user_by_id(data.from_broadcaster_user_id))
+		await bot.shoutout(await bot.get_user_by_id(data.from_broadcaster_user_id), await broadcaster.get_current_user())
 	elif type == "channel.chat.message":
 		recent_chatters[data.chatter_user_login] = true
 		if data.message.text.begins_with("!") && simple_commands.has(data.message.text.substr(1)):
