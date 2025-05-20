@@ -132,7 +132,7 @@ func attack(target: Plushie) -> void:
 	attack_target = target
 	attack_hits = int(5 * power)
 	# languages editors cpus embedded terminals distros graphics applications
-	# browsers games mediaplatforms git compositor messengers
+	# browsers games mediaplatforms git compositor messengers smartcontract
 	# streamers movies gameengines shells periodictable packagemanagers des
 	for pb in soft_body.get_rigid_bodies():
 		var rb := pb.rigidbody as RigidBody2D
