@@ -87,7 +87,6 @@ func _on_event_received(type: StringName, data: Dictionary) -> void:
 	if message.broadcaster_user_id == broadcaster_user.id:
 		message_received.emit(message)
 
-
 func send_message(message: String, reply_parent_message_id: String = "") -> Array[TwitchSendChatMessage.ResponseData]:
 	var message_body: TwitchSendChatMessage.Body = TwitchSendChatMessage.Body.new()
 	message_body.broadcaster_id = broadcaster_user.id

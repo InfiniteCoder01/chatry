@@ -162,5 +162,5 @@ func plushieball(tournament: bool) -> void:
 		get_node(^"Court").queue_free()
 	
 	var court: Court = preload("res://world/plushieball/court.tscn").instantiate()
-	court.plushieball(tournament)
+	court.plushieball(tournament, self)
 	add_child(court)

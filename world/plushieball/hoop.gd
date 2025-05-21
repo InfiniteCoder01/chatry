@@ -20,6 +20,9 @@ func _on_area_2d_body_entered(body: RigidBody2D) -> void:
 
 		await get_tree().create_timer(1.0).timeout
 		var plushie: Plushie = body.get_parent().get_parent()
-		plushie.proto = Twitch.all.pick_random()
-		plushie.load()
+		var chatter := plushie.chatter
+		plushie.queue_free()
+		plushie = PlushieLib.all.pick_random().instantiate()
+		plushie.chatter = chatter
 		plushie.position_randomly(get_viewport_rect())
+		world.plushies.add_child(plushie)

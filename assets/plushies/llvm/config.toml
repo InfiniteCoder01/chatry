@@ -1,1 +1,2 @@
 aliases = ["Low level virtual machine"]
+groups = ["languages", "IR"]

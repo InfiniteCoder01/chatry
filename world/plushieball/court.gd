@@ -43,10 +43,11 @@ func _process(_delta: float) -> void:
 	if game != Game.None:
 		timer_label.text = "[center]%02d:%02d[/center]" % [int(timer.time_left / 60), int(timer.time_left) % 60]
 
-func plushieball(tournament: bool) -> void:
+func plushieball(tournament: bool, world: World) -> void:
 	var make_hoop := func make_hoop(hoop_position: Vector2, hoop_name: String) -> void:
 		var hoop := preload("res://world/plushieball/hoop.tscn").instantiate()
 		hoop.name = hoop_name
+		hoop.world = world
 		add_child(hoop)
 		positions[hoop.get_index()] = hoop_position
 

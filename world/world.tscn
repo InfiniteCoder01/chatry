@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://b3anpbk1jg36p"]
+[gd_scene load_steps=10 format=3 uid="uid://b3anpbk1jg36p"]
 
 [ext_resource type="Script" uid="uid://dqyvcaoajt6yt" path="res://world/world.gd" id="1_ihesm"]
 [ext_resource type="Script" uid="uid://cg2xqs2t3duc7" path="res://world/window_border_walls.gd" id="3_s22ic"]
 [ext_resource type="Script" uid="uid://dqrh1acexn6f8" path="res://world/MouseFollow.gd" id="4_j42ae"]
 [ext_resource type="PackedScene" uid="uid://btgcyas7ldd6p" path="res://chat/chat.tscn" id="4_numxu"]
 [ext_resource type="Theme" uid="uid://cq1sgso5k7iqx" path="res://chat/chat.tres" id="4_unfcv"]
+[ext_resource type="PackedScene" uid="uid://bdescjfckc5kp" path="res://bot/leaderboard/leaderboard.tscn" id="5_sc4t8"]
 [ext_resource type="PackedScene" uid="uid://c7bfnl1ninq1o" path="res://chat/alertbox/alertbox.tscn" id="9_f1ii5"]
 
 [sub_resource type="GDScript" id="GDScript_55uvp"]
@@ -66,6 +67,10 @@ grow_horizontal = 0
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/RightSide"]
 layout_mode = 2
 
+[node name="Leaderboard" parent="CanvasLayer/Control/RightSide/VBoxContainer" instance=ExtResource("5_sc4t8")]
+layout_mode = 2
+
 [node name="Chat" parent="CanvasLayer/Control/RightSide/VBoxContainer" instance=ExtResource("4_numxu")]
 custom_minimum_size = Vector2(300, 600)
 layout_mode = 2
+size_flags_vertical = 0

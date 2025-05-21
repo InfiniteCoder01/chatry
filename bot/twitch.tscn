@@ -37,7 +37,7 @@ cache_file = "user://auth.conf"
 client_id = "oiwroapnzpputm2e2ln8ebusqiggei"
 authorization_flow = 0
 _encryption_key_provider = SubResource("Resource_54bgt")
-client_secret = "Ryj5hLaR2HmtuhJkXHM2BNnh3ssBbSufQ3UGm94gTnY="
+client_secret = "fNvqOMDd+hBAyL6zGndJw8mAmV/ShT93W23BPleb2hw="
 
 [sub_resource type="Resource" id="Resource_4utia"]
 script = ExtResource("3_are2j")

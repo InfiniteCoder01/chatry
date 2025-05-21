@@ -18,4 +18,4 @@ cache_file = "user://auth.conf"
 client_id = "oiwroapnzpputm2e2ln8ebusqiggei"
 authorization_flow = 0
 _encryption_key_provider = SubResource("Resource_ss7yp")
-client_secret = "2PM9w54l9yba/cchyD3NSYSeoKjqjhP5xu8GsqQK6Lg="
+client_secret = "fNvqOMDd+hBAyL6zGndJw8mAmV/ShT93W23BPleb2hw="
