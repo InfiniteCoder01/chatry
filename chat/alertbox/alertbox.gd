@@ -65,7 +65,7 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 	elif type == "channel.channel_points_custom_reward_redemption.add":
 		var opt := TwitchGetCustomReward.Opt.create()
 		opt.id = [data.reward.id]
-		var reward := await Twitch.broadcaster_api.get_custom_reward(opt, Twitch.chat.broadcaster_user.id)
+		var reward: TwitchGetCustomReward.Response = await Twitch.broadcaster_api.get_custom_reward(opt, Twitch.chat.broadcaster_user.id)
 		
 		var image_url := reward.data[0].image.url_4x if reward.data[0].image != null else reward.data[0].default_image.url_4x
 		var image := ImageTexture.create_from_image(Image.load_from_file(await Cache.cache(image_url)))

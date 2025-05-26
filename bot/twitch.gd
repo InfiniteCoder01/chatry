@@ -47,7 +47,9 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 		await bot.shoutout(await bot.get_user_by_id(data.from_broadcaster_user_id), await broadcaster.get_current_user())
 	elif type == "channel.chat.message":
 		recent_chatters[data.chatter_user_login] = true
-		if data.message.text.begins_with("!") && simple_commands.has(data.message.text.substr(1)):
+		if data.message.text == "!test":
+			Store.viewer("infinitecoder01").team[2].gain_xp(100)
+		elif data.message.text.begins_with("!") && simple_commands.has(data.message.text.substr(1)):
 			var resp := simple_commands[data.message.text.substr(1)]
 			resp = resp.replace("@user", "@%s" % data.chatter_user_name)
 			chat.send_message(resp, data.message_id)

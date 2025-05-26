@@ -161,8 +161,7 @@ func _process(delta: float) -> void:
 		queue_free()
 		return
 	
-	if attack_target != null && !is_instance_valid(attack_target):
-		attack_target = null
+	if !is_instance_valid(attack_target): attack_target = null
 	if attack_target != null && attack_hits > 0:
 		var collisions: Array[Bone] = []
 		for pb in soft_body.get_rigid_bodies():

@@ -296,14 +296,6 @@ args_max = 0
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
-[node name="Punch" type="Node" parent="Bot/Commands/Control" node_paths=PackedStringArray("eventsub")]
-script = ExtResource("18_68dwe")
-command = "punch"
-aliases = Array[String](["fight", "attack"])
-description = "3... 2.. 1. FIGHT!"
-eventsub = NodePath("../../../TwitchEventsub")
-metadata/_custom_type_script = "uid://bmluckfvgm1c2"
-
 [node name="Team_" type="Node" parent="Bot/Commands"]
 
 [node name="Team" type="Node" parent="Bot/Commands/Team_" node_paths=PackedStringArray("eventsub")]

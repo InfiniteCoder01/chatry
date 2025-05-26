@@ -1,2 +1,3 @@
 aliases = ["mozilla"]
 groups = ["applications", "browsers"]
+moves = {3: "fire"}

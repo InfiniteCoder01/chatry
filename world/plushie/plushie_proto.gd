@@ -2,8 +2,9 @@ extends RefCounted
 class_name PlushieProto
 
 var name: String
-var aliases: Array[String]
-var groups: Array[String]
+var aliases: Array[String] = []
+var groups: Array[String] = []
+var moves: Dictionary[int, String] = {}
 
 class Stats:
 	extends RefCounted
@@ -14,7 +15,7 @@ class Stats:
 		return attack + defense
 
 	func level() -> int:
-		return sqrt(total())
+		return int(sqrt(total()))
 
 	func xp_to_level() -> int:
 		return 50 + level() * 10
@@ -30,9 +31,17 @@ func _init(name: String, config: ConfigFile) -> void:
 	self.name = name
 	aliases.assign(config.get_value("", "aliases", []))
 	groups.assign(config.get_value("", "groups", []))
+	moves.assign(config.get_value("", "moves", {}))
+	moves[0] = "punch"
 
 func instantiate() -> Plushie:
 	var plushie: Plushie = preload("res://world/plushie/plushie.tscn").instantiate()
 	plushie.proto = self
 	plushie.load()
 	return plushie
+
+func get_move(name: String, level: int) -> PlushieLib.Move:
+	for move_level: int in moves.keys():
+		if move_level <= level && moves[move_level] == name:
+			return PlushieLib.moves[moves[move_level]]
+	return null

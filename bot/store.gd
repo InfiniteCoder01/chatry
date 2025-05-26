@@ -33,17 +33,23 @@ class CaughtPlushie:
 
 	func gain_xp(xp: int) -> void:
 		self.xp += xp
-		var msg := "%s recieved %d XP!" % [name, xp]
+		var msg := "%s recieved %d XP." % [name, xp]
 		var levels := 0
+		var moves: Array[String] = []
+		var proto := PlushieLib.proto(proto_name)
 		while true:
 			if self.xp >= stats.xp_to_level():
 				self.xp -= stats.xp_to_level()
 				stats.level_up()
+				if proto.moves.has(stats.level()):
+					moves.append(proto.moves[stats.level()])
 				levels += 1
 				continue
 			break
 		if levels > 0:
-			msg += " It got to level %d" % stats.level()
+			msg += " It got to level %d!" % stats.level()
+		for move in moves:
+			msg += " Learned new move: %s!" % move
 		Twitch.chat.send_message(msg)
 		Store.save()
 

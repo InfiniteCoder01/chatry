@@ -4,6 +4,7 @@ class_name World
 @onready var control: Control = %Control
 @onready var alertbox: AlertBox = %AlertBox
 @onready var plushies: Node = %Plushies
+var owners: Dictionary[String, Plushie]
 
 var followers: Array[SoftBody2D.SoftBodyChild] = []
 
@@ -12,7 +13,6 @@ func _ready() -> void:
 	Twitch.broadcaster_eventsub.event.connect(_on_twitch_eventsub_event)
 	Twitch.connect_command("Plushie", _on_plushie)
 	Twitch.connect_command("Pick", _on_pick)
-	Twitch.connect_command("Punch", _on_punch)
 	Twitch.connect_command("TeamPlushie", _on_tplushie)
 
 func _process(_delta: float) -> void:
@@ -40,7 +40,7 @@ func _process(_delta: float) -> void:
 			follower.rigidbody.apply_force((mouse - follower.rigidbody.global_position) * 10.0 / followers.size())
 
 	if Input.is_action_just_pressed("attack"):
-		var fireball := preload("res://world/plushie/projectiles/fireball/fireball.tscn").instantiate()
+		var fireball := preload("res://world/plushie/moves/fire/fireball.tscn").instantiate()
 		fireball.position = mouse
 		add_child(fireball)
 
@@ -63,73 +63,55 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 			plushie_instance.position_randomly(get_viewport_rect())
 			plushies.add_child(plushie_instance)
 			await get_tree().create_timer(1.0).timeout
+	elif type == "channel.chat.message" && data.message.text.begins_with("!"):
+		var args: PackedStringArray = data.message.text.split(' ')
+		if !owners.has(data.chatter_user_login) || !is_instance_valid(owners[data.chatter_user_login]): return
+		var plushie := owners[data.chatter_user_login]
+		var move := plushie.proto.get_move(args[0].substr(1), plushie.stats().level())
+		args.remove_at(0)
+		if move == null: return
+		var plushies := non_viewer_plushies(data.chatter_user_login)
+		var victim := closest_plushie(plushies, plushie.soft_body.get_bones_center_position()) if args.is_empty() else find_plushie(plushies, " ".join(args))
+		if victim == null: return
+		move.perform(self, plushie, victim)
 
-func _on_plushie(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
-	var flags := info.command._get_perm_flag_from_tags(info.original_message)
-	if flags & Twitch.MOD_STREAMER_VIP == 0 && Twitch.timeout(from_username, "plushies", 10.0): return
-
+func _on_plushie(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	if owners.has(from_username) && is_instance_valid(owners[from_username]): return
 	var proto: PlushieProto = PlushieLib.all.pick_random() if args.is_empty() else PlushieLib.find(" ".join(args))
 	if proto == null: return
 	var plushie := proto.instantiate()
 	plushie.chatter = await Twitch.bot.get_user(from_username)
 	plushie.position_randomly(get_viewport_rect())
 	plushies.add_child(plushie)
+	owners[from_username] = plushie
 
-func _on_pick(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
-	var flags := info.command._get_perm_flag_from_tags(info.original_message)
-	if flags & Twitch.MOD_STREAMER_VIP == 0 && Twitch.timeout(from_username, "plushies", 10.0): return
-
+func _on_pick(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	if owners.has(from_username) && is_instance_valid(owners[from_username]): return
 	var name := PlushieLib.strip(" ".join(args))
-	if !PlushieLib.groups.has(name):
-		if Twitch.timeouts.has("plushies"): Twitch.timeouts["plushies"].erase(from_username)
-		return
+	if !PlushieLib.groups.has(name): return
 	var proto: PlushieProto = PlushieLib.groups[name].pick_random()
 	var plushie := proto.instantiate()
 	plushie.chatter = await Twitch.bot.get_user(from_username)
 	plushie.position_randomly(get_viewport_rect())
 	plushies.add_child(plushie)
+	owners[from_username] = plushie
 
-func _on_tplushie(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
-	var flags := info.command._get_perm_flag_from_tags(info.original_message)
-	if flags & Twitch.MOD_STREAMER_VIP == 0 && Twitch.timeout(from_username, "plushies", 10.0): return
-
+func _on_tplushie(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	if owners.has(from_username) && is_instance_valid(owners[from_username]): return
 	var chatter := Store.viewer(from_username)
-	var chatter_plushies := viewer_plushies(from_username)
-	var member: Store.CaughtPlushie
-	if args.is_empty():
-		var picks := chatter.team.filter(func pred(member: Store.CaughtPlushie) -> bool:
-			return find_caught(chatter_plushies, member) == null
-		)
-		if picks == null: return
-		member = picks.pick_random()
-	else:
-		member = chatter.get_team_member(args[0])
-	if member == null || find_caught(chatter_plushies, member) != null: return
-
-	var plushie := member.instantiate()	
+	if chatter.team.is_empty(): return
+	var member: Store.CaughtPlushie = chatter.team.pick_random() if args.is_empty() else chatter.get_team_member(args[0])
+	var plushie := member.instantiate()
 	plushie.chatter = await Twitch.bot.get_user(from_username)
 	plushie.position_randomly(get_viewport_rect())
 	plushies.add_child(plushie)
-
-func _on_punch(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
-	var plushies := non_viewer_plushies(from_username)
-	if plushies.is_empty(): return
-	var target: Plushie = plushies.pick_random() if args.is_empty() else find_plushie(plushies, " ".join(args))
-	if target != null:
-		var target_center := target.soft_body.get_bones_center_position()
-		var plushie := closest_plushie(viewer_plushies(from_username), target_center)
-		if plushie != null: plushie.attack(target)
+	owners[from_username] = plushie
 
 # -------------------------------------------------------------------------- Plushies
 func get_plushies() -> Array[Plushie]:
 	var arr: Array[Plushie]
 	arr.assign(plushies.get_children())
 	return arr
-
-func viewer_plushies(viewer_login: String) -> Array[Plushie]:
-	return get_plushies().filter(func pred(plushie: Plushie) -> bool:
-		return plushie.chatter != null && plushie.chatter.login == viewer_login
-	)
 
 func non_viewer_plushies(viewer_login: String) -> Array[Plushie]:
 	return get_plushies().filter(func pred(plushie: Plushie) -> bool:
@@ -139,13 +121,6 @@ func non_viewer_plushies(viewer_login: String) -> Array[Plushie]:
 func find_plushie(plushies: Array[Plushie], name: String) -> Plushie:
 	plushies = plushies.filter(func pred(plushie: Plushie) -> bool:
 		return plushie.name_matches(name)
-	)
-	if plushies.is_empty(): return null
-	return plushies.pick_random()
-
-func find_caught(plushies: Array[Plushie], caught: Store.CaughtPlushie) -> Plushie:
-	plushies = plushies.filter(func pred(plushie: Plushie) -> bool:
-		return plushie.caught == caught
 	)
 	if plushies.is_empty(): return null
 	return plushies.pick_random()
