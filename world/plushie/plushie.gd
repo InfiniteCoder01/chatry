@@ -84,13 +84,13 @@ func _ready() -> void:
 		if randf() < 0.01 / health / sqrt(stats().attack):
 			caught = Store.CaughtPlushie.new()
 			caught.proto_name = proto.name
-			caught.name = proto.name
+			caught.name = name
 			Store.viewer(from_username, true).receive(caught)
 			Store.save()
 			queue_free()
 			Twitch.chat.send_message("%s was caught!" % caught.name, info.original_message.message_id)
 		else:
-			Twitch.chat.send_message("You couldn't catch %s!" % proto.name, info.original_message.message_id)
+			Twitch.chat.send_message("You couldn't catch %s!" % name, info.original_message.message_id)
 	)
 
 # ******************************************************************** Utility
@@ -98,6 +98,7 @@ func name_matches(name: String) -> bool:
 	name = PlushieLib.strip(name)
 	var names: Array[String] = proto.aliases.duplicate()
 	names.append(proto.name)
+	names.append(self.name)
 	for this_name in names:
 		if name == PlushieLib.strip(this_name): return true
 	return false
@@ -144,11 +145,14 @@ func put_out() -> void:
 		rb.rigidbody.fire.emitting = false
 
 ## ******************************************************************** Process
-func _process(delta: float) -> void:
+func alive() -> bool:
 	health = 0.0
 	for pb in soft_body.get_rigid_bodies():
 		health += float(pb.joints.size()) / joints_max
-	if health <= 0.001:
+	return health >= 0.001
+	
+func _process(delta: float) -> void:
+	if !alive():
 		queue_free()
 		return
 
@@ -157,6 +161,8 @@ func _process(delta: float) -> void:
 		queue_free()
 		return
 	
+	if attack_target != null && !is_instance_valid(attack_target):
+		attack_target = null
 	if attack_target != null && attack_hits > 0:
 		var collisions: Array[Bone] = []
 		for pb in soft_body.get_rigid_bodies():
@@ -175,3 +181,11 @@ func _process(delta: float) -> void:
 				if joints_removed >= max_joints_per_frame: break
 			if joints_removed >= max_joints_per_frame: break
 		attack_hits -= joints_removed
+		if !attack_target.alive():
+			Twitch.chat.send_message("%s was defeated!" % attack_target.name)
+			await get_tree().create_timer(0.1).timeout
+			if caught != null:
+				var stats := attack_target.stats()
+				var xp := (stats.attack + stats.defense) * 5
+				caught.gain_xp(xp)
+			attack_target = null

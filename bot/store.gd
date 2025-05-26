@@ -20,6 +20,7 @@ class CaughtPlushie:
 	extends RefCounted
 	var name: String = ""
 	var proto_name: String = ""
+	var xp: int = 0
 	
 	var stats := PlushieProto.Stats.new()
 	
@@ -27,7 +28,24 @@ class CaughtPlushie:
 		var proto := PlushieLib.proto(proto_name)
 		var plushie := proto.instantiate()
 		plushie.caught = self
+		plushie.name = self.name
 		return plushie
+
+	func gain_xp(xp: int) -> void:
+		self.xp += xp
+		var msg := "%s recieved %d XP!" % [name, xp]
+		var levels := 0
+		while true:
+			if self.xp >= stats.xp_to_level():
+				self.xp -= stats.xp_to_level()
+				stats.level_up()
+				levels += 1
+				continue
+			break
+		if levels > 0:
+			msg += " It got to level %d" % stats.level()
+		Twitch.chat.send_message(msg)
+		Store.save()
 
 var viewers: Dictionary[String, Viewer] = {}
 
@@ -50,10 +68,12 @@ func _ready() -> void:
 		if !args.is_empty():
 			var plushie := chatter.get_team_member(" ".join(args))
 			if plushie == null: return
-			var msg := "Team member %s has attack of %d and defense of %d!" % [
+			var msg := "Team member %s: LVL %d, %d ATK, %d DFN! XP: %d/%d" % [
 				plushie.name,
+				plushie.stats.level(),
 				plushie.stats.attack,
 				plushie.stats.defense,
+				plushie.xp, plushie.stats.xp_to_level(),
 			]
 			Twitch.chat.send_message(msg, info.original_message.message_id)
 			return
