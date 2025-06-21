@@ -16,6 +16,7 @@ static func connect_heat() -> void:
 		while heat_websocket.get_available_packet_count() > 0:
 			var data := heat_websocket.get_packet()
 			var message: Dictionary = JSON.parse_string(data.get_string_from_utf8())
+			if message == null: return
 			heat_message.emit(message)
 			if message.type == "click": pass
 			elif message.type == "system":
@@ -128,7 +129,7 @@ func attack(target: Plushie) -> void:
 	if target.proto.groups.has("cpus") || target.proto.groups.has("embedded"):
 		power *= 1.3
 
-	impulse = impulse.normalized() * 200.0 * min(sqrt(power), 1.5)
+	impulse = impulse.normalized() * 200.0 * min(sqrt(power), 1)
 	soft_body.apply_impulse(impulse)
 	attack_target = target
 	attack_hits = int(5 * power)
@@ -150,7 +151,7 @@ func alive() -> bool:
 	for pb in soft_body.get_rigid_bodies():
 		health += float(pb.joints.size()) / joints_max
 	return health >= 0.001
-	
+
 func _process(delta: float) -> void:
 	if !alive():
 		queue_free()
@@ -182,7 +183,6 @@ func _process(delta: float) -> void:
 		attack_hits -= joints_removed
 		if !attack_target.alive():
 			Twitch.chat.send_message("%s was defeated!" % attack_target.name)
-			await get_tree().create_timer(0.1).timeout
 			if caught != null:
 				var stats := attack_target.stats()
 				var xp := (stats.attack + stats.defense) * 5

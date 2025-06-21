@@ -37,7 +37,7 @@ func _process(_delta: float) -> void:
 			if !is_instance_valid(follower.rigidbody):
 				followers.clear()
 				break
-			follower.rigidbody.apply_force((mouse - follower.rigidbody.global_position) * 10.0 / followers.size())
+			follower.rigidbody.apply_force((mouse - follower.rigidbody.global_position) * 30.0 / followers.size())
 
 	if Input.is_action_just_pressed("attack"):
 		var fireball := preload("res://world/plushie/moves/fire/fireball.tscn").instantiate()
@@ -63,17 +63,22 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 			plushie_instance.position_randomly(get_viewport_rect())
 			plushies.add_child(plushie_instance)
 			await get_tree().create_timer(1.0).timeout
-	elif type == "channel.chat.message" && data.message.text.begins_with("!"):
-		var args: PackedStringArray = data.message.text.split(' ')
+	elif type == "channel.chat.message":
+		# Plushie commands
 		if !owners.has(data.chatter_user_login) || !is_instance_valid(owners[data.chatter_user_login]): return
-		var plushie := owners[data.chatter_user_login]
-		var move := plushie.proto.get_move(args[0].substr(1), plushie.stats().level())
-		args.remove_at(0)
-		if move == null: return
-		var plushies := non_viewer_plushies(data.chatter_user_login)
-		var victim := closest_plushie(plushies, plushie.soft_body.get_bones_center_position()) if args.is_empty() else find_plushie(plushies, " ".join(args))
-		if victim == null: return
-		move.perform(self, plushie, victim)
+		if data.message.text.begins_with("!"):
+			var args: PackedStringArray = data.message.text.split(' ')
+			var plushie := owners[data.chatter_user_login]
+			var move := plushie.proto.get_move(args[0].substr(1), plushie.stats().level())
+			args.remove_at(0)
+			if move == null: return
+			var plushies := non_viewer_plushies(data.chatter_user_login)
+			var victim := closest_plushie(plushies, plushie.soft_body.get_bones_center_position()) if args.is_empty() else find_plushie(plushies, " ".join(args))
+			if victim == null: return
+			move.perform(self, plushie, victim)
+		elif data.message.text.unicode_at(0) == 1:
+			var text: String = data.message.text.substr(8, data.message.text.length() - 9)
+			#owners[data.chatter_user_login].add_child(Spell.new(text))
 
 func _on_plushie(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if owners.has(from_username) && is_instance_valid(owners[from_username]): return
@@ -101,6 +106,7 @@ func _on_tplushie(from_username: String, _info: TwitchCommandInfo, args: PackedS
 	var chatter := Store.viewer(from_username)
 	if chatter.team.is_empty(): return
 	var member: Store.CaughtPlushie = chatter.team.pick_random() if args.is_empty() else chatter.get_team_member(args[0])
+	if member == null: return
 	var plushie := member.instantiate()
 	plushie.chatter = await Twitch.bot.get_user(from_username)
 	plushie.position_randomly(get_viewport_rect())

@@ -41,7 +41,7 @@ func play_raw(sprite_frames: SpriteFrames, sound: AudioStream, message: String, 
 	label.size.x = alert_size.x
 	label.text = "[center]%s[/center]" % message
 
-	sprite.play("default")
+	sprite.play()
 	audio.play()
 
 	await audio.finished
@@ -70,7 +70,6 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 		var image_url := reward.data[0].image.url_4x if reward.data[0].image != null else reward.data[0].default_image.url_4x
 		var image := ImageTexture.create_from_image(Image.load_from_file(await Cache.cache(image_url)))
 		var sprite_frames := SpriteFrames.new()
-		sprite_frames.add_animation("default")
 		sprite_frames.set_animation_speed("default", 1.0 / 8.0)
 		sprite_frames.add_frame("default", image)
 		

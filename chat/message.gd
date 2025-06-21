@@ -34,6 +34,9 @@ func _init(message: TwitchChatMessage) -> void:
 	# Add the user with their color to the message
 	bbcode += "[color=%s]%s[/color] " % [message.get_color(), message.chatter_user_name]
 
+	var action: bool = message.message.text.unicode_at(0) == 1
+	if action: bbcode += "[i]"
+
 	# Show different effects depending on the message types
 	match message.message_type:
 		TwitchChatMessage.MessageType.text:
@@ -49,7 +52,8 @@ func _init(message: TwitchChatMessage) -> void:
 			bbcode += "[shake rate=20.0 level=5 connected=1]"
 			bbcode += await render_message_content()
 			bbcode += "[/shake]"
-			
+
+	if action: bbcode += "[/i]"
 	text = sprite_frame_effect.prepare_message(bbcode, self)
 
 func render_message_content(emote_scale: int = 1) -> String:

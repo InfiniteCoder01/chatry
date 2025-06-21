@@ -243,6 +243,13 @@ metadata/_custom_type_script = "uid://dcq1bvfrqimqq"
 
 [node name="Commands" type="Node" parent="Bot"]
 
+[node name="TwitchCommandHelp" type="Node" parent="Bot/Commands" node_paths=PackedStringArray("twitch_api", "eventsub")]
+script = ExtResource("9_jfaip")
+twitch_api = NodePath("../../TwitchAPI")
+sender_user = SubResource("Resource_d1nhj")
+eventsub = NodePath("../../TwitchEventsub")
+metadata/_custom_type_script = "uid://ch0rxi1ogjx3q"
+
 [node name="Readchat" type="Node" parent="Bot/Commands" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
 command = "readchat"
@@ -250,13 +257,6 @@ description = "Can you read chat, please?"
 args_max = 0
 eventsub = NodePath("../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
-
-[node name="TwitchCommandHelp" type="Node" parent="Bot/Commands" node_paths=PackedStringArray("twitch_api", "eventsub")]
-script = ExtResource("9_jfaip")
-twitch_api = NodePath("../../TwitchAPI")
-sender_user = SubResource("Resource_d1nhj")
-eventsub = NodePath("../../TwitchEventsub")
-metadata/_custom_type_script = "uid://ch0rxi1ogjx3q"
 
 [node name="Spawn" type="Node" parent="Bot/Commands"]
 
