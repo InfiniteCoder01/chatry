@@ -264,7 +264,7 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 script = ExtResource("18_68dwe")
 command = "plushie"
 aliases = Array[String](["plushy"])
-description = "Distract me with a wild plushie! There are many to choose from"
+description = "Summon a plushie. Might be from your team or just a wild one!"
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
@@ -272,6 +272,13 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 script = ExtResource("18_68dwe")
 command = "pick"
 description = "Pick a wild plushie from a group"
+eventsub = NodePath("../../../TwitchEventsub")
+metadata/_custom_type_script = "uid://bmluckfvgm1c2"
+
+[node name="Flee" type="Node" parent="Bot/Commands/Spawn" node_paths=PackedStringArray("eventsub")]
+script = ExtResource("18_68dwe")
+command = "flee"
+description = "Run away! So you could spawn another plushie"
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
@@ -310,18 +317,9 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 script = ExtResource("18_68dwe")
 command = "rename"
 aliases = Array[String](["name"])
-description = "Rename your plushie"
+description = "Rename a plushie from your team"
 args_min = 1
 args_max = 2
-eventsub = NodePath("../../../TwitchEventsub")
-metadata/_custom_type_script = "uid://bmluckfvgm1c2"
-
-[node name="TeamPlushie" type="Node" parent="Bot/Commands/Team_" node_paths=PackedStringArray("eventsub")]
-script = ExtResource("18_68dwe")
-command = "tplushie"
-aliases = Array[String](["tplushy"])
-description = "Summon a plushie from your team"
-args_max = 1
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
@@ -345,7 +343,7 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 [node name="Gift" type="Node" parent="Bot/Commands/Team_" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
 command = "gift"
-description = "Gift your plushie to somebody"
+description = "Gift your plushie to somebody, !gift <somebody> <plushie>"
 args_min = 2
 args_max = 2
 eventsub = NodePath("../../../TwitchEventsub")

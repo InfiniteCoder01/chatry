@@ -18,7 +18,7 @@ class Stats:
 		return int(sqrt(total()))
 
 	func xp_to_level() -> int:
-		return 50 + level() * 10
+		return 50 + pow(level(), 1.5) * 10
 
 	func level_up() -> void:
 		var req := int(pow(level() + 1, 2) - total())

@@ -85,5 +85,5 @@ class Fire:
 		var impulse := victim.soft_body.get_bones_center_position() - plushie.soft_body.get_bones_center_position()
 		impulse.y -= 300
 		fireball.apply_impulse(impulse)
-		fireball.caster = plushie.chatter
+		fireball.caster = plushie
 		world.add_child(fireball)

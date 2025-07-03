@@ -29,11 +29,11 @@ class CaughtPlushie:
 		var plushie := proto.instantiate()
 		plushie.caught = self
 		plushie.name = self.name
+		plushie.lifetime_remaining = INF
 		return plushie
 
 	func gain_xp(xp: int) -> void:
 		self.xp += xp
-		var msg := "%s recieved %d XP." % [name, xp]
 		var levels := 0
 		var moves: Array[String] = []
 		var proto := PlushieLib.proto(proto_name)
@@ -46,12 +46,15 @@ class CaughtPlushie:
 				levels += 1
 				continue
 			break
+		Store.save()
+	
+		var msg := "%s recieved %d XP." % [name, xp]
 		if levels > 0:
 			msg += " It got to level %d!" % stats.level()
 		for move in moves:
 			msg += " Learned new move: %s!" % move
+		await Twitch.get_tree().create_timer(0.3).timeout
 		Twitch.chat.send_message(msg)
-		Store.save()
 
 var viewers: Dictionary[String, Viewer] = {}
 
@@ -85,13 +88,13 @@ func _ready() -> void:
 			return
 		
 		var msg := "Your team consists of %d plushies" % chatter.team.size()
-		if chatter.team.is_empty(): msg += "!"
-		else:
+		if !chatter.team.is_empty():
 			msg += ": "
 			for plushie in chatter.team:
 				if !msg.ends_with(" "): msg += ", "
 				msg += plushie.name
-			msg += "!"
+		msg += "! Use !team <team member> to see stats of a plushie. See !help for more."
+
 		Twitch.chat.send_message(msg, info.original_message.message_id)
 	)
 

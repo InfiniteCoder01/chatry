@@ -1,10 +1,9 @@
-[gd_scene load_steps=62 format=3 uid="uid://bavfpjnmb84r2"]
+[gd_scene load_steps=61 format=3 uid="uid://bavfpjnmb84r2"]
 
 [ext_resource type="Script" uid="uid://dnqya1xjl01mp" path="res://world/plushie/plushie.gd" id="1_2bxup"]
 [ext_resource type="Texture2D" uid="uid://7u4jretta2ba" path="res://world/plushie/NoImagePlaceholder.svg" id="1_8k4jb"]
 [ext_resource type="Script" uid="uid://cyfo4u3xm6qw1" path="res://addons/softbody2d/softbody2d.gd" id="2_rre1d"]
 [ext_resource type="PackedScene" uid="uid://bpyjgt823pde7" path="res://world/plushie/bone/bone.tscn" id="4_t6ag3"]
-[ext_resource type="Script" uid="uid://2mnx7g4cvge2" path="res://world/plushie/bone/bone.gd" id="5_8r2ce"]
 
 [sub_resource type="Shader" id="Shader_lqmqj"]
 code = "shader_type canvas_item;
@@ -462,6 +461,8 @@ softness = 5.0
 angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
+radius = 57
+margin_offset_edge = 12.0
 rigidbody_scene = ExtResource("4_t6ag3")
 
 [node name="Skeleton2D" type="Skeleton2D" parent="SoftBody2D"]
@@ -471,6 +472,7 @@ modification_stack = SubResource("SkeletonModificationStack2D_kfswf")
 [node name="Bone-0" type="Bone2D" parent="SoftBody2D/Skeleton2D"]
 position = Vector2(51.9615, 15)
 rotation = 0.281035
+scale = Vector2(1, 1)
 rest = Transform2D(0.960769, 0.27735, -0.27735, 0.960769, 51.9615, 15)
 auto_calculate_length_and_angle = false
 length = 60.0
@@ -484,6 +486,7 @@ metadata/_local_pose_override_enabled_ = true
 [node name="Bone-1" type="Bone2D" parent="SoftBody2D/Skeleton2D"]
 position = Vector2(17.3205, 30)
 rotation = 0.713724
+scale = Vector2(1, 1)
 rest = Transform2D(0.755929, 0.654654, -0.654654, 0.755929, 17.3205, 30)
 auto_calculate_length_and_angle = false
 length = 60.0
@@ -537,7 +540,6 @@ metadata/_local_pose_override_enabled_ = true
 [node name="Bone-5" type="Bone2D" parent="SoftBody2D/Skeleton2D"]
 position = Vector2(17.3205, 150)
 rotation = 0.713725
-scale = Vector2(1, 1)
 rest = Transform2D(0.755929, 0.654654, -0.654654, 0.755929, 17.3205, 150)
 auto_calculate_length_and_angle = false
 length = 60.0
@@ -564,6 +566,7 @@ metadata/_local_pose_override_enabled_ = true
 [node name="Bone-7" type="Bone2D" parent="SoftBody2D/Skeleton2D"]
 position = Vector2(17.3205, 210)
 rotation = 0.713724
+scale = Vector2(1, 1)
 rest = Transform2D(0.755929, 0.654653, -0.654653, 0.755929, 17.3205, 210)
 auto_calculate_length_and_angle = false
 length = 60.0
@@ -590,6 +593,7 @@ metadata/_local_pose_override_enabled_ = true
 [node name="Bone-9" type="Bone2D" parent="SoftBody2D/Skeleton2D"]
 position = Vector2(17.3205, 270)
 rotation = 0.713724
+scale = Vector2(1, 1)
 rest = Transform2D(0.755929, 0.654654, -0.654654, 0.755929, 17.3205, 270)
 auto_calculate_length_and_angle = false
 length = 60.0
@@ -616,6 +620,7 @@ metadata/_local_pose_override_enabled_ = true
 [node name="Bone-11" type="Bone2D" parent="SoftBody2D/Skeleton2D"]
 position = Vector2(17.3205, 330)
 rotation = 0.713724
+scale = Vector2(1, 1)
 rest = Transform2D(0.755929, 0.654654, -0.654654, 0.755929, 17.3205, 330)
 auto_calculate_length_and_angle = false
 length = 60.0
@@ -655,6 +660,7 @@ metadata/_local_pose_override_enabled_ = true
 [node name="Bone-14" type="Bone2D" parent="SoftBody2D/Skeleton2D"]
 position = Vector2(51.9615, 398)
 rotation = -0.281035
+scale = Vector2(1, 1)
 rest = Transform2D(0.960769, -0.27735, 0.27735, 0.960769, 51.9615, 398)
 auto_calculate_length_and_angle = false
 length = 60.0
@@ -668,6 +674,7 @@ metadata/_local_pose_override_enabled_ = true
 [node name="Bone-15" type="Bone2D" parent="SoftBody2D/Skeleton2D"]
 position = Vector2(155.885, 15)
 rotation = 0.281035
+scale = Vector2(1, 1)
 rest = Transform2D(0.960769, 0.27735, -0.27735, 0.960769, 155.885, 15)
 auto_calculate_length_and_angle = false
 length = 60.0
@@ -850,6 +857,7 @@ metadata/_local_pose_override_enabled_ = true
 [node name="Bone-29" type="Bone2D" parent="SoftBody2D/Skeleton2D"]
 position = Vector2(155.885, 398)
 rotation = -0.281035
+scale = Vector2(1, 1)
 rest = Transform2D(0.960769, -0.27735, 0.27735, 0.960769, 155.885, 398)
 auto_calculate_length_and_angle = false
 length = 60.0
@@ -1146,13 +1154,10 @@ metadata/connected_nodes_paths = [NodePath("Bone-42"), NodePath("Bone-50"), Node
 metadata/connected_nodes_idx = [42, 50, 44]
 metadata/_local_pose_override_enabled_ = true
 
-[node name="Bone-0" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-0" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(51.9615, 15)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
-metadata/idx = 0
-metadata/bone_name = &"Bone-0"
 
 [node name="@CollisionShape2D@52305" type="CollisionShape2D" parent="SoftBody2D/Bone-0"]
 visible = false
@@ -1196,11 +1201,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-1" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-1" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(17.3205, 30)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 1
 metadata/bone_name = &"Bone-1"
 
@@ -1246,11 +1250,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-2" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-2" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(51.9615, 60)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 2
 metadata/bone_name = &"Bone-2"
 
@@ -1329,11 +1332,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-3" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-3" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(17.3205, 90)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 3
 metadata/bone_name = &"Bone-3"
 
@@ -1390,11 +1392,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-4" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-4" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(51.9615, 120)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 4
 metadata/bone_name = &"Bone-4"
 
@@ -1473,11 +1474,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-5" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-5" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(17.3205, 150)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 5
 metadata/bone_name = &"Bone-5"
 
@@ -1534,11 +1534,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-6" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-6" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(51.9615, 180)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 6
 metadata/bone_name = &"Bone-6"
 
@@ -1617,11 +1616,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-7" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-7" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(17.3205, 210)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 7
 metadata/bone_name = &"Bone-7"
 
@@ -1678,11 +1676,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-8" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-8" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(51.9615, 240)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 8
 metadata/bone_name = &"Bone-8"
 
@@ -1761,11 +1758,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-9" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-9" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(17.3205, 270)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 9
 metadata/bone_name = &"Bone-9"
 
@@ -1822,11 +1818,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-10" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-10" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(51.9615, 300)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 10
 metadata/bone_name = &"Bone-10"
 
@@ -1905,11 +1900,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-11" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-11" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(17.3205, 330)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 11
 metadata/bone_name = &"Bone-11"
 
@@ -1966,11 +1960,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-12" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-12" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(51.9615, 360)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 12
 metadata/bone_name = &"Bone-12"
 
@@ -2049,11 +2042,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-13" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-13" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(17.3205, 383)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 13
 metadata/bone_name = &"Bone-13"
 
@@ -2100,11 +2092,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-14" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-14" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(51.9615, 398)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 14
 metadata/bone_name = &"Bone-14"
 
@@ -2151,11 +2142,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-15" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-15" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(155.885, 15)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 15
 metadata/bone_name = &"Bone-15"
 
@@ -2201,11 +2191,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-16" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-16" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(103.923, 30)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 16
 metadata/bone_name = &"Bone-16"
 
@@ -2273,11 +2262,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-17" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-17" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(155.885, 60)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 17
 metadata/bone_name = &"Bone-17"
 
@@ -2356,11 +2344,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-18" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-18" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(103.923, 90)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 18
 metadata/bone_name = &"Bone-18"
 
@@ -2439,11 +2426,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-19" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-19" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(155.885, 120)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 19
 metadata/bone_name = &"Bone-19"
 
@@ -2522,11 +2508,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-20" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-20" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(103.923, 150)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 20
 metadata/bone_name = &"Bone-20"
 
@@ -2605,11 +2590,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-21" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-21" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(155.885, 180)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 21
 metadata/bone_name = &"Bone-21"
 
@@ -2688,11 +2672,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-22" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-22" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(103.923, 210)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 22
 metadata/bone_name = &"Bone-22"
 
@@ -2771,11 +2754,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-23" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-23" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(155.885, 240)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 23
 metadata/bone_name = &"Bone-23"
 
@@ -2854,11 +2836,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-24" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-24" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(103.923, 270)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 24
 metadata/bone_name = &"Bone-24"
 
@@ -2937,11 +2918,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-25" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-25" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(155.885, 300)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 25
 metadata/bone_name = &"Bone-25"
 
@@ -3020,11 +3000,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-26" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-26" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(103.923, 330)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 26
 metadata/bone_name = &"Bone-26"
 
@@ -3103,11 +3082,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-27" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-27" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(155.885, 360)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 27
 metadata/bone_name = &"Bone-27"
 
@@ -3186,11 +3164,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-28" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-28" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(103.923, 383)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 28
 metadata/bone_name = &"Bone-28"
 
@@ -3259,11 +3236,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-29" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-29" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(155.885, 398)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 29
 metadata/bone_name = &"Bone-29"
 
@@ -3310,11 +3286,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-30" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-30" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(259.808, 15)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 30
 metadata/bone_name = &"Bone-30"
 
@@ -3360,11 +3335,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-31" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-31" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(207.846, 30)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 31
 metadata/bone_name = &"Bone-31"
 
@@ -3432,11 +3406,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-32" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-32" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(259.808, 60)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 32
 metadata/bone_name = &"Bone-32"
 
@@ -3515,11 +3488,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-33" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-33" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(207.846, 90)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 33
 metadata/bone_name = &"Bone-33"
 
@@ -3598,11 +3570,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-34" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-34" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(259.808, 120)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 34
 metadata/bone_name = &"Bone-34"
 
@@ -3681,11 +3652,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-35" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-35" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(207.846, 150)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 35
 metadata/bone_name = &"Bone-35"
 
@@ -3764,11 +3734,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-36" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-36" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(259.808, 180)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 36
 metadata/bone_name = &"Bone-36"
 
@@ -3847,11 +3816,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-37" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-37" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(207.846, 210)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 37
 metadata/bone_name = &"Bone-37"
 
@@ -3930,11 +3898,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-38" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-38" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(259.808, 240)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 38
 metadata/bone_name = &"Bone-38"
 
@@ -4013,11 +3980,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-39" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-39" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(207.846, 270)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 39
 metadata/bone_name = &"Bone-39"
 
@@ -4096,11 +4062,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-40" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-40" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(259.808, 300)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 40
 metadata/bone_name = &"Bone-40"
 
@@ -4179,11 +4144,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-41" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-41" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(207.846, 330)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 41
 metadata/bone_name = &"Bone-41"
 
@@ -4262,11 +4226,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-42" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-42" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(259.808, 360)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 42
 metadata/bone_name = &"Bone-42"
 
@@ -4345,11 +4308,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-43" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-43" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(207.846, 383)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 43
 metadata/bone_name = &"Bone-43"
 
@@ -4418,11 +4380,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-44" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-44" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(259.808, 398)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 44
 metadata/bone_name = &"Bone-44"
 
@@ -4469,11 +4430,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-45" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-45" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(303.564, 30.7884)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 45
 metadata/bone_name = &"Bone-45"
 
@@ -4519,11 +4479,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-46" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-46" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(303.564, 90.7884)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 46
 metadata/bone_name = &"Bone-46"
 
@@ -4580,11 +4539,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-47" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-47" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(303.564, 150.788)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 47
 metadata/bone_name = &"Bone-47"
 
@@ -4641,11 +4599,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-48" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-48" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(303.564, 210.788)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 48
 metadata/bone_name = &"Bone-48"
 
@@ -4702,11 +4659,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-49" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-49" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(303.564, 270.788)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 49
 metadata/bone_name = &"Bone-49"
 
@@ -4763,11 +4719,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-50" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-50" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(303.564, 330)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 50
 metadata/bone_name = &"Bone-50"
 
@@ -4824,11 +4779,10 @@ angular_limit_enabled = true
 angular_limit_lower = -15.0
 angular_limit_upper = 15.0
 
-[node name="Bone-51" type="RigidBody2D" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
+[node name="Bone-51" parent="SoftBody2D" instance=ExtResource("4_t6ag3")]
 position = Vector2(303.564, 382.212)
 mass = 0.1
 continuous_cd = 1
-script = ExtResource("5_8r2ce")
 metadata/idx = 51
 metadata/bone_name = &"Bone-51"
 

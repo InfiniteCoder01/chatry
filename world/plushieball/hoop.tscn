@@ -29,6 +29,7 @@ fit_content = true
 
 [node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
+volume_db = -10.0
 
 [node name="Collider" type="StaticBody2D" parent="."]
 

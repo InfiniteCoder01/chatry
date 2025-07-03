@@ -13,7 +13,6 @@ func _ready() -> void:
 	Twitch.broadcaster_eventsub.event.connect(_on_twitch_eventsub_event)
 	Twitch.connect_command("Plushie", _on_plushie)
 	Twitch.connect_command("Pick", _on_pick)
-	Twitch.connect_command("TeamPlushie", _on_tplushie)
 
 func _process(_delta: float) -> void:
 	var mouse := get_global_mouse_position()
@@ -76,15 +75,22 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 			var victim := closest_plushie(plushies, plushie.soft_body.get_bones_center_position()) if args.is_empty() else find_plushie(plushies, " ".join(args))
 			if victim == null: return
 			move.perform(self, plushie, victim)
-		elif data.message.text.unicode_at(0) == 1:
-			var text: String = data.message.text.substr(8, data.message.text.length() - 9)
-			#owners[data.chatter_user_login].add_child(Spell.new(text))
 
 func _on_plushie(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if owners.has(from_username) && is_instance_valid(owners[from_username]): return
-	var proto: PlushieProto = PlushieLib.all.pick_random() if args.is_empty() else PlushieLib.find(" ".join(args))
-	if proto == null: return
-	var plushie := proto.instantiate()
+
+	var plushie: Plushie = null
+	if !args.is_empty():
+		var chatter := Store.viewer(from_username)
+		if !chatter.team.is_empty():
+			var member := chatter.get_team_member(args[0])
+			if member: plushie = member.instantiate()
+	
+	if !plushie:
+		var proto: PlushieProto = PlushieLib.all.pick_random() if args.is_empty() else PlushieLib.find(" ".join(args))
+		if proto == null: return
+		plushie = proto.instantiate()
+
 	plushie.chatter = await Twitch.bot.get_user(from_username)
 	plushie.position_randomly(get_viewport_rect())
 	plushies.add_child(plushie)
@@ -96,18 +102,6 @@ func _on_pick(from_username: String, _info: TwitchCommandInfo, args: PackedStrin
 	if !PlushieLib.groups.has(name): return
 	var proto: PlushieProto = PlushieLib.groups[name].pick_random()
 	var plushie := proto.instantiate()
-	plushie.chatter = await Twitch.bot.get_user(from_username)
-	plushie.position_randomly(get_viewport_rect())
-	plushies.add_child(plushie)
-	owners[from_username] = plushie
-
-func _on_tplushie(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
-	if owners.has(from_username) && is_instance_valid(owners[from_username]): return
-	var chatter := Store.viewer(from_username)
-	if chatter.team.is_empty(): return
-	var member: Store.CaughtPlushie = chatter.team.pick_random() if args.is_empty() else chatter.get_team_member(args[0])
-	if member == null: return
-	var plushie := member.instantiate()
 	plushie.chatter = await Twitch.bot.get_user(from_username)
 	plushie.position_randomly(get_viewport_rect())
 	plushies.add_child(plushie)

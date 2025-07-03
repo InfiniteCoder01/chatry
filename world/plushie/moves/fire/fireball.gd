@@ -1,7 +1,7 @@
 extends RigidBody2D
 
 @onready var fire: GPUParticles2D = $Fire
-var caster: TwitchUser = null
+var caster: Plushie = null
 var drop := false
 
 func _ready() -> void:
@@ -11,7 +11,9 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	for rb in get_colliding_bodies():
 		if rb is Bone:
-			if caster != null && rb.plushie.chatter == caster: return
+			if is_instance_valid(caster):
+				if caster.chatter != null && rb.plushie.chatter == caster.chatter: return
+				if caster.caught: rb.plushie.last_damage_dealt_by = caster.caught
 			rb.set_on_fire()
 			drop = true
 	if drop:
