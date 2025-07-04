@@ -2,59 +2,19 @@ extends Node
 
 class Viewer:
 	extends RefCounted
-	var team: Array[CaughtPlushie] = []
+	var team: Array[Plushie] = []
 	var plushiedex: Dictionary[String, bool] = {}
 	
-	func get_team_member(name: String) -> CaughtPlushie:
+	func get_team_member(name: String) -> Plushie:
 		for i in range(team.size()):
 			var plushie := team[team.size() - i - 1]
-			if plushie.name.to_lower() == name.to_lower():
-				return plushie
+			if plushie.name_matches(name): return plushie
 		return null
 	
-	func receive(plushie: CaughtPlushie) -> void:
+	func receive(plushie: Plushie) -> void:
+		plushie.wild = false
 		team.append(plushie)
-		plushiedex[plushie.proto_name] = true
-
-class CaughtPlushie:
-	extends RefCounted
-	var name: String = ""
-	var proto_name: String = ""
-	var xp: int = 0
-	
-	var stats := PlushieProto.Stats.new()
-	
-	func instantiate() -> Plushie:
-		var proto := PlushieLib.proto(proto_name)
-		var plushie := proto.instantiate()
-		plushie.caught = self
-		plushie.name = self.name
-		plushie.lifetime_remaining = INF
-		return plushie
-
-	func gain_xp(xp: int) -> void:
-		self.xp += xp
-		var levels := 0
-		var moves: Array[String] = []
-		var proto := PlushieLib.proto(proto_name)
-		while true:
-			if self.xp >= stats.xp_to_level():
-				self.xp -= stats.xp_to_level()
-				stats.level_up()
-				if proto.moves.has(stats.level()):
-					moves.append(proto.moves[stats.level()])
-				levels += 1
-				continue
-			break
-		Store.save()
-	
-		var msg := "%s recieved %d XP." % [name, xp]
-		if levels > 0:
-			msg += " It got to level %d!" % stats.level()
-		for move in moves:
-			msg += " Learned new move: %s!" % move
-		await Twitch.get_tree().create_timer(0.3).timeout
-		Twitch.chat.send_message(msg)
+		plushiedex[plushie.id] = true
 
 var viewers: Dictionary[String, Viewer] = {}
 
@@ -70,6 +30,10 @@ const STORE_PATH := "/mnt/D/Channel/store.json"
 func _ready() -> void:
 	var file := FileAccess.open(STORE_PATH, FileAccess.READ)
 	Serializer.deserialize(self, JSON.parse_string(file.get_as_text()))
+	
+	for viewer: Viewer in viewers.values():
+		for plushie: Plushie in viewer.team:
+			plushie.wild = false
 
 	Twitch.connect_command("Team", func _on_plushiedex(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 		var chatter := viewer(from_username)
@@ -79,10 +43,10 @@ func _ready() -> void:
 			if plushie == null: return
 			var msg := "Team member %s: LVL %d, %d ATK, %d DFN! XP: %d/%d" % [
 				plushie.name,
-				plushie.stats.level(),
+				plushie.level(),
 				plushie.stats.attack,
 				plushie.stats.defense,
-				plushie.xp, plushie.stats.xp_to_level(),
+				plushie.xp, plushie.xp_to_level(),
 			]
 			Twitch.chat.send_message(msg, info.original_message.message_id)
 			return

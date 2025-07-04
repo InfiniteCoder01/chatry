@@ -4,7 +4,7 @@ class_name World
 @onready var control: Control = %Control
 @onready var alertbox: AlertBox = %AlertBox
 @onready var plushies: Node = %Plushies
-var owners: Dictionary[String, Plushie]
+var owners: Dictionary[String, PlushieInstance]
 
 var followers: Array[SoftBody2D.SoftBodyChild] = []
 
@@ -53,14 +53,16 @@ func _notification(what: int) -> void:
 # -------------------------------------------------------------------------- Twitch
 func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 	if type == "channel.raid":
-		var plushie := PlushieLib.find(data.from_broadcaster_user_login)
-		if plushie == null: return
+		var broadcaster: TwitchUser = await Twitch.bot.get_user_by_id(data.from_broadcaster_user_id)
+		var config := PlushieLib.find(broadcaster.login)
+		if config == null: return
 
 		for i in range(5):
-			var plushie_instance: Plushie = plushie.instantiate()
-			plushie_instance.chatter = await Twitch.bot.get_user_by_id(data.from_broadcaster_user_id);
-			plushie_instance.position_randomly(get_viewport_rect())
-			plushies.add_child(plushie_instance)
+			var plushie: PlushieInstance = config.create().instantiate()
+			plushie.chatter = broadcaster
+			plushie.position_randomly(get_viewport_rect())
+			plushies.add_child(plushie)
+			if !(owners.has(broadcaster.login) && is_instance_valid(owners[broadcaster.login])): owners[broadcaster.login] = plushie
 			await get_tree().create_timer(1.0).timeout
 	elif type == "channel.chat.message":
 		# Plushie commands
@@ -68,7 +70,7 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 		if data.message.text.begins_with("!"):
 			var args: PackedStringArray = data.message.text.split(' ')
 			var plushie := owners[data.chatter_user_login]
-			var move := plushie.proto.get_move(args[0].substr(1), plushie.stats().level())
+			var move := plushie.plushie.get_move(args[0].substr(1))
 			args.remove_at(0)
 			if move == null: return
 			var plushies := non_viewer_plushies(data.chatter_user_login)
@@ -82,51 +84,51 @@ func _on_plushie(from_username: String, _info: TwitchCommandInfo, args: PackedSt
 	var plushie: Plushie = null
 	if !args.is_empty():
 		var chatter := Store.viewer(from_username)
-		if !chatter.team.is_empty():
-			var member := chatter.get_team_member(args[0])
-			if member: plushie = member.instantiate()
+		plushie = chatter.get_team_member(args[0])
 	
 	if !plushie:
-		var proto: PlushieProto = PlushieLib.all.pick_random() if args.is_empty() else PlushieLib.find(" ".join(args))
-		if proto == null: return
-		plushie = proto.instantiate()
+		var config: PlushieConfig = PlushieLib.all.pick_random() if args.is_empty() else PlushieLib.find(" ".join(args))
+		if config == null: return
+		plushie = config.create()
 
-	plushie.chatter = await Twitch.bot.get_user(from_username)
-	plushie.position_randomly(get_viewport_rect())
-	plushies.add_child(plushie)
-	owners[from_username] = plushie
+	var instance := plushie.instantiate()
+	instance.chatter = await Twitch.bot.get_user(from_username)
+	instance.position_randomly(get_viewport_rect())
+	plushies.add_child(instance)
+	owners[from_username] = instance
 
 func _on_pick(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if owners.has(from_username) && is_instance_valid(owners[from_username]): return
+
 	var name := PlushieLib.strip(" ".join(args))
 	if !PlushieLib.groups.has(name): return
-	var proto: PlushieProto = PlushieLib.groups[name].pick_random()
-	var plushie := proto.instantiate()
+	var config: PlushieConfig = PlushieLib.groups[name].pick_random()
+	var plushie := config.create().instantiate()
 	plushie.chatter = await Twitch.bot.get_user(from_username)
 	plushie.position_randomly(get_viewport_rect())
 	plushies.add_child(plushie)
 	owners[from_username] = plushie
 
 # -------------------------------------------------------------------------- Plushies
-func get_plushies() -> Array[Plushie]:
-	var arr: Array[Plushie]
+func get_plushies() -> Array[PlushieInstance]:
+	var arr: Array[PlushieInstance]
 	arr.assign(plushies.get_children())
 	return arr
 
-func non_viewer_plushies(viewer_login: String) -> Array[Plushie]:
-	return get_plushies().filter(func pred(plushie: Plushie) -> bool:
+func non_viewer_plushies(viewer_login: String) -> Array[PlushieInstance]:
+	return get_plushies().filter(func pred(plushie: PlushieInstance) -> bool:
 		return plushie.chatter == null || plushie.chatter.login != viewer_login
 	)
 
-func find_plushie(plushies: Array[Plushie], name: String) -> Plushie:
-	plushies = plushies.filter(func pred(plushie: Plushie) -> bool:
-		return plushie.name_matches(name)
+func find_plushie(plushies: Array[PlushieInstance], name: String) -> PlushieInstance:
+	plushies = plushies.filter(func pred(plushie: PlushieInstance) -> bool:
+		return plushie.plushie.name_matches(name)
 	)
 	if plushies.is_empty(): return null
 	return plushies.pick_random()
 
-func closest_plushie(plushies: Array[Plushie], to: Vector2) -> Plushie:
-	var closest: Plushie = null
+func closest_plushie(plushies: Array[PlushieInstance], to: Vector2) -> PlushieInstance:
+	var closest: PlushieInstance = null
 	for plushie in plushies:
 		if closest == null || plushie.soft_body.get_bones_center_position().distance_squared_to(to) < closest.soft_body.get_bones_center_position().distance_squared_to(to):
 			closest = plushie

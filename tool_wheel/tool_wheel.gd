@@ -31,7 +31,8 @@ func get_all_children() -> Array[ToolWheelButton]:
 	return children
 	
 func random_plushie() -> void:
-	var plushie: Plushie = PlushieLib.all.pick_random().instantiate()
+	var config: PlushieConfig = PlushieLib.all.pick_random()
+	var plushie := config.create().instantiate()
 	plushie.soft_body.global_position = global_position
 	world.plushies.add_child(plushie)
 

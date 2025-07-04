@@ -20,7 +20,7 @@ func _ready() -> void:
 	await bot.setup()
 	print("Authorize broadcaster")
 	await broadcaster.setup()
-	Plushie.connect_heat()
+	PlushieInstance.connect_heat()
 	
 	var config_file := ConfigFile.new()
 	if config_file.load("res://config.toml") != OK:

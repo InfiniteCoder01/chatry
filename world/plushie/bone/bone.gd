@@ -2,7 +2,7 @@ extends RigidBody2D
 class_name Bone
 
 @onready var fire: GPUParticles2D = $Fire
-var plushie: Plushie
+var plushie: PlushieInstance
 var on_fire := false
 
 func _ready() -> void:

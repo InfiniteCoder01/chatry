@@ -23,6 +23,8 @@ func _process(_delta: float) -> void:
 	
 	var viewers: Array[String] = Store.viewers.keys().duplicate()
 	viewers.sort_custom(func(a: String, b: String) -> bool:
+		if a == "infinitecoder01": return false
+		if b == "infinitecoder01": return true
 		return Store.viewer(a).plushiedex.size() > Store.viewer(b).plushiedex.size()
 	)
 

@@ -1,199 +1,81 @@
 class_name Plushie
-extends Node
+extends RefCounted
 
-# ******************************************************************** Heat
-static var heat_websocket := WebSocketPeer.new()
-static var heat_message: Signal
+var wild := true
+var name := ""
+var id := ""
+var xp := 0
 
-static func _static_init() -> void:
-	(Plushie as Object).add_user_signal("heat_message", [{ "name": "message", "type": TYPE_DICTIONARY }])
-	heat_message = Signal(Plushie as Object, "heat_message")
-
-static func connect_heat() -> void:
-	heat_websocket.connect_to_url("wss://heat-api.j38.net/channel/%s" % Twitch.chat.broadcaster_user.id)
-	Engine.get_main_loop().process_frame.connect(func _process() -> void:
-		heat_websocket.poll()
-		while heat_websocket.get_available_packet_count() > 0:
-			var data := heat_websocket.get_packet()
-			var message: Dictionary = JSON.parse_string(data.get_string_from_utf8())
-			if message == null: return
-			heat_message.emit(message)
-			if message.type == "click": pass
-			elif message.type == "system":
-				print("Heat system message: %s" % message.message)
-				if message.has("version:"): print("Heat API version: %s" % message["version:"])
-			else: printerr("Unknown heat message: %s" % message)
-	)
-
-func _on_heat_message(message: Dictionary) -> void:
-	if !message.has("type"): return
-	if !message.has("id"): return
-	if message.type == "click" && message.id == chatter.id:
-		var target := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
-		soft_body.apply_impulse((target - soft_body.get_bones_center_position()) * 0.3)
-
-## ******************************************************************** Creation
-@onready var soft_body: SoftBody2D = $SoftBody2D
-
-var proto: PlushieProto
-var chatter: TwitchUser = null
-var caught: Store.CaughtPlushie = null
-var joints_max: int
-
-func stats() -> PlushieProto.Stats:
-	if caught != null:
-		return caught.stats
-	return proto.stats
-
-var lifetime_remaining: float
-var last_damage_dealt_by: Store.CaughtPlushie = null
-
-func load() -> void:
-	if proto == null: return
-	name = proto.name
-	print("Plushie %s" % proto.name)
-	soft_body = $SoftBody2D
-	soft_body.texture = load("res://assets/plushies/" + proto.name + "/image.png") as Texture2D
-	soft_body.create_softbody2d(true)
-	lifetime_remaining = 60.0
-	joints_max = 0
-	for pb in soft_body.get_rigid_bodies():
-		joints_max += pb.joints.size()
-
-func position_randomly(rect: Rect2) -> void:
-	soft_body.global_position = Vector2(
-		randf_range(
-			10,
-			rect.size.x - soft_body.texture.get_width() * soft_body.scale.x - 10
-		),
-		10
-	)
-
-func _ready() -> void:
-	heat_message.connect(_on_heat_message)
-	Twitch.connect_command("Flee", func _on_flee(from_username: String, _info: TwitchCommandInfo, _args: PackedStringArray) -> void:
-		if chatter == null || chatter.login != from_username: return
-		Twitch.chat.send_message("%s fled!" % name)
-		queue_free()
-	)
-	Twitch.connect_command("AddForce", func _on_add_force(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
-		if chatter == null || chatter.login != from_username: return
-		var force := Vector2(float(args[0]), float(args[1])).limit_length(5.0) * 2000
-		soft_body.apply_force(force)
-	)
-	Twitch.connect_command("PutOut", func _on_put_out(from_username: String, _info: TwitchCommandInfo, _args: PackedStringArray) -> void:
-		if chatter == null || chatter.login != from_username: return
-		put_out()
-	)
-	Twitch.connect_command("Catch", func _on_catch(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
-		if caught != null: return
-		if proto != PlushieLib.find(" ".join(args)): return
-		if randf() <= 0.01 / health() / sqrt(stats().attack):
-			caught = Store.CaughtPlushie.new()
-			caught.proto_name = proto.name
-			caught.name = name
-			Store.viewer(from_username, true).receive(caught)
-			Store.save()
-			queue_free()
-			Twitch.chat.send_message("%s was caught! You can see it in your !team. You can also name it with !name" % caught.name, info.original_message.message_id)
-		else:
-			Twitch.chat.send_message("You couldn't catch %s!" % name, info.original_message.message_id)
-	)
-
-# ******************************************************************** Utility
-func name_matches(name: String) -> bool:
-	name = PlushieLib.strip(name)
-	var names: Array[String] = proto.aliases.duplicate()
-	names.append(proto.name)
-	names.append(self.name)
-	for this_name in names:
-		if name == PlushieLib.strip(this_name): return true
-	return false
-
-func closest_rbs(target: Vector2) -> Array[SoftBody2D.SoftBodyChild]:
-	var rigid_bodies := soft_body.get_rigid_bodies()
-	var indices := range(rigid_bodies.size())
-	indices.sort_custom(func ord(a: int, b: int) -> bool:
-		return (rigid_bodies[a].rigidbody.global_position.distance_squared_to(target) <
-				rigid_bodies[b].rigidbody.global_position.distance_squared_to(target))
-	)
-	var closest: Array[SoftBody2D.SoftBodyChild] = []
-	for i in range(min(indices.size(), 3)):
-		closest.append(rigid_bodies[indices[i]])
-	return closest
-
-## ******************************************************************** Functionality
-var attack_target: Plushie
-var attack_hits: int
-func attack(target: Plushie) -> void:
-	var target_pos := target.soft_body.get_bones_center_position()
-	var impulse := (target_pos - soft_body.get_bones_center_position())
-
-	var my_stats := stats()
-	var victim_stats := target.stats()
-	var power := float(my_stats.attack) / victim_stats.defense
-	if target.proto.groups.has("cpus") || target.proto.groups.has("embedded"):
-		power *= 1.3
-
-	impulse = impulse.normalized() * 400.0 * min(sqrt(power), 0.5)
-	soft_body.apply_impulse(impulse)
-	attack_target = target
-	attack_hits = ceili(10 * power)
-	# languages editors cpus embedded terminals distros graphics applications
-	# browsers games mediaplatforms git compositor messengers smartcontract
-	# streamers movies gameengines shells periodictable packagemanagers des ir
-	for pb in soft_body.get_rigid_bodies():
-		var rb := pb.rigidbody as RigidBody2D
-		rb.contact_monitor = true
-		rb.max_contacts_reported = 3
-
-func put_out() -> void:
-	for rb in soft_body.get_rigid_bodies():
-		rb.rigidbody.fire.emitting = false
-
-## ******************************************************************** Process
-func health() -> float:
-	var health = 0.0
-	for pb in soft_body.get_rigid_bodies():
-		health += float(pb.joints.size()) / joints_max
-	return health
-
-func alive() -> bool:
-	return health() >= 0.001
-
-func _process(delta: float) -> void:
-	if !alive():
-		queue_free()
-		Twitch.chat.send_message("%s was defeated!" % name)
-		if last_damage_dealt_by:
-			var stats := stats()
-			var xp := (stats.attack + stats.defense) * 5 + 20
-			last_damage_dealt_by.gain_xp(xp)
-		return
-
-	lifetime_remaining -= delta
-	if lifetime_remaining < 0:
-		Twitch.chat.send_message("%s magically disappeared! Catch a plushie to make it more persistent!" % name)
-		queue_free()
-		return
+class Stats:
+	extends RefCounted
+	var attack := 1
+	var defense := 1
 	
-	if !is_instance_valid(attack_target): attack_target = null
-	if attack_target != null && attack_hits > 0:
-		var collisions: Array[Bone] = []
-		for pb in soft_body.get_rigid_bodies():
-			var rb := pb.rigidbody as RigidBody2D
-			collisions.append_array(rb.get_colliding_bodies().filter(func pred(collision: Node2D) -> bool:
-				return collision is Bone and collision.plushie == attack_target
-			))
-		
-		var joints_removed := 0
-		var max_joints_per_frame: int = min(attack_hits, 30)
-		for collision in collisions:
-			var rb: SoftBody2D.SoftBodyChild = collision.plushie.soft_body._soft_body_rigidbodies_dict[collision]
-			for joint in rb.joints:
-				collision.plushie.soft_body.remove_joint(rb, joint)
-				joints_removed += 1
-				if joints_removed >= max_joints_per_frame: break
-			if joints_removed >= max_joints_per_frame: break
-		attack_hits -= joints_removed
-		if caught: attack_target.last_damage_dealt_by = caught
+	static func random() -> Stats:
+		var stats := Stats.new()
+		stats.attack = randi_range(1, 3)
+		stats.defense = randi_range(1, 3)
+		return stats
+	
+	func sum() -> int:
+		return attack + defense
+	
+var stats := Stats.random()
+
+# -------------------------------------------------------------------- Sugar
+func config() -> PlushieConfig:
+	return PlushieLib.config(id)
+
+func get_move(name: String) -> PlushieLib.Move:
+	return config().get_move(name, level())
+
+# -------------------------------------------------------------------- Leveling
+func level() -> int:
+	return int(sqrt(stats.sum()))
+
+func xp_to_level_up() -> int:
+	return int(50 + pow(level(), 1.5) * 10)
+
+func level_up() -> void:
+	var req := int(pow(level() + 1, 2) - stats.sum())
+	stats.attack += req - req / 2
+	stats.defense += req / 2
+
+func gain_xp(xp: int) -> void:
+	self.xp += xp
+	var levels := 0
+	var moves: Array[String] = []
+	var config := PlushieLib.config(id)
+	while true:
+		if self.xp >= xp_to_level_up():
+			self.xp -= xp_to_level_up()
+			stats.level_up()
+			if config.moves.has(level()):
+				moves.append(config.moves[level()])
+			levels += 1
+			continue
+		break
+	Store.save()
+
+	var msg := "%s recieved %d XP." % [name, xp]
+	if levels > 0:
+		msg += " It got to level %d!" % stats.level()
+	for move in moves:
+		msg += " Learned new move: %s!" % move
+	await Twitch.get_tree().create_timer(0.3).timeout
+	Twitch.chat.send_message(msg)
+
+# ----------------------------------------------------------------------- Instance
+func instantiate() -> PlushieInstance:
+	var instance: PlushieInstance = preload("res://world/plushie/plushie.tscn").instantiate()
+	instance.load(self)
+	return instance
+
+func name_matches(name: String) -> bool:
+	if wild:
+		name = PlushieLib.strip(name)
+		if name == PlushieLib.strip(config().name): return true
+		for cname: String in config().aliases:
+			if name == PlushieLib.strip(cname): return true
+
+	return name.to_lower() == self.name.to_lower()
