@@ -24,7 +24,17 @@ func viewer(login: String, create: bool = false) -> Viewer:
 		viewers[login] = Viewer.new()
 	return viewers[login]
 
-# ----------------------------------------------
+# ---------------------------------------------- Text stuff
+func format_strings(strings: PackedStringArray) -> String:
+	var result := ""
+	for i in range(strings.size()):
+		if i > 0:
+			if i == strings.size() - 1: result += " and "
+			else: result += ", "
+		result += strings[i]
+	return result
+
+# ---------------------------------------------- Store
 const STORE_PATH := "/mnt/D/Channel/store.json"
 
 func _ready() -> void:
@@ -40,23 +50,27 @@ func _ready() -> void:
 		
 		if !args.is_empty():
 			var plushie := chatter.get_team_member(" ".join(args))
-			if plushie == null: return
+			if plushie == null:
+				Twitch.chat.send_message("%s is not in your team!" % " ".join(args), info.original_message.message_id)
+				return
 			var msg := "Team member %s: LVL %d, %d ATK, %d DFN! XP: %d/%d" % [
 				plushie.name,
 				plushie.level(),
 				plushie.stats.attack,
 				plushie.stats.defense,
-				plushie.xp, plushie.xp_to_level(),
+				plushie.xp, plushie.xp_to_level_up(),
 			]
+			var moves := plushie.get_available_moves()
+			if !moves.is_empty():
+				msg += ". Learned moves: %s" % format_strings(moves)
 			Twitch.chat.send_message(msg, info.original_message.message_id)
 			return
 		
 		var msg := "Your team consists of %d plushies" % chatter.team.size()
 		if !chatter.team.is_empty():
-			msg += ": "
-			for plushie in chatter.team:
-				if !msg.ends_with(" "): msg += ", "
-				msg += plushie.name
+			msg += ": %s" % format_strings(chatter.team.map(func (plushie: Plushie):
+				return plushie.name
+			))
 		msg += "! Use !team <team member> to see stats of a plushie. See !help for more."
 
 		Twitch.chat.send_message(msg, info.original_message.message_id)

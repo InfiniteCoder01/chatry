@@ -34,7 +34,7 @@ func random_plushie() -> void:
 	var config: PlushieConfig = PlushieLib.all.pick_random()
 	var plushie := config.create().instantiate()
 	plushie.soft_body.global_position = global_position
-	world.plushies.add_child(plushie)
+	world.add_plushie(plushie, null, false)
 
 func plushieball() -> void:
 	world.plushieball(false)

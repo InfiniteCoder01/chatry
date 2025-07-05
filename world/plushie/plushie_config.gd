@@ -12,6 +12,7 @@ func _init(name: String, config: ConfigFile) -> void:
 	groups.assign(config.get_value("", "groups", []))
 	moves.assign(config.get_value("", "moves", {}))
 	if !moves.has(0): moves[0] = "punch"
+	moves.sort()
 
 func create() -> Plushie:
 	var plushie := Plushie.new()
@@ -19,8 +20,15 @@ func create() -> Plushie:
 	plushie.name = name
 	return plushie
 
-func get_move(name: String, level: int) -> PlushieLib.Move:
+func get_available_moves(level: int) -> PackedStringArray:
+	var moves_available: PackedStringArray = []
 	for move_level: int in moves.keys():
-		if move_level <= level && moves[move_level] == name:
-			return PlushieLib.moves[moves[move_level]]
+		if move_level <= level:
+			moves_available.append(moves[move_level])
+	return moves_available
+
+func get_move(name: String, level: int) -> PlushieLib.Move:
+	for move: String in get_available_moves(level):
+		if move == name:
+			return PlushieLib.moves[move]
 	return null

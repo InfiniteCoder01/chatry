@@ -23,6 +23,4 @@ func _on_area_2d_body_entered(body: RigidBody2D) -> void:
 		var chatter := plushie.chatter
 		plushie.queue_free()
 		plushie = PlushieLib.all.pick_random().create().instantiate()
-		plushie.chatter = chatter
-		plushie.position_randomly(get_viewport_rect())
-		world.plushies.add_child(plushie)
+		world.add_plushie(plushie, chatter)

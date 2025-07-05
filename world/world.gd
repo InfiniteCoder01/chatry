@@ -60,9 +60,8 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 		for i in range(5):
 			var plushie: PlushieInstance = config.create().instantiate()
 			plushie.chatter = broadcaster
-			plushie.position_randomly(get_viewport_rect())
-			plushies.add_child(plushie)
 			if !(owners.has(broadcaster.login) && is_instance_valid(owners[broadcaster.login])): owners[broadcaster.login] = plushie
+			add_plushie(plushie)
 			await get_tree().create_timer(1.0).timeout
 	elif type == "channel.chat.message":
 		# Plushie commands
@@ -92,10 +91,7 @@ func _on_plushie(from_username: String, _info: TwitchCommandInfo, args: PackedSt
 		plushie = config.create()
 
 	var instance := plushie.instantiate()
-	instance.chatter = await Twitch.bot.get_user(from_username)
-	instance.position_randomly(get_viewport_rect())
-	plushies.add_child(instance)
-	owners[from_username] = instance
+	add_plushie(instance, await Twitch.bot.get_user(from_username))
 
 func _on_pick(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if owners.has(from_username) && is_instance_valid(owners[from_username]): return
@@ -104,12 +100,20 @@ func _on_pick(from_username: String, _info: TwitchCommandInfo, args: PackedStrin
 	if !PlushieLib.groups.has(name): return
 	var config: PlushieConfig = PlushieLib.groups[name].pick_random()
 	var plushie := config.create().instantiate()
-	plushie.chatter = await Twitch.bot.get_user(from_username)
-	plushie.position_randomly(get_viewport_rect())
-	plushies.add_child(plushie)
-	owners[from_username] = plushie
+	add_plushie(plushie, await Twitch.bot.get_user(from_username))
 
 # -------------------------------------------------------------------------- Plushies
+func add_plushie(plushie: PlushieInstance, chatter: TwitchUser = null, position_randomly: bool = true) -> void:
+	if chatter:
+		plushie.chatter = chatter
+		owners[chatter.login] = plushie
+
+	if position_randomly:
+		plushie.position_randomly(get_viewport_rect())
+
+	plushie.world = self
+	plushies.add_child(plushie)
+
 func get_plushies() -> Array[PlushieInstance]:
 	var arr: Array[PlushieInstance]
 	arr.assign(plushies.get_children())

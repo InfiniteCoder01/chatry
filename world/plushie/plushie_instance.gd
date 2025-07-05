@@ -28,13 +28,21 @@ static func connect_heat() -> void:
 func _on_heat_message(message: Dictionary) -> void:
 	if !message.has("type"): return
 	if !message.has("id"): return
+	if !chatter: return
+	if message.id != chatter.id: return
 	if message.type == "click":
-		if message.id == chatter.id:
-			var target := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
-			soft_body.apply_impulse((target - soft_body.get_bones_center_position()) * 0.3)
+		var cursor := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
+		if world && plushie.get_move("punch"):
+			for victim in world.non_viewer_plushies(chatter.login):
+				if victim.soft_body.get_bones_center_position().distance_squared_to(cursor) < 130*130:
+					attack(victim)
+					return
+
+		leap(cursor)
 
 ## ******************************************************************** Creation
 var soft_body: SoftBody2D
+var world: World
 
 var chatter: TwitchUser = null
 var plushie: Plushie
@@ -106,6 +114,9 @@ func closest_rbs(target: Vector2) -> Array[SoftBody2D.SoftBodyChild]:
 		closest.append(rigid_bodies[indices[i]])
 	return closest
 
+func leap(target_position: Vector2):
+	soft_body.apply_impulse((target_position - soft_body.get_bones_center_position()) * 0.3)
+
 ## ******************************************************************** Functionality
 var attack_target: PlushieInstance
 var attack_hits: int
@@ -152,10 +163,10 @@ func _process(delta: float) -> void:
 
 	lifetime_remaining -= delta
 	if lifetime_remaining < 0:
-		Twitch.chat.send_message("%s magically disappeared! Catch a plushie to make it more persistent!" % plushie.name)
+		Twitch.chat.send_message("%s magically disappeared! Fight & catch your own plushie!" % plushie.name)
 		queue_free()
 		return
-	
+
 	if !is_instance_valid(attack_target): attack_target = null
 	if attack_target != null && attack_hits > 0:
 		var collisions: Array[Bone] = []
@@ -164,7 +175,7 @@ func _process(delta: float) -> void:
 			collisions.append_array(rb.get_colliding_bodies().filter(func pred(collision: Node2D) -> bool:
 				return collision is Bone and collision.plushie == attack_target
 			))
-		
+
 		var joints_removed := 0
 		var max_joints_per_frame: int = min(attack_hits, 30)
 		for collision in collisions:

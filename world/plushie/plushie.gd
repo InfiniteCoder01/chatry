@@ -26,6 +26,9 @@ var stats := Stats.random()
 func config() -> PlushieConfig:
 	return PlushieLib.config(id)
 
+func get_available_moves() -> PackedStringArray:
+	return config().get_available_moves(level())
+
 func get_move(name: String) -> PlushieLib.Move:
 	return config().get_move(name, level())
 
@@ -49,7 +52,7 @@ func gain_xp(xp: int) -> void:
 	while true:
 		if self.xp >= xp_to_level_up():
 			self.xp -= xp_to_level_up()
-			stats.level_up()
+			level_up()
 			if config.moves.has(level()):
 				moves.append(config.moves[level()])
 			levels += 1
@@ -59,7 +62,7 @@ func gain_xp(xp: int) -> void:
 
 	var msg := "%s recieved %d XP." % [name, xp]
 	if levels > 0:
-		msg += " It got to level %d!" % stats.level()
+		msg += " It got to level %d!" % level()
 	for move in moves:
 		msg += " Learned new move: %s!" % move
 	await Twitch.get_tree().create_timer(0.3).timeout
