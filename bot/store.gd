@@ -49,9 +49,9 @@ func _ready() -> void:
 		var chatter := viewer(from_username)
 		
 		if !args.is_empty():
-			var plushie := chatter.get_team_member(" ".join(args))
+			var plushie := chatter.get_team_member(args[0])
 			if plushie == null:
-				Twitch.chat.send_message("%s is not in your team!" % " ".join(args), info.original_message.message_id)
+				Twitch.chat.send_message("%s is not in your team!" % args[0], info.original_message.message_id)
 				return
 			var msg := "Team member %s: LVL %d, %d ATK, %d DFN! XP: %d/%d" % [
 				plushie.name,
@@ -68,22 +68,24 @@ func _ready() -> void:
 		
 		var msg := "Your team consists of %d plushies" % chatter.team.size()
 		if !chatter.team.is_empty():
-			msg += ": %s" % format_strings(chatter.team.map(func (plushie: Plushie):
-				return plushie.name
+			msg += ": %s" % format_strings(chatter.team.map(func (plushie: Plushie) -> String:
+				return "%s (LVL %s)" % [plushie.name, plushie.level()]
 			))
 		msg += "! Use !team <team member> to see stats of a plushie. See !help for more."
 
 		Twitch.chat.send_message(msg, info.original_message.message_id)
 	)
 
-	Twitch.connect_command("Rename", func _on_catch(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	Twitch.connect_command("Rename", func _on_catch(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 		var chatter := viewer(from_username)
 		if chatter.team.is_empty(): return
 		
 		if args.size() == 1: chatter.team.back().name = args[0]
 		else:
 			var plushie := chatter.get_team_member(args[0])
-			if plushie == null: return
+			if plushie == null:
+				Twitch.chat.send_message("%s is not in your team!" % args[0], info.original_message.message_id)
+				return
 			plushie.name = args[1]
 		save()
 	)
@@ -95,7 +97,7 @@ func _ready() -> void:
 
 	Twitch.connect_command("Gift", func _on_gift(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
 		var recipient_login := args[0].to_lower()
-		if !Twitch.recent_chatters.has(recipient_login): return
+		if !Twitch.recent_chatters.has(recipient_login) && !viewers.has(recipient_login): return
 		
 		var chatter := viewer(from_username)
 		var plushie := chatter.get_team_member(args[1])

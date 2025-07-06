@@ -343,6 +343,7 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 [node name="Gift" type="Node" parent="Bot/Commands/Team_" node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
 command = "gift"
+aliases = Array[String](["give"])
 description = "Gift your plushie to somebody, !gift <somebody> <plushie>"
 args_min = 2
 args_max = 2

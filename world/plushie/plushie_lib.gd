@@ -33,8 +33,9 @@ func _ready() -> void:
 	else:
 		print("Plushie directory not found!")
 	
-	moves["punch"] = Punch.new()
+	moves["punch"] = Punch.new(["attack", "physical"])
 	moves["fire"] = Fire.new()
+	moves["raid"] = Raid.new()
 
 func strip_special_characters(name: String) -> String:
 	var regex := RegEx.new()
@@ -66,6 +67,31 @@ func find(plushie_name: String) -> PlushieConfig:
 
 # ------------------------------------------- Moves
 class Move:
+	var aliases: PackedStringArray = []
+	
+	func _init(aliases: PackedStringArray = []) -> void:
+		self.aliases = aliases
+	
+	static func launch_projectile(
+		world: World,
+		plushie: PlushieInstance,
+		victim: PlushieInstance,
+		projectile: PackedScene,
+		range: int = 0,
+		apply_gravity: bool = true,
+	) -> Node2D:
+		var instance: Node2D = projectile.instantiate()
+		instance.caster = plushie.plushie
+		instance.chatter = plushie.chatter
+		instance.position = plushie.soft_body.get_bones_center_position() + Vector2(0, -150)
+		instance.position += Vector2(randi_range(0, range), 0).rotated(randf_range(0, TAU))
+		
+		var impulse := victim.soft_body.get_bones_center_position() - instance.position
+		if apply_gravity: impulse.y -= 300
+		instance.apply_impulse(impulse)
+		world.add_child(instance)
+		return instance
+	
 	func perform(_world: World, _plushie: PlushieInstance, _victim: PlushieInstance) -> void:
 		pass
 
@@ -79,10 +105,17 @@ class Fire:
 	extends Move
 
 	func perform(world: World, plushie: PlushieInstance, victim: PlushieInstance) -> void:
-		var fireball := preload("res://world/plushie/moves/fire/fireball.tscn").instantiate()
-		fireball.position = plushie.soft_body.get_bones_center_position() + Vector2(0, -150)
-		var impulse := victim.soft_body.get_bones_center_position() - plushie.soft_body.get_bones_center_position()
-		impulse.y -= 300
-		fireball.apply_impulse(impulse)
-		fireball.caster = plushie
-		world.add_child(fireball)
+		var fireball := preload("res://world/plushie/moves/fire/fireball.tscn")
+		Move.launch_projectile(world, plushie, victim, fireball)
+
+class Raid:
+	extends Move
+
+	func perform(world: World, plushie: PlushieInstance, victim: PlushieInstance) -> void:
+		var viewer := preload("res://world/plushie/moves/raid/viewer.tscn")
+
+		for i in range(ceili(plushie.plushie.stats.attack / 10.0)):
+			if !is_instance_valid(victim): return
+			var raider := Move.launch_projectile(world, plushie, victim, viewer, 50, false)
+			raider.temperature = plushie.plushie.stats.attack
+			await world.get_tree().create_timer(0.1).timeout

@@ -157,7 +157,7 @@ func _process(delta: float) -> void:
 		queue_free()
 		Twitch.chat.send_message("%s was defeated!" % plushie.name)
 		if last_damage_dealt_by:
-			var xp := (plushie.stats.attack + plushie.stats.defense) * 5 + 20
+			var xp := (plushie.stats.sum()) * 5 + 20
 			last_damage_dealt_by.gain_xp(xp)
 		return
 
@@ -176,14 +176,11 @@ func _process(delta: float) -> void:
 				return collision is Bone and collision.plushie == attack_target
 			))
 
-		var joints_removed := 0
-		var max_joints_per_frame: int = min(attack_hits, 30)
-		for collision in collisions:
-			var rb: SoftBody2D.SoftBodyChild = collision.plushie.soft_body._soft_body_rigidbodies_dict[collision]
-			for joint in rb.joints:
-				collision.plushie.soft_body.remove_joint(rb, joint)
-				joints_removed += 1
-				if joints_removed >= max_joints_per_frame: break
-			if joints_removed >= max_joints_per_frame: break
-		attack_hits -= joints_removed
+		var bones_removed := 0
+		var max_bones_per_frame: int = min(attack_hits, 5)
+		for collision: Bone in collisions:
+			collision.alive = false
+			bones_removed += 1
+			if bones_removed >= max_bones_per_frame: break
+		attack_hits -= bones_removed
 		attack_target.last_damage_dealt_by = plushie

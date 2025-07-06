@@ -10,13 +10,13 @@ class Stats:
 	extends RefCounted
 	var attack := 1
 	var defense := 1
-	
+
 	static func random() -> Stats:
 		var stats := Stats.new()
 		stats.attack = randi_range(1, 3)
 		stats.defense = randi_range(1, 3)
 		return stats
-	
+
 	func sum() -> int:
 		return attack + defense
 	
@@ -37,7 +37,7 @@ func level() -> int:
 	return int(sqrt(stats.sum()))
 
 func xp_to_level_up() -> int:
-	return int(50 + pow(level(), 1.5) * 10)
+	return stats.sum() * 8 * level()
 
 func level_up() -> void:
 	var req := int(pow(level() + 1, 2) - stats.sum())
