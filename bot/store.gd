@@ -24,7 +24,7 @@ func viewer(login: String, create: bool = false) -> Viewer:
 		viewers[login] = Viewer.new()
 	return viewers[login]
 
-# ---------------------------------------------- Text stuff
+# ---------------------------------------------- Formatting functions
 func format_strings(strings: PackedStringArray) -> String:
 	var result := ""
 	for i in range(strings.size()):
