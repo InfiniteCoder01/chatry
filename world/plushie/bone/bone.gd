@@ -16,7 +16,6 @@ func _process(_delta_time: float) -> void:
 			if is_instance_valid(joint):
 				plushie.soft_body.remove_joint(rb, joint)
 				return
-		queue_free()
 
 func set_on_fire(temperature: float) -> void:
 	if self.temperature > 0.0: return

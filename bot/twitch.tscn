@@ -254,7 +254,6 @@ metadata/_custom_type_script = "uid://ch0rxi1ogjx3q"
 script = ExtResource("18_68dwe")
 command = "readchat"
 description = "Can you read chat, please?"
-args_max = 0
 eventsub = NodePath("../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
