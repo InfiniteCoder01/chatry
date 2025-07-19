@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://br0iya2blfq5h"]
+
+[ext_resource type="Script" uid="uid://dxxr1b5rjuq0l" path="res://screen/plushieball/court.gd" id="1_vhfhr"]
+
+[node name="Court" type="Node2D"]
+script = ExtResource("1_vhfhr")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Timer" type="RichTextLabel" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+fit_content = true
+metadata/_edit_use_anchors_ = true

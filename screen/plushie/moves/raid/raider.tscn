@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ba22ovrvyc8ch"]
+
+[ext_resource type="Script" uid="uid://cs0to1801gwlx" path="res://screen/plushie/moves/raid/raider.gd" id="1_nwtse"]
+[ext_resource type="Texture2D" uid="uid://lis3tns3youa" path="res://screen/plushie/moves/raid/raider.svg" id="2_nwtse"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aww33"]
+resource_local_to_scene = true
+radius = 12.0416
+
+[node name="Viewer" type="RigidBody2D"]
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_nwtse")
+metadata/idx = 0
+metadata/bone_name = &"Bone-0"
+
+[node name="CircleShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_aww33")
+
+[node name="Viewer" type="Sprite2D" parent="."]
+scale = Vector2(0.098854, 0.098854)
+texture = ExtResource("2_nwtse")

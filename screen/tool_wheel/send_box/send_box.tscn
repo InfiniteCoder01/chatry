@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0axrl1jbfaya"]
+
+[ext_resource type="Script" uid="uid://18i8q2ush2qc" path="res://screen/tool_wheel/send_box/send_box.gd" id="1_lw5sb"]
+
+[node name="SendBox" type="HBoxContainer"]
+offset_right = 249.0
+offset_bottom = 35.0
+script = ExtResource("1_lw5sb")
+
+[node name="TextEdit" type="LineEdit" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter message to send"
+
+[node name="Cancel" type="Button" parent="."]
+layout_mode = 2
+text = "  X  "
+
+[connection signal="text_submitted" from="TextEdit" to="." method="_on_text_edit_text_submitted"]
+[connection signal="pressed" from="Cancel" to="." method="_on_cancel_pressed"]

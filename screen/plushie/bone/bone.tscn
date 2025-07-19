@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://bpyjgt823pde7"]
+
+[ext_resource type="Script" uid="uid://2mnx7g4cvge2" path="res://screen/plushie/bone/bone.gd" id="1_j8i6f"]
+
+[sub_resource type="Gradient" id="Gradient_wl6va"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.356863, 0, 0, 1, 0.815686, 0.156863, 0, 1, 1, 0.827451, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_h6b5g"]
+gradient = SubResource("Gradient_wl6va")
+
+[sub_resource type="Curve" id="Curve_4c3ex"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.18, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.395604), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_5hdva"]
+curve = SubResource("Curve_4c3ex")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dkafc"]
+lifetime_randomness = 0.31
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(26, 26, 1)
+inherit_velocity_ratio = 0.022
+direction = Vector3(0, -1, 0)
+spread = 0.0
+angular_velocity_min = -60.85
+angular_velocity_max = 20.28
+gravity = Vector3(0, -400, 0)
+scale_min = 5.35
+scale_max = 30.0
+scale_curve = SubResource("CurveTexture_5hdva")
+color_ramp = SubResource("GradientTexture1D_h6b5g")
+anim_speed_min = 0.6
+anim_speed_max = 6.23
+
+[node name="Bone" type="RigidBody2D"]
+linear_damp_mode = 1
+linear_damp = 0.5
+script = ExtResource("1_j8i6f")
+metadata/idx = 0
+metadata/bone_name = &"Bone-0"
+
+[node name="Fire" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_dkafc")

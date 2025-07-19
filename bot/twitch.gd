@@ -42,6 +42,10 @@ const MOD_STREAMER_VIP := TwitchCommand.PermissionFlag.MOD | TwitchCommand.Permi
 func connect_command(name: String, callback: Callable) -> void:
 	$Bot/Commands.find_child(name).command_received.connect(callback)
 
+func _on_readchat(_from_username: String, _info: TwitchCommandInfo, _args: PackedStringArray) -> void:
+	sound_blaster.stream = preload("res://assets/readchat.wav")
+	sound_blaster.play()
+
 func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 	if type == "channel.raid":
 		await bot.shoutout(await bot.get_user_by_id(data.from_broadcaster_user_id), await broadcaster.get_current_user())
@@ -53,7 +57,3 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 			var resp := simple_commands[cmd]
 			resp = resp.replace("@user", "@%s" % data.chatter_user_name)
 			chat.send_message(resp, data.message_id)
-
-func _on_readchat(_from_username: String, _info: TwitchCommandInfo, _args: PackedStringArray) -> void:
-	sound_blaster.stream = preload("res://assets/readchat.wav")
-	sound_blaster.play()
