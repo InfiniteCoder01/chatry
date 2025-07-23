@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="TwitchUser" load_steps=2 format=3 uid="uid://cycmh1ilxpthr"]
+
+[ext_resource type="Script" uid="uid://cnmohrdxqihr0" path="res://addons/twitcher/generated/twitch_user.gd" id="1_a450p"]
+
+[resource]
+script = ExtResource("1_a450p")
+id = "710224102"
+login = "infinitecoder01"
+display_name = "InfiniteCoder01"
+type = ""
+broadcaster_type = ""
+description = ""
+profile_image_url = ""
+offline_image_url = ""
+view_count = 0
+email = ""
+created_at = ""
+metadata/_custom_type_script = "uid://cnmohrdxqihr0"

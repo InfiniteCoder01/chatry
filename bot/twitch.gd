@@ -20,6 +20,7 @@ func _ready() -> void:
 	await bot.setup()
 	print("Authorize broadcaster")
 	await broadcaster.setup()
+	print("READY!")
 	PlushieInstance.connect_heat()
 	
 	var config_file := ConfigFile.new()

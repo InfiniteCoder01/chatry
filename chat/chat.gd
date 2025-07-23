@@ -16,6 +16,7 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 	var create_alert := func () -> Alert:
 		var alert: Alert = preload("res://chat/alert/alert.tscn").instantiate()
 		$Messages.add_child(alert)
+		$Messages.move_child(alert, 0)
 		return alert
 
 	if type == "channel.follow":

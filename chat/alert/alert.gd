@@ -15,6 +15,7 @@ func play(alert: String, message: String) -> void:
 	)
 
 func play_raw(sprite_frames: SpriteFrames, sound: AudioStream, message: String, sprite_scale: float = 1.0) -> void:
+	print_rich(message)
 	sprite.scale = Vector2(sprite_scale, sprite_scale)
 
 	sprite_frames.set_animation_loop("default", false)
