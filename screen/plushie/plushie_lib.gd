@@ -39,7 +39,7 @@ func _ready() -> void:
 
 func strip_special_characters(name: String) -> String:
 	var regex := RegEx.new()
-	regex.compile("[^a-zA-Z0-9#+\\-]")
+	regex.compile("[^a-zA-Z0-9#+†\\-]")
 	return regex.sub(name, "", true)
 
 func strip(name: String) -> String:
@@ -58,7 +58,7 @@ func find(plushie_name: String) -> PlushieConfig:
 			if score > best_score:
 				plushie = lib[id]
 				best_score = score
-		if plushie_name.contains(id):
+		if plushie_name.to_lower().contains(id.to_lower()):
 			var score := id.length()
 			if score > best_score:
 				plushie = lib[id]

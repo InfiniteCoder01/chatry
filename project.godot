@@ -47,7 +47,7 @@ window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/softbody2d/plugin.cfg", "res://addons/twitcher/plugin.cfg", "res://addons/wakatime/plugin.cfg")
+enabled=PackedStringArray("res://addons/TileMapDual/plugin.cfg", "res://addons/softbody2d/plugin.cfg", "res://addons/twitcher/plugin.cfg", "res://addons/wakatime/plugin.cfg")
 
 [input]
 

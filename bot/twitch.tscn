@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://r6ifncja7he"]
+[gd_scene load_steps=41 format=3 uid="uid://r6ifncja7he"]
 
 [ext_resource type="Script" uid="uid://cgqmjinikpf3q" path="res://bot/twitch.gd" id="1_avmgg"]
 [ext_resource type="Script" uid="uid://i8st3lv0lidh" path="res://addons/twitcher/twitch_service.gd" id="1_yboov"]
@@ -37,7 +37,7 @@ cache_file = "user://auth.conf"
 client_id = "oiwroapnzpputm2e2ln8ebusqiggei"
 authorization_flow = 0
 _encryption_key_provider = SubResource("Resource_54bgt")
-client_secret = "fNvqOMDd+hBAyL6zGndJw8mAmV/ShT93W23BPleb2hw="
+client_secret = "KcspHtQKUvy/UsdyD9o6fakxvW9VKt8CzKVw+J/5eBw="
 
 [sub_resource type="Resource" id="Resource_4utia"]
 script = ExtResource("3_are2j")
@@ -53,6 +53,20 @@ _cache_path = "user://bot_auth.conf"
 [sub_resource type="Resource" id="Resource_qpb44"]
 script = ExtResource("9_68dwe")
 fallback_texture = ExtResource("8_q542u")
+
+[sub_resource type="Resource" id="Resource_wlyt5"]
+script = ExtResource("11_jfaip")
+id = "940800142"
+login = "coderschatry"
+display_name = "CodersChatry"
+type = ""
+broadcaster_type = ""
+description = "I'm Chatry, bot for InfiniteCoder01 channel (https://www.twitch.tv/infinitecoder01)"
+profile_image_url = "https://static-cdn.jtvnw.net/user-default-pictures-uv/de130ab0-def7-11e9-b668-784f43822e80-profile_image-300x300.png"
+offline_image_url = ""
+view_count = 0
+email = ""
+created_at = "2023-08-06T13:39:19Z"
 
 [sub_resource type="Resource" id="Resource_d1nhj"]
 script = ExtResource("11_jfaip")
@@ -83,7 +97,7 @@ cache_file = "user://auth.conf"
 client_id = "oiwroapnzpputm2e2ln8ebusqiggei"
 authorization_flow = 0
 _encryption_key_provider = SubResource("Resource_ss7yp")
-client_secret = "fNvqOMDd+hBAyL6zGndJw8mAmV/ShT93W23BPleb2hw="
+client_secret = "KcspHtQKUvy/UsdyD9o6fakxvW9VKt8CzKVw+J/5eBw="
 
 [sub_resource type="Resource" id="Resource_jfaip"]
 script = ExtResource("3_are2j")
@@ -239,6 +253,7 @@ metadata/_custom_type_script = "uid://d4lyup0vy1wtu"
 [node name="TwitchChat" type="Node" parent="Bot" node_paths=PackedStringArray("media_loader", "eventsub", "api")]
 script = ExtResource("10_xyylq")
 broadcaster_user = ExtResource("17_4utia")
+sender_user = SubResource("Resource_wlyt5")
 media_loader = NodePath("../TwitchMediaLoader")
 eventsub = NodePath("../TwitchEventsub")
 api = NodePath("../TwitchAPI")

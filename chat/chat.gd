@@ -33,7 +33,7 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 	elif type == "channel.subscribe":
 		create_alert.call().play(
 			"sub",
-			"[b][color=red]%s[/color][/b] subscribed as Tier %s! Thank you!" % [data.user_name, data.tier]
+			"[b][color=red]%s[/color][/b] subscribed as Tier %s! Thank you!" % [data.user_name, data.tier / 1000]
 		)
 	elif type == "channel.subscription.gift":
 		create_alert.call().play(
