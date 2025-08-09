@@ -69,11 +69,11 @@ func render_message_content(emote_scale: int = 1) -> String:
 			TwitchChatMessage.FragmentType.text:
 				bbcode += fragment.text
 			TwitchChatMessage.FragmentType.cheermote:
-				var definition : TwitchCheermoteDefinition = TwitchCheermoteDefinition.new(fragment.cheermote.prefix, "%s" % fragment.cheermote.tier)
-				var cheermote : SpriteFrames = await fragment.cheermote.get_sprite_frames(Twitch.media_loader, definition)
+				var cheermote : SpriteFrames = await fragment.cheermote.get_sprite_frames(Twitch.media_loader)
 				bbcode += "[sprite id='f-%s']%s[/sprite]" % [fragment_id, cheermote.resource_path]
 			TwitchChatMessage.FragmentType.emote:
-				var emote : SpriteFrames = await fragment.emote.get_sprite_frames(Twitch.media_loader, "", emote_scale)
+				var emote : SpriteFrames = await fragment.emote.get_sprite_frames(Twitch.media_loader, emote_scale)
+				print_debug(emote.get_frame_count("default"))
 				bbcode += "[sprite id='f-%s']%s[/sprite]" % [fragment_id, emote.resource_path]
 			TwitchChatMessage.FragmentType.mention:
 				bbcode += "[color=#00a0b6]%s[/color]" % fragment.mention.user_name

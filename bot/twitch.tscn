@@ -265,6 +265,7 @@ metadata/_custom_type_script = "uid://dcq1bvfrqimqq"
 script = ExtResource("9_jfaip")
 twitch_api = NodePath("../../TwitchAPI")
 sender_user = SubResource("Resource_d1nhj")
+aliases = Array[String](["commands"])
 eventsub = NodePath("../../TwitchEventsub")
 metadata/_custom_type_script = "uid://ch0rxi1ogjx3q"
 

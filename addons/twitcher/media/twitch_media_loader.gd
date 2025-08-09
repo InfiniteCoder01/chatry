@@ -165,7 +165,7 @@ func _get_emote_cache_path_spriteframe(emote_definition: TwitchEmoteDefinition) 
 
 
 func _load_emote(emote_definition : TwitchEmoteDefinition) -> BufferedHTTPClient.RequestData:
-	var request_path : String = "/emoticons/v2/%s/%s/%s/%1.1f" % [emote_definition.id, emote_definition._type, emote_definition._theme, emote_definition._scale]
+	var request_path : String = "/emoticons/v2/%s/%s/%s/%1.1f" % [emote_definition.id, emote_definition.type, emote_definition.theme, emote_definition.scale]
 	return _client.request(image_cdn_host + request_path, HTTPClient.METHOD_GET, {}, "")
 
 
@@ -406,12 +406,18 @@ func load_profile_image(user: TwitchUser) -> ImageTexture:
 	var response := response_data.response_data
 	if not response.is_empty():
 		var img := Image.new()
-		var content_type = response_data.response_header["Content-Type"]
-
-		match content_type:
-			"image/png": img.load_png_from_buffer(response)
-			"image/jpeg": img.load_jpg_from_buffer(response)
-			_: return fallback_profile
+		var content_type: String = response_data.response_header["Content-Type"]
+		var error: Error
+		if content_type.containsn("image/png"): 
+			error = img.load_png_from_buffer(response)
+		elif content_type.containsn("image/jpeg"):
+			error = img.load_jpg_from_buffer(response)
+		else:
+			push_error("Unknown content type: \"%s\"" % content_type)
+			return fallback_profile
+		if error != OK:
+			push_error("Can't load profile picture of %s cause of %s" % [user.display_name, error_string(error)])
+			return fallback_profile
 		texture.set_image(img)
 	else:
 		# Don't use `texture = fallback_profile` as texture cause the path will be taken over

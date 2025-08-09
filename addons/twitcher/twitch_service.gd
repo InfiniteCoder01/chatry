@@ -109,7 +109,7 @@ func _on_child_exiting(node: Node) -> void:
 func setup() -> bool:
 	if is_instance_valid(auth): 
 		if not await auth.authorize(): return false
-	else:
+	elif not token.is_token_valid():
 		push_error("Authorization Node got removed, can't setup twitch service")
 		return false
 	await propagate_call(&"do_setup")
@@ -119,6 +119,15 @@ func setup() -> bool:
 
 	_log.i("TwitchService setup")
 	return true
+	
+	
+## Removes the token so that 
+func unsetup() -> void:
+	await propagate_call(&"do_unsetup")
+	for child in get_children():
+		if child.has_method(&"wait_unsetup"):
+			await child.wait_unsetup()
+
 
 ## Checks if the correctly setup
 func is_configured() -> bool:
@@ -286,7 +295,8 @@ func announcment(message: String, color: TwitchAnnouncementColor = TwitchAnnounc
 ## args_max == -1 => no upper limit for arguments
 func add_command(command: String, callback: Callable, args_min: int = 0, args_max: int = -1,
 	permission_level : TwitchCommand.PermissionFlag = TwitchCommand.PermissionFlag.EVERYONE,
-	where : TwitchCommand.WhereFlag = TwitchCommand.WhereFlag.CHAT) -> TwitchCommand:
+	where : TwitchCommand.WhereFlag = TwitchCommand.WhereFlag.CHAT, user_cooldown: float = 0, 
+	global_cooldown: float = 0) -> TwitchCommand:
 	var command_node = TwitchCommand.new()
 	command_node.command = command
 	command_node.command_received.connect(callback) 
@@ -294,6 +304,8 @@ func add_command(command: String, callback: Callable, args_min: int = 0, args_ma
 	command_node.args_max = args_max
 	command_node.permission_level = permission_level
 	command_node.where = where
+	command_node.user_cooldown = user_cooldown
+	command_node.global_cooldown = global_cooldown
 	add_child(command_node)
 	_log.i("Register command %s" % command)
 	return command_node

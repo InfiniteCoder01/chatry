@@ -30,6 +30,10 @@ class RequestData extends RefCounted:
 	## Amount of retries
 	var retry: int
 
+	## When you are done free the request
+	func queue_free() -> void:
+		http_request.queue_free()
+
 
 ## Contains the response data
 class ResponseData extends RefCounted:
@@ -45,6 +49,10 @@ class ResponseData extends RefCounted:
 	var response_header: Dictionary
 	## Had the response an error
 	var error: bool
+
+	## When you are done free the request
+	func queue_free() -> void:
+		request_data.queue_free()
 
 ## When a request fails max_error_count then cancel that request -1 for endless amount of tries.
 @export var max_error_count : int = -1
@@ -92,7 +100,9 @@ func request(path: String, method: int, headers: Dictionary, body: String) -> Re
 func wait_for_request(request_data: RequestData) -> ResponseData:
 	if responses.has(request_data):
 		var response = responses[request_data]
+		requests.erase(request_data)
 		responses.erase(request_data)
+		request_data.queue_free()
 		logDebug("response cached return directly from wait")
 		return response
 
@@ -100,7 +110,9 @@ func wait_for_request(request_data: RequestData) -> ResponseData:
 	while (latest_response == null || request_data != latest_response.request_data):
 		latest_response = await request_done
 	logDebug("response received return from wait")
+	requests.erase(request_data)
 	responses.erase(request_data)
+	request_data.queue_free()
 	return latest_response
 
 
@@ -160,7 +172,7 @@ func _pack_headers(headers: Dictionary) -> PackedStringArray:
 
 ## The amount of requests that are pending
 func queued_request_size() -> int:
-	var requests_size = requests.size()
+	var requests_size: int = requests.size()
 	if current_request != null:
 		requests_size += 1
 	return requests_size

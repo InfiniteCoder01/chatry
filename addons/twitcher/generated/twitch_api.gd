@@ -75,12 +75,16 @@ func request(path: String, method: int, body: Variant = "", content_type: String
 	else:
 		request_body = JSON.stringify(body)
 
-	var request: BufferedHTTPClient.RequestData = client.request(api_host + path, method, header, request_body)
-	var response: BufferedHTTPClient.ResponseData = await client.wait_for_request(request)
+	var req: BufferedHTTPClient.RequestData = client.request(api_host + path, method, header, request_body)
+	var res: BufferedHTTPClient.ResponseData = await client.wait_for_request(req)
 
-	match response.response_code:
+	# Try to fix Godot TLS Bug
+	if res.result == 5:
+		return await retry(req, res, path, method, body, content_type, error_count + 1)
+
+	match res.response_code:
 		400:
-			var error_message: String = response.response_data.get_string_from_utf8()
+			var error_message: String = res.response_data.get_string_from_utf8()
 			_log.e("'%s' failed cause of: \n%s" % [path, error_message])
 		401: # Token expired / or missing permissions
 			_log.e("'%s' is unauthorized. It is probably your scopes." % path)
@@ -89,15 +93,25 @@ func request(path: String, method: int, body: Variant = "", content_type: String
 			_log.i("'%s' is unauthenticated. Refresh token." % path)
 			unauthenticated.emit()
 			await token.authorized
-			if error_count + 1 < MAX_AUTH_ERRORS:
-				return await request(path, method, body, content_type, error_count + 1)
-			else:
-				# Give up the request after trying multiple times and
-				# return an empty response with correct error code
-				var empty_response: BufferedHTTPClient.ResponseData = client.empty_response(request)
-				empty_response.response_code = response.response_code
-				return empty_response
-	return response
+			return await retry(req, res, path, method, body, content_type, error_count + 1)
+	return res
+
+
+func retry(request: BufferedHTTPClient.RequestData,
+		response: BufferedHTTPClient.ResponseData,
+		path: String,
+		method: int,
+		body: Variant = "",
+		content_type: String = "",
+		error_count: int = 0) -> BufferedHTTPClient.ResponseData:
+	if error_count + 1 < MAX_AUTH_ERRORS:
+		return await request(path, method, body, content_type, error_count + 1)
+	else:
+		# Give up the request after trying multiple times and
+		# return an empty response with correct error code
+		var empty_response: BufferedHTTPClient.ResponseData = client.empty_response(request)
+		empty_response.response_code = response.response_code
+		return empty_response
 
 
 ## Converts unix timestamp to RFC 3339 (example: 2021-10-27T00:00:00Z) when passed a string uses as is
@@ -188,6 +202,7 @@ func get_extension_analytics(opt: TwitchGetExtensionAnalytics.Opt) -> TwitchGetE
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetExtensionAnalytics.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_extension_analytics.bind(opt)
 	return parsed_result
@@ -222,6 +237,7 @@ func get_game_analytics(opt: TwitchGetGameAnalytics.Opt) -> TwitchGetGameAnalyti
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetGameAnalytics.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_game_analytics.bind(opt)
 	return parsed_result
@@ -299,6 +315,7 @@ func get_extension_transactions(opt: TwitchGetExtensionTransactions.Opt, extensi
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetExtensionTransactions.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_extension_transactions.bind(opt, extension_id)
 	return parsed_result
@@ -377,6 +394,7 @@ func get_followed_channels(opt: TwitchGetFollowedChannels.Opt, user_id: String) 
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetFollowedChannels.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_followed_channels.bind(opt, user_id)
 	return parsed_result
@@ -406,6 +424,7 @@ func get_channel_followers(opt: TwitchGetChannelFollowers.Opt, broadcaster_id: S
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetChannelFollowers.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_channel_followers.bind(opt, broadcaster_id)
 	return parsed_result
@@ -519,6 +538,7 @@ func get_custom_reward_redemption(opt: TwitchGetCustomRewardRedemption.Opt, rewa
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetCustomRewardRedemption.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_custom_reward_redemption.bind(opt, reward_id, broadcaster_id)
 	return parsed_result
@@ -586,6 +606,7 @@ func get_charity_campaign_donations(opt: TwitchGetCharityCampaignDonations.Opt, 
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetCharityCampaignDonations.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_charity_campaign_donations.bind(opt, broadcaster_id)
 	return parsed_result
@@ -615,6 +636,7 @@ func get_chatters(opt: TwitchGetChatters.Opt, moderator_id: String, broadcaster_
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetChatters.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_chatters.bind(opt, moderator_id, broadcaster_id)
 	return parsed_result
@@ -786,6 +808,7 @@ func get_user_emotes(opt: TwitchGetUserEmotes.Opt, user_id: String) -> TwitchGet
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetUserEmotes.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_user_emotes.bind(opt, user_id)
 	return parsed_result
@@ -951,6 +974,7 @@ func get_clips(opt: TwitchGetClips.Opt) -> TwitchGetClips.Response:
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetClips.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_clips.bind(opt)
 	return parsed_result
@@ -1039,6 +1063,7 @@ func get_conduit_shards(opt: TwitchGetConduitShards.Opt, conduit_id: String) -> 
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetConduitShards.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_conduit_shards.bind(opt, conduit_id)
 	return parsed_result
@@ -1111,6 +1136,7 @@ func get_drops_entitlements(opt: TwitchGetDropsEntitlements.Opt) -> TwitchGetDro
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetDropsEntitlements.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_drops_entitlements.bind(opt)
 	return parsed_result
@@ -1220,6 +1246,7 @@ func get_extension_live_channels(opt: TwitchGetExtensionLiveChannels.Opt, extens
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination
+		if not opt: opt = TwitchGetExtensionLiveChannels.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_extension_live_channels.bind(opt, extension_id)
 	return parsed_result
@@ -1364,7 +1391,6 @@ func create_eventsub_subscription(body: TwitchCreateEventSubSubscription.Body) -
 	var response: BufferedHTTPClient.ResponseData = await request(path, HTTPClient.METHOD_POST, body, "application/json")
 	
 	var result: Variant = JSON.parse_string(response.response_data.get_string_from_utf8())
-	if result == null: result = {}
 	var parsed_result: TwitchCreateEventSubSubscription.Response = TwitchCreateEventSubSubscription.Response.from_json(result)
 	parsed_result.response = response
 	return parsed_result
@@ -1408,6 +1434,7 @@ func get_eventsub_subscriptions(opt: TwitchGetEventsubSubscriptions.Opt) -> Twit
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetEventsubSubscriptions.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_eventsub_subscriptions.bind(opt)
 	return parsed_result
@@ -1436,6 +1463,7 @@ func get_top_games(opt: TwitchGetTopGames.Opt) -> TwitchGetTopGames.Response:
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetTopGames.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_top_games.bind(opt)
 	return parsed_result
@@ -1750,6 +1778,7 @@ func get_hype_train_events(opt: TwitchGetHypeTrainEvents.Opt, broadcaster_id: St
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetHypeTrainEvents.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_hype_train_events.bind(opt, broadcaster_id)
 	return parsed_result
@@ -1850,6 +1879,7 @@ func get_banned_users(opt: TwitchGetBannedUsers.Opt, broadcaster_id: String) -> 
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetBannedUsers.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_banned_users.bind(opt, broadcaster_id)
 	return parsed_result
@@ -1925,6 +1955,7 @@ func get_unban_requests(opt: TwitchGetUnbanRequests.Opt, moderator_id: String, s
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetUnbanRequests.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_unban_requests.bind(opt, moderator_id, status, broadcaster_id)
 	return parsed_result
@@ -1984,6 +2015,7 @@ func get_blocked_terms(opt: TwitchGetBlockedTerms.Opt, moderator_id: String, bro
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetBlockedTerms.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_blocked_terms.bind(opt, moderator_id, broadcaster_id)
 	return parsed_result
@@ -2066,6 +2098,7 @@ func get_moderated_channels(opt: TwitchGetModeratedChannels.Opt, user_id: String
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetModeratedChannels.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_moderated_channels.bind(opt, user_id)
 	return parsed_result
@@ -2097,6 +2130,7 @@ func get_moderators(opt: TwitchGetModerators.Opt, broadcaster_id: String) -> Twi
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetModerators.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_moderators.bind(opt, broadcaster_id)
 	return parsed_result
@@ -2158,6 +2192,7 @@ func get_vips(opt: TwitchGetVips.Opt, broadcaster_id: String) -> TwitchGetVIPs.R
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetVips.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_vips.bind(opt, broadcaster_id)
 	return parsed_result
@@ -2276,6 +2311,7 @@ func get_polls(opt: TwitchGetPolls.Opt, broadcaster_id: String) -> TwitchGetPoll
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetPolls.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_polls.bind(opt, broadcaster_id)
 	return parsed_result
@@ -2339,6 +2375,7 @@ func get_predictions(opt: TwitchGetPredictions.Opt, broadcaster_id: String) -> T
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetPredictions.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_predictions.bind(opt, broadcaster_id)
 	return parsed_result
@@ -2555,6 +2592,7 @@ func search_categories(opt: TwitchSearchCategories.Opt, query: String) -> Twitch
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchSearchCategories.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = search_categories.bind(opt, query)
 	return parsed_result
@@ -2584,6 +2622,7 @@ func search_channels(opt: TwitchSearchChannels.Opt, query: String) -> TwitchSear
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchSearchChannels.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = search_channels.bind(opt, query)
 	return parsed_result
@@ -2647,6 +2686,7 @@ func get_streams(opt: TwitchGetStreams.Opt) -> TwitchGetStreams.Response:
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetStreams.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_streams.bind(opt)
 	return parsed_result
@@ -2674,6 +2714,7 @@ func get_followed_streams(opt: TwitchGetFollowedStreams.Opt, user_id: String) ->
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetFollowedStreams.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_followed_streams.bind(opt, user_id)
 	return parsed_result
@@ -2722,6 +2763,7 @@ func get_stream_markers(opt: TwitchGetStreamMarkers.Opt) -> TwitchGetStreamMarke
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetStreamMarkers.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_stream_markers.bind(opt)
 	return parsed_result
@@ -2755,6 +2797,7 @@ func get_broadcaster_subscriptions(opt: TwitchGetBroadcasterSubscriptions.Opt, b
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetBroadcasterSubscriptions.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_broadcaster_subscriptions.bind(opt, broadcaster_id)
 	return parsed_result
@@ -2804,6 +2847,7 @@ func get_all_stream_tags(opt: TwitchGetAllStreamTags.Opt) -> TwitchGetAllStreamT
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetAllStreamTags.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_all_stream_tags.bind(opt)
 	return parsed_result
@@ -2933,6 +2977,7 @@ func get_user_block_list(opt: TwitchGetUserBlockList.Opt, broadcaster_id: String
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetUserBlockList.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_user_block_list.bind(opt, broadcaster_id)
 	return parsed_result
@@ -3061,6 +3106,7 @@ func get_videos(opt: TwitchGetVideos.Opt) -> TwitchGetVideos.Response:
 	parsed_result.response = response
 	if parsed_result.pagination != null:
 		var cursor: String = parsed_result.pagination.cursor
+		if not opt: opt = TwitchGetVideos.Opt.new()
 		opt.after = cursor
 		parsed_result._next_page = get_videos.bind(opt)
 	return parsed_result

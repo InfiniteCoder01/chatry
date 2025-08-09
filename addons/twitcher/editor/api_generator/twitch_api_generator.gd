@@ -84,12 +84,16 @@ func request(path: String, method: int, body: Variant = "", content_type: String
 	else:
 		request_body = JSON.stringify(body)
 
-	var request: BufferedHTTPClient.RequestData = client.request(api_host + path, method, header, request_body)
-	var response: BufferedHTTPClient.ResponseData = await client.wait_for_request(request)
+	var req: BufferedHTTPClient.RequestData = client.request(api_host + path, method, header, request_body)
+	var res: BufferedHTTPClient.ResponseData = await client.wait_for_request(req)
 
-	match response.response_code:
+	# Try to fix Godot TLS Bug
+	if res.result == 5:
+		return await retry(req, res, path, method, body, content_type, error_count + 1)
+
+	match res.response_code:
 		400:
-			var error_message: String = response.response_data.get_string_from_utf8()
+			var error_message: String = res.response_data.get_string_from_utf8()
 			_log.e("'%s' failed cause of: \\n%s" % [path, error_message])
 		401: # Token expired / or missing permissions
 			_log.e("'%s' is unauthorized. It is probably your scopes." % path)
@@ -98,15 +102,25 @@ func request(path: String, method: int, body: Variant = "", content_type: String
 			_log.i("'%s' is unauthenticated. Refresh token." % path)
 			unauthenticated.emit()
 			await token.authorized
-			if error_count + 1 < MAX_AUTH_ERRORS:
-				return await request(path, method, body, content_type, error_count + 1)
-			else:
-				# Give up the request after trying multiple times and
-				# return an empty response with correct error code
-				var empty_response: BufferedHTTPClient.ResponseData = client.empty_response(request)
-				empty_response.response_code = response.response_code
-				return empty_response
-	return response
+			return await retry(req, res, path, method, body, content_type, error_count + 1)
+	return res
+
+
+func retry(request: BufferedHTTPClient.RequestData,
+		response: BufferedHTTPClient.ResponseData,
+		path: String,
+		method: int,
+		body: Variant = "",
+		content_type: String = "",
+		error_count: int = 0) -> BufferedHTTPClient.ResponseData:
+	if error_count + 1 < MAX_AUTH_ERRORS:
+		return await request(path, method, body, content_type, error_count + 1)
+	else:
+		# Give up the request after trying multiple times and
+		# return an empty response with correct error code
+		var empty_response: BufferedHTTPClient.ResponseData = client.empty_response(request)
+		empty_response.response_code = response.response_code
+		return empty_response
 
 
 ## Converts unix timestamp to RFC 3339 (example: 2021-10-27T00:00:00Z) when passed a string uses as is
@@ -315,13 +329,16 @@ func paging_code(method: TwitchGenMethod) -> String:
 	if after_parameter._required:
 		code += "\t{parameter} = cursor\n"
 	else:
+		code += "\tif not opt: opt = {opt_type}.new()\n"
 		code += "\topt.{parameter} = cursor\n"
 	code += "\tparsed_result._next_page = {name}.bind({parameters})\n"
 	
+	var opt_parameter: String = get_type(method.get_optional_type(), false, true)
 	return code.format({
 		"parameter": after_parameter._name,
 		"name": method._name,
-		"parameters": method_parameter(method)
+		"parameters": method_parameter(method),
+		"opt_type": opt_parameter
 	})
 
 
@@ -508,14 +525,15 @@ func next_page() -> {response_type}:
 func _iter_init(iter: Array) -> bool:
 	if {data_variable_name}.is_empty(): return false
 	iter[0] = {data_variable_name}[0]
-	return {data_variable_name}.size() > 0
+	_cur_iter = 1
+	return true
 	
 	
 func _iter_next(iter: Array) -> bool:
-	if {data_variable_name}.size() - 1 > _cur_iter:
-		_cur_iter += 1
+	if {data_variable_name}.size() > _cur_iter:
 		iter[0] = {data_variable_name}[_cur_iter]
-	if {data_variable_name}.size() - 1 == _cur_iter && not _has_pagination(): 
+		_cur_iter += 1
+	elif not _has_pagination(): 
 		return false
 	return true
 	

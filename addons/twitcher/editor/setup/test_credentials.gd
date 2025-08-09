@@ -17,6 +17,11 @@ func _ready() -> void:
 	oauth_setting = TwitchEditorSettings.editor_oauth_setting
 	oauth_token = TwitchEditorSettings.editor_oauth_token
 	
+	
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		oauth_token.authorized.disconnect(_on_authorized)
+
 
 func _pressed() -> void:
 	TwitchTweens.loading(self)
@@ -36,12 +41,22 @@ func _pressed() -> void:
 
 
 func update_oauth_token(new_oauth_token: OAuthToken) -> void:
+	if oauth_token && oauth_token.authorized.is_connected(_on_authorized):
+		oauth_token.authorized.disconnect(_on_authorized)
+		
 	oauth_token = new_oauth_token
+	if not oauth_token.authorized.is_connected(_on_authorized):
+		oauth_token.authorized.connect(_on_authorized)
 	if is_inside_tree():
 		twitch_auth.token = new_oauth_token
 
 
 func update_oauth_setting(new_oauth_setting: OAuthSetting) -> void:
 	oauth_setting = new_oauth_setting
+	disabled = not oauth_setting.is_valid()
 	if is_inside_tree():
 		twitch_auth.oauth_setting = oauth_setting
+
+
+func _on_authorized() -> void:
+	if is_inside_tree(): authorized.emit()
