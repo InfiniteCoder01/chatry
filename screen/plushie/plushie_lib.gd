@@ -116,6 +116,5 @@ class Raid:
 
 		for i in range(ceili(plushie.plushie.stats.attack / 10.0)):
 			if !is_instance_valid(victim): return
-			var raider := Move.launch_projectile(screen, plushie, victim, viewer, 50, false)
-			raider.temperature = plushie.plushie.stats.attack
+			Move.launch_projectile(screen, plushie, victim, viewer, 50, false)
 			await screen.get_tree().create_timer(0.1).timeout

@@ -19,28 +19,7 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 		$Messages.move_child(alert, 0)
 		return alert
 
-	if type == "channel.follow":
-		create_alert.call().play(
-			"follow",
-			"[b][color=red]%s[/color][/b] joined the community! Thank you!" % data.user_name
-		)
-	elif type == "channel.raid":
-		create_alert.call().play(
-			"raid",
-			"[b][color=red]%s[/color][/b] is raiding with [b][color=blue]%d[/color][/b] viewers!"
-			% [data.from_broadcaster_user_name, data.viewers]
-		)
-	elif type == "channel.subscribe":
-		create_alert.call().play(
-			"sub",
-			"[b][color=red]%s[/color][/b] subscribed as Tier %s! Thank you!" % [data.user_name, data.tier / 1000]
-		)
-	elif type == "channel.subscription.gift":
-		create_alert.call().play(
-			"sub",
-			"[b][color=red]%s[/color][/b] was gifted a Tier %s sub! Thank you!" % [data.user_name, data.tier]
-		)
-	elif type == "channel.channel_points_custom_reward_redemption.add":
+	if type == "channel.channel_points_custom_reward_redemption.add":
 		var opt := TwitchGetCustomReward.Opt.create()
 		opt.id = [data.reward.id]
 		var reward: TwitchGetCustomReward.Response = await Twitch.broadcaster_api.get_custom_reward(opt, Twitch.chat.broadcaster_user.id)
@@ -51,8 +30,8 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 		sprite_frames.set_animation_speed("default", 1.0 / 8.0)
 		sprite_frames.add_frame("default", image)
 
-		var sound := preload("res://assets/alerts/redeem.wav")
-		if data.reward.title == "\"Ok, let\'s go!\"":
+		var sound := preload("res://assets/redeem.wav")
+		if PlushieLib.strip(data.reward.title) == "okletsgo":
 			sound = preload("res://assets/sounds/ok_lets_go.wav")
 
 		create_alert.call().play_raw(

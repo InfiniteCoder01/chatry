@@ -72,10 +72,20 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 			var move := plushie.plushie.get_move(args[0].substr(1))
 			args.remove_at(0)
 			if move == null: return
+			if plushie.move_timeout && plushie.move_timeout.time_left > 0.0: return
+			plushie.move_timeout = get_tree().create_timer(1.0)
 			var plushies := non_viewer_plushies(data.chatter_user_login)
 			var victim := closest_plushie(plushies, plushie.soft_body.get_bones_center_position()) if args.is_empty() else find_plushie(plushies, " ".join(args))
 			if victim == null: return
 			move.perform(self, plushie, victim)
+	elif type == "channel.channel_points_custom_reward_redemption.add":
+		if PlushieLib.strip(data.reward.title) == "first":
+			var config: PlushieConfig = PlushieLib.all.pick_random()
+			var plushie := config.create().instantiate()
+			plushie.plushie.stats.attack *= 10
+			plushie.plushie.stats.defense *= 10
+			add_plushie(plushie, null, true)
+			Twitch.chat.send_message("@%s summoned %s" % [data.user_name, plushie.plushie.name])
 
 func _on_plushie(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
 	if owners.has(from_username) && is_instance_valid(owners[from_username]): return

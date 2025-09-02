@@ -33,6 +33,8 @@ func _on_heat_message(message: Dictionary) -> void:
 	if message.type == "click":
 		var cursor := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
 		if screen && plushie.get_move("punch"):
+			if plushie.move_timeout && plushie.move_timeout.time_left > 0.0: return
+			plushie.move_timeout = get_tree().create_timer(1.0)
 			for victim in screen.non_viewer_plushies(chatter.login):
 				if victim.soft_body.get_bones_center_position().distance_squared_to(cursor) < 130*130:
 					attack(victim)
@@ -50,6 +52,7 @@ var joints_max: int
 
 var lifetime_remaining: float
 var last_damage_dealt_by: Plushie = null
+var move_timeout: SceneTreeTimer = null
 
 func load(plushie: Plushie) -> void:
 	self.plushie = plushie
@@ -92,6 +95,8 @@ func _ready() -> void:
 	Twitch.connect_command("Catch", func _on_catch(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 		if !plushie.wild: return
 		if !plushie.name_matches(" ".join(args)): return
+		if move_timeout && move_timeout.time_left > 0.0: return
+		move_timeout = get_tree().create_timer(1.0)
 		if randf() <= 0.01 / health() / sqrt(plushie.stats.attack):
 			Store.viewer(from_username, true).receive(plushie)
 			Store.save()

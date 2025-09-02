@@ -6,14 +6,6 @@ extends Control
 @onready var label: RichTextLabel = $RichTextLabel
 @onready var audio: AudioStreamPlayer = $AudioStreamPlayer
 
-func play(alert: String, message: String) -> void:
-	play_raw(
-		load("res://assets/alerts/%s/%s.gif" % [alert, alert]),
-		load("res://assets/alerts/%s/%s.wav" % [alert, alert]),
-		message,
-		10.0
-	)
-
 func play_raw(sprite_frames: SpriteFrames, sound: AudioStream, message: String, sprite_scale: float = 1.0) -> void:
 	print_rich(message)
 	sprite.scale = Vector2(sprite_scale, sprite_scale)

@@ -55,6 +55,7 @@ func _ready() -> void:
 				return
 			var msg := "Team member %s: LVL %d, %d ATK, %d DFN! XP: %d/%d" % [
 				plushie.name,
+				#PlushieLib.config(plushie.id).name,
 				plushie.level(),
 				plushie.stats.attack,
 				plushie.stats.defense,
@@ -76,7 +77,7 @@ func _ready() -> void:
 		Twitch.chat.send_message(msg, info.original_message.message_id)
 	)
 
-	Twitch.connect_command("Rename", func _on_catch(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+	Twitch.connect_command("Rename", func _on_rename(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 		var chatter := viewer(from_username)
 		if chatter.team.is_empty(): return
 		
