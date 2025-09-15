@@ -22,10 +22,10 @@ driver/enable_input=true
 
 [autoload]
 
-Twitch="*res://bot/twitch.tscn"
 PlushieLib="*res://screen/plushie/plushie_lib.gd"
 Store="*res://bot/store.gd"
 Cache="*res://cache.gd"
+Twitch="*res://bot/twitch.tscn"
 
 [debug]
 

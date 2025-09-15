@@ -33,8 +33,8 @@ func _on_heat_message(message: Dictionary) -> void:
 	if message.type == "click":
 		var cursor := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
 		if screen && plushie.get_move("punch"):
-			if plushie.move_timeout && plushie.move_timeout.time_left > 0.0: return
-			plushie.move_timeout = get_tree().create_timer(1.0)
+			if move_timeout && move_timeout.time_left > 0.0: return
+			move_timeout = get_tree().create_timer(1.0)
 			for victim in screen.non_viewer_plushies(chatter.login):
 				if victim.soft_body.get_bones_center_position().distance_squared_to(cursor) < 130*130:
 					attack(victim)
@@ -134,7 +134,7 @@ func attack(target: PlushieInstance) -> void:
 	if target.config().groups.has("cpus") || target.config().groups.has("embedded"):
 		power *= 1.3
 
-	impulse = impulse.normalized() * 400.0 * min(sqrt(power), 0.5)
+	impulse = impulse.normalized() * 200.0 * min(sqrt(power), 0.5)
 	soft_body.apply_impulse(impulse)
 	attack_target = target
 	attack_hits = ceili(10 * power)
@@ -174,6 +174,9 @@ func _process(delta: float) -> void:
 
 	if !is_instance_valid(attack_target): attack_target = null
 	if attack_target != null && attack_hits > 0:
+		var impulse := (attack_target.soft_body.get_bones_center_position() - soft_body.get_bones_center_position())
+		soft_body.apply_force(impulse.normalized() * 9000.0 * delta)
+		
 		var collisions: Array[Bone] = []
 		for pb in soft_body.get_rigid_bodies():
 			var rb := pb.rigidbody as RigidBody2D

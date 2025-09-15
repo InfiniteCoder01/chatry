@@ -33,7 +33,7 @@ func _ready() -> void:
 	else:
 		print("Plushie directory not found!")
 	
-	moves["punch"] = Punch.new(["attack", "physical"])
+	moves["punch"] = Punch.new(["attack", "fight", "physical"])
 	moves["fire"] = Fire.new()
 	moves["raid"] = Raid.new()
 

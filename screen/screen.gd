@@ -79,7 +79,7 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 			if victim == null: return
 			move.perform(self, plushie, victim)
 	elif type == "channel.channel_points_custom_reward_redemption.add":
-		if PlushieLib.strip(data.reward.title) == "first":
+		if ["first", "second", "third"].count(PlushieLib.strip(data.reward.title)) > 0:
 			var config: PlushieConfig = PlushieLib.all.pick_random()
 			var plushie := config.create().instantiate()
 			plushie.plushie.stats.attack *= 10
