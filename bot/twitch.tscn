@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://r6ifncja7he"]
+[gd_scene load_steps=40 format=3 uid="uid://r6ifncja7he"]
 
 [ext_resource type="Script" uid="uid://cgqmjinikpf3q" path="res://bot/twitch.gd" id="1_avmgg"]
 [ext_resource type="Script" uid="uid://i8st3lv0lidh" path="res://addons/twitcher/twitch_service.gd" id="1_yboov"]
@@ -18,6 +18,8 @@
 [ext_resource type="Script" uid="uid://dcq1bvfrqimqq" path="res://addons/twitcher/chat/twitch_chat.gd" id="10_xyylq"]
 [ext_resource type="Script" uid="uid://cnmohrdxqihr0" path="res://addons/twitcher/generated/twitch_user.gd" id="11_jfaip"]
 [ext_resource type="Script" uid="uid://cjug64e3433g0" path="res://addons/twitcher/eventsub/twitch_eventsub_config.gd" id="13_xyylq"]
+[ext_resource type="Texture2D" uid="uid://g1dbcjksbotw" path="res://addons/twitcher/assets/fallback_texture.tres" id="14_4utia"]
+[ext_resource type="Script" uid="uid://ddwa0dm0qhc3s" path="res://addons/twitcher/media/native_image_transformer.gd" id="15_m45fd"]
 [ext_resource type="Resource" uid="uid://cycmh1ilxpthr" path="res://bot/broadcaster.tres" id="17_4utia"]
 [ext_resource type="Script" uid="uid://bmluckfvgm1c2" path="res://addons/twitcher/chat/twitch_command.gd" id="18_68dwe"]
 
@@ -48,6 +50,11 @@ script = ExtResource("7_q542u")
 _crypto_key_provider = ExtResource("6_qpb44")
 _identifier = "Bot"
 _cache_path = "user://bot_auth.conf"
+
+[sub_resource type="Resource" id="Resource_jcd2f"]
+script = ExtResource("15_m45fd")
+fallback_texture = ExtResource("14_4utia")
+metadata/_custom_type_script = "uid://ddwa0dm0qhc3s"
 
 [sub_resource type="Resource" id="Resource_wlyt5"]
 script = ExtResource("11_jfaip")
@@ -225,6 +232,7 @@ scopes = SubResource("Resource_4utia")
 [node name="TwitchMediaLoader" type="Node" parent="Bot" node_paths=PackedStringArray("api")]
 script = ExtResource("7_qpb44")
 api = NodePath("../TwitchAPI")
+image_transformer = SubResource("Resource_jcd2f")
 metadata/_custom_type_script = "uid://d4lyup0vy1wtu"
 
 [node name="TwitchChat" type="Node" parent="Bot" node_paths=PackedStringArray("media_loader", "eventsub", "api")]
