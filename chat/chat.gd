@@ -9,7 +9,7 @@ func _on_message_recieved(message: TwitchChatMessage) -> void:
 	if !message.channel_points_custom_reward_id.is_empty(): return
 	if message.message.text.begins_with('!punch') || message.message.text.begins_with('!catch'): return
 	if message.chatter_user_login == "coderschatry" && message.message.text.contains("You couldn't catch"): return
-	print("[%s] %s" % [message.chatter_user_name, message.message.text])
+	print_rich("\u001b[1;31m%s\u001b[0m %s" % [message.chatter_user_name, message.message.text])
 	$Messages.add_child(await ChatMessageLabel.new(message))
 
 func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
