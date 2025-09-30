@@ -2,7 +2,9 @@
 qotd = "The question of the day is: RISC-V or ARM?"
 
 lurk = "Have a nice lurk! Lurkers are a power of Software and Game development streams!"
+brb = "See you soon!"
 unlurk = "Welcome back!"
+unbrb = "See you soon!"
 
 telegram = "Follow me on telegram: https://t.me/InfiniteCoder02"
 github = "My GitHub: https://github.com/InfiniteCoder01/"
