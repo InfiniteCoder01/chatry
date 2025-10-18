@@ -26,10 +26,8 @@ func _init(message: TwitchChatMessage) -> void:
 	# Add all badges to the message
 	var badge_id : int = 0
 	for badge: SpriteFrames in badges:
-		bbcode += "[sprite id='b-%s']%s[/sprite]" % [badge_id, badge.resource_path]
+		bbcode += "[sprite id='b-%s']%s[/sprite] " % [badge_id, badge.resource_path]
 		badge_id += 1
-	
-	if badge_id > 0: bbcode += " "
 
 	# Add the user with their color to the message
 	bbcode += "[color=%s]%s[/color] " % [message.get_color(), message.chatter_user_name]

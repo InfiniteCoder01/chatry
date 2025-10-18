@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c7lfuausqgihj" path="res://bot/leaderboard/leaderboard.gd" id="1_rttse"]
 [ext_resource type="Theme" uid="uid://cq1sgso5k7iqx" path="res://chat/chat.tres" id="2_4hja4"]
 
-[node name="Leaderboard" type="HBoxContainer"]
+[node name="Leaderboard" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,7 +14,18 @@ grow_vertical = 2
 alignment = 1
 script = ExtResource("1_rttse")
 
-[node name="1st" type="RichTextLabel" parent="."]
+[node name="Title" type="RichTextLabel" parent="."]
+layout_mode = 2
+theme = ExtResource("2_4hja4")
+bbcode_enabled = true
+text = "[font_size=25]Plushiedex  [color=gold]leaderboard[/color][/font_size]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="1st" type="RichTextLabel" parent="HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -26,12 +37,12 @@ fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="2nd" type="RichTextLabel" parent="VBoxContainer"]
+[node name="2nd" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -43,7 +54,7 @@ fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="3rd" type="RichTextLabel" parent="VBoxContainer"]
+[node name="3rd" type="RichTextLabel" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
