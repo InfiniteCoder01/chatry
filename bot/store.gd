@@ -44,6 +44,9 @@ func _ready() -> void:
 	for viewer: Viewer in viewers.values():
 		for plushie: Plushie in viewer.team:
 			plushie.wild = false
+			while plushie.xp >= plushie.xp_to_level_up():
+				plushie.xp -= plushie.xp_to_level_up()
+				plushie.level_up()
 
 	Twitch.connect_command("Team", func _on_plushiedex(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 		var chatter := viewer(from_username)

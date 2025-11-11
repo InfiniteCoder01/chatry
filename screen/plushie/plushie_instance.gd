@@ -162,7 +162,7 @@ func _process(delta: float) -> void:
 		queue_free()
 		Twitch.chat.send_message("%s was defeated!" % plushie.name)
 		if last_damage_dealt_by:
-			var xp := (plushie.stats.sum()) * 5 + 20
+			var xp := (plushie.stats.sum()) * 2
 			last_damage_dealt_by.gain_xp(xp)
 		return
 
@@ -174,7 +174,17 @@ func _process(delta: float) -> void:
 
 	if !is_instance_valid(attack_target): attack_target = null
 	if attack_target != null && attack_hits > 0:
-		var impulse := (attack_target.soft_body.get_bones_center_position() - soft_body.get_bones_center_position())
+		var target_bone_idx := attack_target.soft_body.get_rigid_bodies().find_custom(func(rb: SoftBody2D.SoftBodyChild) -> bool:
+			if rb.rigidbody is not Bone: return false
+			return rb.rigidbody.alive
+		)
+
+		if target_bone_idx < 0:
+			attack_target = null
+			return
+
+		var impulse: Vector2 = attack_target.soft_body.get_rigid_bodies()[target_bone_idx].rigidbody.global_position - soft_body.get_bones_center_position()
+		print(attack_target.soft_body.get_rigid_bodies()[0].rigidbody.global_position)
 		soft_body.apply_force(impulse.normalized() * 9000.0 * delta)
 		
 		var collisions: Array[Bone] = []

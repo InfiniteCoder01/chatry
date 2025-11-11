@@ -34,13 +34,13 @@ func get_move(name: String) -> PlushieLib.Move:
 
 # -------------------------------------------------------------------- Leveling
 func level() -> int:
-	return int(sqrt(stats.sum()))
+	return int(pow(stats.sum(), 0.7))
 
 func xp_to_level_up() -> int:
-	return stats.sum() * 8 * level()
+	return int(stats.sum() * 2.5)
 
 func level_up() -> void:
-	var req := int(pow(level() + 1, 2) - stats.sum())
+	var req := int(pow(level() + 1, 1 / 0.7) - stats.sum())
 	stats.attack += req - req / 2
 	stats.defense += req / 2
 
