@@ -59,7 +59,7 @@ func load(plushie: Plushie) -> void:
 	soft_body = $SoftBody2D
 	soft_body.texture = load("res://assets/plushies/" + plushie.id + "/image.png") as Texture2D
 	soft_body.create_softbody2d(true)
-	lifetime_remaining = 60.0 if plushie.wild else INF
+	lifetime_remaining = 120.0 if plushie.wild else INF
 	joints_max = 0
 	for pb in soft_body.get_rigid_bodies():
 		joints_max += pb.joints.size()
