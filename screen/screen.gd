@@ -99,7 +99,7 @@ func _on_plushie(from_username: String, _info: TwitchCommandInfo, args: PackedSt
 		var config: PlushieConfig = PlushieLib.all.pick_random() if args.is_empty() else PlushieLib.find(" ".join(args))
 		if config == null: return
 		plushie = config.create()
-		if from_username == "infinitecoder01":
+		if from_username == "infinitecoder01" && args.size() >= 3:
 			plushie.stats.attack = args[1].to_int()
 			plushie.stats.defense = args[2].to_int()
 

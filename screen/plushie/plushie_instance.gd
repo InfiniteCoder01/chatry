@@ -184,7 +184,6 @@ func _process(delta: float) -> void:
 			return
 
 		var impulse: Vector2 = attack_target.soft_body.get_rigid_bodies()[target_bone_idx].rigidbody.global_position - soft_body.get_bones_center_position()
-		print(attack_target.soft_body.get_rigid_bodies()[0].rigidbody.global_position)
 		soft_body.apply_force(impulse.normalized() * 9000.0 * delta)
 		
 		var collisions: Array[Bone] = []

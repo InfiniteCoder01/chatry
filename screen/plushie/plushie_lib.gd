@@ -32,6 +32,10 @@ func _ready() -> void:
 			file_name = plushie_dir.get_next()
 	else:
 		print("Plushie directory not found!")
+
+	print("loaded %d plushies" % all.size())
+	print("discovered groups:")
+	for group: String in groups: print(group)
 	
 	moves["punch"] = Punch.new(["attack", "fight", "physical"])
 	moves["fire"] = Fire.new()
