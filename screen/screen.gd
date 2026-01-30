@@ -76,7 +76,6 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 			plushie.move_timeout = get_tree().create_timer(1.0)
 			var plushies := non_viewer_plushies(data.chatter_user_login)
 			var victim := closest_plushie(plushies, plushie.soft_body.get_bones_center_position()) if args.is_empty() else find_plushie(plushies, " ".join(args))
-			if victim == null: return
 			move.perform(self, plushie, victim)
 	elif type == "channel.channel_points_custom_reward_redemption.add":
 		if ["first", "second", "third"].count(PlushieLib.strip(data.reward.title)) > 0:

@@ -38,6 +38,7 @@ func _ready() -> void:
 	for group: String in groups: print(group)
 	
 	moves["punch"] = Punch.new(["attack", "fight", "physical"])
+	moves["shield"] = Shield.new(["protect"])
 	moves["fire"] = Fire.new()
 	moves["raid"] = Raid.new()
 
@@ -103,12 +104,20 @@ class Punch:
 	extends Move
 
 	func perform(_screen: Screen, plushie: PlushieInstance, victim: PlushieInstance) -> void:
+		if victim == null: return
 		plushie.attack(victim)
+
+class Shield:
+	extends Move
+
+	func perform(_screen: Screen, plushie: PlushieInstance, _victim: PlushieInstance) -> void:
+		plushie.enable_shield(1.0)
 
 class Fire:
 	extends Move
 
 	func perform(screen: Screen, plushie: PlushieInstance, victim: PlushieInstance) -> void:
+		if victim == null: return
 		var fireball := preload("res://screen/plushie/moves/fire/fireball.tscn")
 		Move.launch_projectile(screen, plushie, victim, fireball)
 
@@ -116,6 +125,7 @@ class Raid:
 	extends Move
 
 	func perform(screen: Screen, plushie: PlushieInstance, victim: PlushieInstance) -> void:
+		if victim == null: return
 		var viewer := preload("res://screen/plushie/moves/raid/raider.tscn")
 
 		for i in range(ceili(plushie.plushie.stats.attack / 10.0)):

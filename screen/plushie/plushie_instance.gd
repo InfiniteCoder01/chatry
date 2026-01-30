@@ -53,6 +53,14 @@ var joints_max: int
 var lifetime_remaining: float
 var last_damage_dealt_by: Plushie = null
 var move_timeout: SceneTreeTimer = null
+var shield: bool = false
+
+func enable_shield(time: float) -> void:
+	shield = true
+	soft_body.set_instance_shader_parameter("opacity", 0.5)
+	await get_tree().create_timer(time).timeout
+	shield = false
+	soft_body.set_instance_shader_parameter("opacity", 1.0)
 
 func load(plushie: Plushie) -> void:
 	self.plushie = plushie
@@ -190,7 +198,7 @@ func _process(delta: float) -> void:
 		for pb in soft_body.get_rigid_bodies():
 			var rb := pb.rigidbody as RigidBody2D
 			collisions.append_array(rb.get_colliding_bodies().filter(func pred(collision: Node2D) -> bool:
-				return collision is Bone and collision.plushie == attack_target
+				return collision is Bone and collision.plushie == attack_target and not collision.plushie.shield
 			))
 
 		var bones_removed := 0

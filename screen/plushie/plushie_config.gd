@@ -12,6 +12,7 @@ func _init(name: String, config: ConfigFile) -> void:
 	groups.assign(config.get_value("", "groups", []))
 	moves.assign(config.get_value("", "moves", {}))
 	if !moves.has(0): moves[0] = "punch"
+	if !moves.has(1): moves[1] = "shield"
 	if groups.has("streamers") && !moves.has(3): moves[3] = "raid"
 	moves.sort()
 

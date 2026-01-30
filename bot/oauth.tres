@@ -5,17 +5,13 @@
 
 [sub_resource type="Resource" id="Resource_ss7yp"]
 script = ExtResource("1_5wswa")
-encrpytion_secret_location = "user://encryption_key.cfg"
 
 [resource]
 script = ExtResource("2_emcgf")
-redirect_url = "http://localhost:7170"
-well_known_url = ""
 token_url = "https://id.twitch.tv/oauth2/token"
 authorization_url = "https://id.twitch.tv/oauth2/authorize"
 device_authorization_url = "https://id.twitch.tv/oauth2/device"
 cache_file = "user://auth.conf"
 client_id = "oiwroapnzpputm2e2ln8ebusqiggei"
-authorization_flow = 0
 _encryption_key_provider = SubResource("Resource_ss7yp")
 client_secret = "KcspHtQKUvy/UsdyD9o6fakxvW9VKt8CzKVw+J/5eBw="
