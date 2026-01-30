@@ -105,7 +105,7 @@ func _ready() -> void:
 		if !plushie.name_matches(" ".join(args)): return
 		if move_timeout && move_timeout.time_left > 0.0: return
 		move_timeout = get_tree().create_timer(1.0)
-		if randf() <= 0.01 / health() / sqrt(plushie.stats.attack):
+		if randf() <= joints_max * 0.01 / float(health()) / sqrt(plushie.stats.attack):
 			Store.viewer(from_username, true).receive(plushie)
 			Store.save()
 			queue_free()
@@ -157,13 +157,13 @@ func put_out() -> void:
 
 ## ******************************************************************** Process
 func health() -> float:
-	var health := 0.0
+	var health := 0
 	for pb in soft_body.get_rigid_bodies():
-		health += float(pb.joints.size()) / joints_max
+		health += pb.joints.size()
 	return health
 
 func alive() -> bool:
-	return health() >= 0.001
+	return health() >= 1
 
 func _process(delta: float) -> void:
 	if !alive():
@@ -209,3 +209,5 @@ func _process(delta: float) -> void:
 			if bones_removed >= max_bones_per_frame: break
 		attack_hits -= bones_removed
 		attack_target.last_damage_dealt_by = plushie
+		if attack_hits == 0:
+			Twitch.chat.send_message("%s has %d HP remaining!" % [attack_target.plushie.name, attack_target.health()])
