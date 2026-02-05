@@ -3,7 +3,7 @@ extends Node
 var lib: Dictionary[String, PlushieConfig] = {}
 var all: Array[PlushieConfig] = []
 var groups: Dictionary[String, Array] = {}
-var moves: Dictionary[String, Move] = {}
+var moves: Dictionary[String, Callable] = {}
 
 func _ready() -> void:
 	var plushie_dir := DirAccess.open("res://assets/plushies")
@@ -37,10 +37,10 @@ func _ready() -> void:
 	print("discovered groups:")
 	for group: String in groups: print(group)
 	
-	moves["punch"] = Punch.new(["attack", "fight", "physical"])
-	moves["shield"] = Shield.new(["protect"])
-	moves["fire"] = Fire.new()
-	moves["raid"] = Raid.new()
+	moves["punch"] = Callable(Punch, "new")
+	moves["shield"] = Callable(Shield, "new")
+	moves["fire"] = Callable(Fire, "new")
+	moves["raid"] = Callable(Raid, "new")
 
 func strip_special_characters(name: String) -> String:
 	var regex := RegEx.new()
@@ -72,11 +72,16 @@ func find(plushie_name: String) -> PlushieConfig:
 
 # ------------------------------------------- Moves
 class Move:
+	extends Node
+
 	var aliases: PackedStringArray = []
 	
-	func _init(aliases: PackedStringArray = []) -> void:
-		self.aliases = aliases
-	
+	var timer: SceneTreeTimer = null
+	func timeout(time: float) -> bool:
+		if timer && timer.time_left > 0.0: return true
+		timer = get_tree().create_timer(time)
+		return false
+			
 	static func launch_projectile(
 		screen: Screen,
 		plushie: PlushieInstance,
@@ -103,21 +108,30 @@ class Move:
 class Punch:
 	extends Move
 
+	func _init():
+		aliases = ["attack", "fight", "physical"]
+
 	func perform(_screen: Screen, plushie: PlushieInstance, victim: PlushieInstance) -> void:
 		if victim == null: return
+		if timeout(1.0): return
 		plushie.attack(victim)
 
 class Shield:
 	extends Move
 
+	func _init():
+		aliases = ["protect"]
+
 	func perform(_screen: Screen, plushie: PlushieInstance, _victim: PlushieInstance) -> void:
-		plushie.enable_shield(1.0)
+		if timeout(8.0): return
+		plushie.enable_shield(5.0)
 
 class Fire:
 	extends Move
 
 	func perform(screen: Screen, plushie: PlushieInstance, victim: PlushieInstance) -> void:
 		if victim == null: return
+		if timeout(1.0): return
 		var fireball := preload("res://screen/plushie/moves/fire/fireball.tscn")
 		Move.launch_projectile(screen, plushie, victim, fireball)
 
@@ -126,6 +140,7 @@ class Raid:
 
 	func perform(screen: Screen, plushie: PlushieInstance, victim: PlushieInstance) -> void:
 		if victim == null: return
+		if timeout(1.0): return
 		var viewer := preload("res://screen/plushie/moves/raid/raider.tscn")
 
 		for i in range(ceili(plushie.plushie.stats.attack / 10.0)):

@@ -69,11 +69,9 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 		if data.message.text.begins_with("!"):
 			var args: PackedStringArray = data.message.text.split(' ')
 			var plushie := owners[data.chatter_user_login]
-			var move := plushie.plushie.get_move(args[0].substr(1))
+			if !plushie.moves.has(args[0].substr(1)): return
+			var move := plushie.moves[args[0].substr(1)]
 			args.remove_at(0)
-			if move == null: return
-			if plushie.move_timeout && plushie.move_timeout.time_left > 0.0: return
-			plushie.move_timeout = get_tree().create_timer(1.0)
 			var plushies := non_viewer_plushies(data.chatter_user_login)
 			var victim := closest_plushie(plushies, plushie.soft_body.get_bones_center_position()) if args.is_empty() else find_plushie(plushies, " ".join(args))
 			move.perform(self, plushie, victim)

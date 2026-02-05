@@ -32,12 +32,10 @@ func _on_heat_message(message: Dictionary) -> void:
 	if message.id != chatter.id: return
 	if message.type == "click":
 		var cursor := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
-		if screen && plushie.get_move("punch"):
-			if move_timeout && move_timeout.time_left > 0.0: return
-			move_timeout = get_tree().create_timer(1.0)
+		if screen && moves.has("punch"):
 			for victim in screen.non_viewer_plushies(chatter.login):
 				if victim.soft_body.get_bones_center_position().distance_squared_to(cursor) < 130*130:
-					attack(victim)
+					moves["punch"].perform(screen, self, victim)
 					return
 
 		leap(cursor)
@@ -48,12 +46,13 @@ var screen: Screen
 
 var chatter: TwitchUser = null
 var plushie: Plushie
-var joints_max: int
 
+var joints_max: int
 var lifetime_remaining: float
 var last_damage_dealt_by: Plushie = null
-var move_timeout: SceneTreeTimer = null
-var shield: bool = false
+var shield := false
+
+var moves: Dictionary[String, PlushieLib.Move] = {}
 
 func enable_shield(time: float) -> void:
 	shield = true
@@ -72,6 +71,12 @@ func load(plushie: Plushie) -> void:
 	for pb in soft_body.get_rigid_bodies():
 		joints_max += pb.joints.size()
 
+	for move: String in plushie.config().get_available_moves(plushie.level()):
+		var move_instance: PlushieLib.Move = PlushieLib.moves[move].call()
+		add_child(move_instance)
+		moves[move] = move_instance
+		for alias in move_instance.aliases: moves[alias] = move_instance
+
 func config() -> PlushieConfig:
 	return plushie.config()
 
@@ -84,6 +89,7 @@ func position_randomly(rect: Rect2) -> void:
 		10
 	)
 
+var catch_timeout: SceneTreeTimer = null
 func _ready() -> void:
 	heat_message.connect(_on_heat_message)
 	Twitch.connect_command("Flee", func _on_flee(from_username: String, _info: TwitchCommandInfo, _args: PackedStringArray) -> void:
@@ -103,8 +109,8 @@ func _ready() -> void:
 	Twitch.connect_command("Catch", func _on_catch(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 		if !plushie.wild: return
 		if !plushie.name_matches(" ".join(args)): return
-		if move_timeout && move_timeout.time_left > 0.0: return
-		move_timeout = get_tree().create_timer(1.0)
+		if catch_timeout && catch_timeout.time_left > 0.0: return
+		catch_timeout = get_tree().create_timer(1.0)
 		if randf() <= joints_max * 0.01 / float(health()) / sqrt(plushie.stats.attack):
 			Store.viewer(from_username, true).receive(plushie)
 			Store.save()

@@ -28,9 +28,3 @@ func get_available_moves(level: int) -> PackedStringArray:
 		if move_level <= level:
 			moves_available.append(moves[move_level])
 	return moves_available
-
-func get_move(name: String, level: int) -> PlushieLib.Move:
-	for move: String in get_available_moves(level):
-		if move == name || PlushieLib.moves[move].aliases.has(name):
-			return PlushieLib.moves[move]
-	return null
