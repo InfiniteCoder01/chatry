@@ -40,7 +40,7 @@ func xp_to_level_up() -> int:
 	return int(stats.sum() * 2.5)
 
 func level_up() -> void:
-	var req := int(pow(level() + 1, 1 / 0.7) - stats.sum())
+	var req := ceili(pow(level() + 1, 1 / 0.7)) - stats.sum()
 	stats.attack += req - req / 2
 	stats.defense += req / 2
 
@@ -58,6 +58,8 @@ func gain_xp(xp: int) -> void:
 			levels += 1
 			continue
 		break
+	print_debug(levels)
+	print_debug(levels)
 	Store.save()
 
 	var msg := "%s recieved %d XP." % [name, xp]

@@ -134,17 +134,20 @@ func closest_rbs(target: Vector2) -> Array[SoftBody2D.SoftBodyChild]:
 	return closest
 
 func leap(target_position: Vector2) -> void:
-	soft_body.apply_impulse((target_position - soft_body.get_bones_center_position()) * 0.3)
+	soft_body.apply_impulse((target_position - center()) * 0.3)
+
+func center() -> Vector2:
+	for rb: SoftBody2D.SoftBodyChild in soft_body.get_rigid_bodies():
+		if rb.rigidbody is not Bone: continue
+		if rb.rigidbody.alive: return rb.rigidbody.global_position
+	return soft_body.get_bones_center_position()
 
 ## ******************************************************************** Functionality
 var attack_target: PlushieInstance
 var attack_hits: int
 func attack(target: PlushieInstance) -> void:
-	var target_pos := target.soft_body.get_bones_center_position()
-	var impulse := (target_pos - soft_body.get_bones_center_position())
-
+	var impulse := (target.center() - center())
 	var power := float(plushie.stats.attack) / target.plushie.stats.defense
-
 	if target.config().groups.has("cpus") || target.config().groups.has("embedded"):
 		power *= 1.3
 
@@ -155,7 +158,7 @@ func attack(target: PlushieInstance) -> void:
 	for pb in soft_body.get_rigid_bodies():
 		var rb := pb.rigidbody as RigidBody2D
 		rb.contact_monitor = true
-		rb.max_contacts_reported = 1
+		rb.max_contacts_reported = 5
 
 func put_out() -> void:
 	for rb in soft_body.get_rigid_bodies():
@@ -165,6 +168,7 @@ func put_out() -> void:
 func health() -> float:
 	var health := 0
 	for pb in soft_body.get_rigid_bodies():
+		if not pb.rigidbody.alive: continue
 		health += pb.joints.size()
 	return health
 
@@ -188,16 +192,11 @@ func _process(delta: float) -> void:
 
 	if !is_instance_valid(attack_target): attack_target = null
 	if attack_target != null && attack_hits > 0:
-		var target_bone_idx := attack_target.soft_body.get_rigid_bodies().find_custom(func(rb: SoftBody2D.SoftBodyChild) -> bool:
-			if rb.rigidbody is not Bone: return false
-			return rb.rigidbody.alive
-		)
-
-		if target_bone_idx < 0:
+		if not attack_target.alive():
 			attack_target = null
 			return
 
-		var impulse: Vector2 = attack_target.soft_body.get_rigid_bodies()[target_bone_idx].rigidbody.global_position - soft_body.get_bones_center_position()
+		var impulse: Vector2 = attack_target.center() - center()
 		soft_body.apply_force(impulse.normalized() * 9000.0 * delta)
 		
 		var collisions: Array[Bone] = []
@@ -213,6 +212,7 @@ func _process(delta: float) -> void:
 			collision.alive = false
 			bones_removed += 1
 			if bones_removed >= max_bones_per_frame: break
+
 		attack_hits -= bones_removed
 		attack_target.last_damage_dealt_by = plushie
 		if attack_hits == 0:

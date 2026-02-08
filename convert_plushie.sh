@@ -3,7 +3,7 @@ filename="$(basename -- "$1")"
 filename="${filename%.*}"
 echo "Converting $filename"
 mkdir -p "assets/plushies/$filename"
-gm convert \
+magick convert \
     -bordercolor none -border 1 \
     -trim +repage \
     -background none -resize 512x \
