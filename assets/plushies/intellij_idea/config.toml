@@ -1,2 +1,2 @@
-aliases = ["intellij"]
+aliases = ["intellij", "IDEA"]
 groups = ["editors"]
