@@ -11,6 +11,8 @@ func _ready() -> void:
 
 func _process(_delta_time: float) -> void:
 	var rb: SoftBody2D.SoftBodyChild = plushie.soft_body._soft_body_rigidbodies_dict[self]
+	if rb.joints.size() == 0:
+		alive = false
 	if !alive:
 		for joint in rb.joints:
 			if is_instance_valid(joint):

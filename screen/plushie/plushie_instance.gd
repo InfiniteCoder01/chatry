@@ -138,7 +138,6 @@ func leap(target_position: Vector2) -> void:
 
 func center() -> Vector2:
 	for rb: SoftBody2D.SoftBodyChild in soft_body.get_rigid_bodies():
-		if rb.rigidbody is not Bone: continue
 		if rb.rigidbody.alive: return rb.rigidbody.global_position
 	return soft_body.get_bones_center_position()
 
