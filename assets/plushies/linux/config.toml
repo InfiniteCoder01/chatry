@@ -1,2 +1,2 @@
 aliases = ["Tux", "kernel"]
-groups = ["distros"]
+groups = ["distros", "org"]

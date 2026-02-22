@@ -1,1 +1,1 @@
-groups = ["CPUs", "embedded"]
+groups = ["CPUs", "embedded", "org"]
