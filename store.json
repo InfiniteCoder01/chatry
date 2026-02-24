@@ -54,11 +54,13 @@
         "elm": true,
         "firefox": true,
         "kast": true,
+        "lvim": true,
         "nix": true,
         "ocaml": true,
         "rust": true,
         "sql": true,
         "typescript": true,
+        "vim": true,
         "yang": true
       },
       "team": [
@@ -151,6 +153,36 @@
           },
           "wild": false,
           "xp": 0
+        },
+        {
+          "id": "vim",
+          "name": "vim",
+          "stats": {
+            "attack": 1,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "sql",
+          "name": "sql",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "lvim",
+          "name": "lvim",
+          "stats": {
+            "attack": 3,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
@@ -235,7 +267,8 @@
         "mario": true,
         "microsoft": true,
         "mod": true,
-        "unity": true
+        "unity": true,
+        "vip": true
       },
       "team": [
         {
@@ -260,7 +293,7 @@
         },
         {
           "id": "Captain Onosa",
-          "name": "Captain Onosa",
+          "name": "croc",
           "stats": {
             "attack": 2,
             "defense": 2
@@ -347,6 +380,16 @@
           },
           "wild": false,
           "xp": 0
+        },
+        {
+          "id": "vip",
+          "name": "vip",
+          "stats": {
+            "attack": 1,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
@@ -393,7 +436,6 @@
       "plushiedex": {
         "5thFunction": true,
         "C": true,
-        "tylis": true,
         "Glenda": true,
         "elm": true,
         "firefox": true,
@@ -409,7 +451,8 @@
         "ocaml": true,
         "racket": true,
         "regex": true,
-        "rust": true
+        "rust": true,
+        "tylis": true
       },
       "team": [
         {
@@ -548,6 +591,23 @@
           },
           "wild": false,
           "xp": 2
+        }
+      ]
+    },
+    "penguin_operat0r": {
+      "plushiedex": {
+        "ruby": true
+      },
+      "team": [
+        {
+          "id": "ruby",
+          "name": "ruby",
+          "stats": {
+            "attack": 2,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
