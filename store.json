@@ -28,11 +28,11 @@
           "id": "markdown",
           "name": "markdown",
           "stats": {
-            "attack": 14,
-            "defense": 11
+            "attack": 17,
+            "defense": 14
           },
           "wild": false,
-          "xp": 151
+          "xp": 22
         },
         {
           "id": "infinite",
@@ -76,11 +76,11 @@
           "id": "typescript",
           "name": "typescript",
           "stats": {
-            "attack": 2,
+            "attack": 3,
             "defense": 2
           },
           "wild": false,
-          "xp": 10
+          "xp": 0
         },
         {
           "id": "d",
@@ -126,11 +126,11 @@
           "id": "firefox",
           "name": "firefox",
           "stats": {
-            "attack": 14,
-            "defense": 11
+            "attack": 24,
+            "defense": 20
           },
           "wild": false,
-          "xp": 452
+          "xp": 59
         },
         {
           "id": "sql",
@@ -163,28 +163,11 @@
           "id": "Glenda",
           "name": "Glenda",
           "stats": {
-            "attack": 5,
-            "defense": 4
+            "attack": 8,
+            "defense": 5
           },
           "wild": false,
-          "xp": 70
-        }
-      ]
-    },
-    "kuko010": {
-      "plushiedex": {
-        "firefox": true
-      },
-      "team": [
-        {
-          "id": "firefox",
-          "name": "fox",
-          "stats": {
-            "attack": 33,
-            "defense": 25
-          },
-          "wild": false,
-          "xp": 73
+          "xp": 23
         }
       ]
     },
@@ -223,11 +206,11 @@
           "id": "infinite",
           "name": "Infinite",
           "stats": {
-            "attack": 53,
-            "defense": 47
+            "attack": 65,
+            "defense": 58
           },
           "wild": false,
-          "xp": 1319
+          "xp": 235
         },
         {
           "id": "astro",
@@ -235,6 +218,132 @@
           "stats": {
             "attack": 1,
             "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    },
+    "kuko010": {
+      "plushiedex": {
+        "3Ds max": true,
+        "Captain Onosa": true,
+        "GDevelop": true,
+        "PlayStation": true,
+        "aseprite": true,
+        "firefox": true,
+        "mario": true,
+        "microsoft": true,
+        "mod": true,
+        "unity": true
+      },
+      "team": [
+        {
+          "id": "firefox",
+          "name": "fox",
+          "stats": {
+            "attack": 33,
+            "defense": 25
+          },
+          "wild": false,
+          "xp": 73
+        },
+        {
+          "id": "PlayStation",
+          "name": "play",
+          "stats": {
+            "attack": 1,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "Captain Onosa",
+          "name": "Captain Onosa",
+          "stats": {
+            "attack": 2,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "GDevelop",
+          "name": "GDCopy",
+          "stats": {
+            "attack": 3,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "mario",
+          "name": "mario",
+          "stats": {
+            "attack": 2,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "unity",
+          "name": "unity",
+          "stats": {
+            "attack": 1,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "aseprite",
+          "name": "sprites",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "3Ds max",
+          "name": "3Ds max",
+          "stats": {
+            "attack": 3,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "mario",
+          "name": "mario",
+          "stats": {
+            "attack": 2,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "microsoft",
+          "name": "macrohard",
+          "stats": {
+            "attack": 2,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "mod",
+          "name": "mod",
+          "stats": {
+            "attack": 2,
+            "defense": 3
           },
           "wild": false,
           "xp": 0
@@ -283,15 +392,20 @@
     "nigelwithrow": {
       "plushiedex": {
         "5thFunction": true,
+        "C": true,
+        "tylis": true,
         "Glenda": true,
         "elm": true,
         "firefox": true,
+        "hare": true,
+        "helix": true,
         "kast": true,
         "lisp": true,
         "lua": true,
         "markdown": true,
         "micro": true,
         "nix": true,
+        "nvim": true,
         "ocaml": true,
         "racket": true,
         "regex": true,
@@ -322,41 +436,41 @@
           "id": "lisp",
           "name": "lisp",
           "stats": {
-            "attack": 5,
-            "defense": 4
+            "attack": 8,
+            "defense": 5
           },
           "wild": false,
-          "xp": 72
+          "xp": 25
         },
         {
           "id": "ocaml",
           "name": "caramel",
           "stats": {
-            "attack": 1,
-            "defense": 1
+            "attack": 5,
+            "defense": 3
           },
           "wild": false,
-          "xp": 40
+          "xp": 16
         },
         {
           "id": "lua",
           "name": "lua",
           "stats": {
-            "attack": 104,
-            "defense": 92
+            "attack": 123,
+            "defense": 108
           },
           "wild": false,
-          "xp": 2772
+          "xp": 158
         },
         {
           "id": "racket",
           "name": "racket",
           "stats": {
-            "attack": 2,
-            "defense": 2
+            "attack": 5,
+            "defense": 3
           },
           "wild": false,
-          "xp": 30
+          "xp": 8
         },
         {
           "id": "nix",
@@ -377,6 +491,46 @@
           },
           "wild": false,
           "xp": 0
+        },
+        {
+          "id": "helix",
+          "name": "helix",
+          "stats": {
+            "attack": 3,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "tylis",
+          "name": "Tylis",
+          "stats": {
+            "attack": 2,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "nvim",
+          "name": "nvim",
+          "stats": {
+            "attack": 1,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "C",
+          "name": "C",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
@@ -389,11 +543,11 @@
           "id": "mach",
           "name": "mach",
           "stats": {
-            "attack": 13,
-            "defense": 12
+            "attack": 18,
+            "defense": 17
           },
           "wild": false,
-          "xp": 208
+          "xp": 2
         }
       ]
     },
