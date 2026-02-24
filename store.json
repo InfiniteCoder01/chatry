@@ -1,0 +1,418 @@
+{
+  "viewers": {
+    "5thfunction": {
+      "plushiedex": {
+        "5thFunction": true
+      },
+      "team": [
+        {
+          "id": "5thFunction",
+          "name": "5thFunction",
+          "stats": {
+            "attack": 1,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    },
+    "coderschatry": {
+      "plushiedex": {
+        "infinite": true,
+        "markdown": true,
+        "rust": true
+      },
+      "team": [
+        {
+          "id": "markdown",
+          "name": "markdown",
+          "stats": {
+            "attack": 14,
+            "defense": 11
+          },
+          "wild": false,
+          "xp": 151
+        },
+        {
+          "id": "infinite",
+          "name": "Infinite2",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    },
+    "devninya": {
+      "plushiedex": {
+        "CSharp": true,
+        "DevNinYa": true,
+        "d": true,
+        "elm": true,
+        "firefox": true,
+        "kast": true,
+        "nix": true,
+        "ocaml": true,
+        "rust": true,
+        "sql": true,
+        "typescript": true,
+        "yang": true
+      },
+      "team": [
+        {
+          "id": "DevNinYa",
+          "name": "DevNinYa",
+          "stats": {
+            "attack": 8,
+            "defense": 8
+          },
+          "wild": false,
+          "xp": 20
+        },
+        {
+          "id": "typescript",
+          "name": "typescript",
+          "stats": {
+            "attack": 2,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 10
+        },
+        {
+          "id": "d",
+          "name": "d",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "yang",
+          "name": "yang",
+          "stats": {
+            "attack": 27,
+            "defense": 22
+          },
+          "wild": false,
+          "xp": 90
+        },
+        {
+          "id": "rust",
+          "name": "rust",
+          "stats": {
+            "attack": 2,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "kast",
+          "name": "kast",
+          "stats": {
+            "attack": 2,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "firefox",
+          "name": "firefox",
+          "stats": {
+            "attack": 14,
+            "defense": 11
+          },
+          "wild": false,
+          "xp": 452
+        },
+        {
+          "id": "sql",
+          "name": "sql",
+          "stats": {
+            "attack": 1,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "CSharp",
+          "name": "CSharp",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    },
+    "fossunleashed": {
+      "plushiedex": {
+        "Glenda": true
+      },
+      "team": [
+        {
+          "id": "Glenda",
+          "name": "Glenda",
+          "stats": {
+            "attack": 5,
+            "defense": 4
+          },
+          "wild": false,
+          "xp": 70
+        }
+      ]
+    },
+    "kuko010": {
+      "plushiedex": {
+        "firefox": true
+      },
+      "team": [
+        {
+          "id": "firefox",
+          "name": "fox",
+          "stats": {
+            "attack": 33,
+            "defense": 25
+          },
+          "wild": false,
+          "xp": 73
+        }
+      ]
+    },
+    "grngxd": {
+      "plushiedex": {
+        "regex": true
+      },
+      "team": [
+        {
+          "id": "regex",
+          "name": "regex",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    },
+    "infinitecoder01": {
+      "plushiedex": {
+        "Glenda": true,
+        "astro": true,
+        "elm": true,
+        "firefox": true,
+        "infinite": true,
+        "kast": true,
+        "micro": true,
+        "ocaml": true,
+        "regex": true,
+        "rust": true
+      },
+      "team": [
+        {
+          "id": "infinite",
+          "name": "Infinite",
+          "stats": {
+            "attack": 53,
+            "defense": 47
+          },
+          "wild": false,
+          "xp": 1319
+        },
+        {
+          "id": "astro",
+          "name": "Astro",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    },
+    "kuviman": {
+      "plushiedex": {
+        "Glenda": true,
+        "elm": true,
+        "kast": true
+      },
+      "team": [
+        {
+          "id": "kast",
+          "name": "kast",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "elm",
+          "name": "elm",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "Glenda",
+          "name": "Glenda",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    },
+    "nigelwithrow": {
+      "plushiedex": {
+        "5thFunction": true,
+        "Glenda": true,
+        "elm": true,
+        "firefox": true,
+        "kast": true,
+        "lisp": true,
+        "lua": true,
+        "markdown": true,
+        "micro": true,
+        "nix": true,
+        "ocaml": true,
+        "racket": true,
+        "regex": true,
+        "rust": true
+      },
+      "team": [
+        {
+          "id": "rust",
+          "name": "Rust",
+          "stats": {
+            "attack": 13,
+            "defense": 12
+          },
+          "wild": false,
+          "xp": 34
+        },
+        {
+          "id": "micro",
+          "name": "micro",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "lisp",
+          "name": "lisp",
+          "stats": {
+            "attack": 5,
+            "defense": 4
+          },
+          "wild": false,
+          "xp": 72
+        },
+        {
+          "id": "ocaml",
+          "name": "caramel",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 40
+        },
+        {
+          "id": "lua",
+          "name": "lua",
+          "stats": {
+            "attack": 104,
+            "defense": 92
+          },
+          "wild": false,
+          "xp": 2772
+        },
+        {
+          "id": "racket",
+          "name": "racket",
+          "stats": {
+            "attack": 2,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 30
+        },
+        {
+          "id": "nix",
+          "name": "nix",
+          "stats": {
+            "attack": 2,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "ocaml",
+          "name": "ocaml",
+          "stats": {
+            "attack": 2,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    },
+    "octalide": {
+      "plushiedex": {
+        "mach": true
+      },
+      "team": [
+        {
+          "id": "mach",
+          "name": "mach",
+          "stats": {
+            "attack": 13,
+            "defense": 12
+          },
+          "wild": false,
+          "xp": 208
+        }
+      ]
+    },
+    "sneaxdope": {
+      "plushiedex": {
+        "regex": true
+      },
+      "team": [
+        {
+          "id": "regex",
+          "name": "RegEx",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    }
+  }
+}
