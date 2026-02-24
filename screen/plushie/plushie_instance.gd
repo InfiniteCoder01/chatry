@@ -89,24 +89,34 @@ func position_randomly(rect: Rect2) -> void:
 		10
 	)
 
+func flee():
+	if not screen: return
+	Twitch.chat.send_message("%s fled!" % plushie.name)
+	if plushie.wild: queue_free()
+	elif screen: screen.plushies.remove_child(self)
+	screen = null
+
 var catch_timeout: SceneTreeTimer = null
 func _ready() -> void:
 	heat_message.connect(_on_heat_message)
 	Twitch.connect_command("Flee", func _on_flee(from_username: String, _info: TwitchCommandInfo, _args: PackedStringArray) -> void:
+		if not screen: return
 		if chatter == null || chatter.login != from_username: return
-		Twitch.chat.send_message("%s fled!" % plushie.name)
-		queue_free()
+		flee()
 	)
 	Twitch.connect_command("AddForce", func _on_add_force(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
+		if not screen: return
 		if chatter == null || chatter.login != from_username: return
 		var force := Vector2(float(args[0]), float(args[1])).limit_length(5.0) * 2000
 		soft_body.apply_force(force)
 	)
 	Twitch.connect_command("PutOut", func _on_put_out(from_username: String, _info: TwitchCommandInfo, _args: PackedStringArray) -> void:
+		if not screen: return
 		if chatter == null || chatter.login != from_username: return
 		put_out()
 	)
 	Twitch.connect_command("Catch", func _on_catch(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
+		if not screen: return
 		if !plushie.wild: return
 		if !plushie.name_matches(" ".join(args)): return
 		if catch_timeout && catch_timeout.time_left > 0.0: return
@@ -158,6 +168,11 @@ func attack(target: PlushieInstance) -> void:
 		var rb := pb.rigidbody as RigidBody2D
 		rb.contact_monitor = true
 		rb.max_contacts_reported = 5
+
+func on_fire():
+	for rb in soft_body.get_rigid_bodies():
+		if rb.rigidbody.fire.emitting: return true
+	return false
 
 func put_out() -> void:
 	for rb in soft_body.get_rigid_bodies():

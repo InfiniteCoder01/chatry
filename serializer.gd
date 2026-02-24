@@ -14,6 +14,7 @@ static func serialize(value: Variant) -> Variant:
 	elif value is Object:
 		var data := {}
 		for property: Dictionary in value.get_property_list():
+			if property.name.begins_with("nosave"): continue
 			if property.usage & PROPERTY_USAGE_SCRIPT_VARIABLE:
 				data[property.name] = serialize(value[property.name])
 		return data

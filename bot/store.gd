@@ -35,7 +35,7 @@ func format_strings(strings: PackedStringArray) -> String:
 	return result
 
 # ---------------------------------------------- Store
-const STORE_PATH := "/mnt/D/Channel/store.json"
+const STORE_PATH := "store.json"
 
 func _ready() -> void:
 	var file := FileAccess.open(STORE_PATH, FileAccess.READ)
@@ -83,6 +83,8 @@ func _ready() -> void:
 	Twitch.connect_command("Rename", func _on_rename(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 		var chatter := viewer(from_username)
 		if chatter.team.is_empty(): return
+		args[0] = args[0].replace("_", " ")
+		if args.size() > 1: args[1] = args[1].replace("_", " ")
 		
 		if args.size() == 1: chatter.team.back().name = args[0]
 		else:

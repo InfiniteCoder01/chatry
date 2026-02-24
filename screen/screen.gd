@@ -85,7 +85,8 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 			Twitch.chat.send_message("@%s has shaked the sky. Wild %s appeared!" % [data.user_name, plushie.plushie.name])
 
 func _on_plushie(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:
-	if owners.has(from_username) && is_instance_valid(owners[from_username]): return
+	if owners.has(from_username) && is_instance_valid(owners[from_username]):
+		owners[from_username].flee()
 
 	var plushie: Plushie = null
 	if !args.is_empty():

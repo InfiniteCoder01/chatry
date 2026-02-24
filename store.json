@@ -260,26 +260,30 @@
       "plushiedex": {
         "3Ds max": true,
         "Captain Onosa": true,
+        "Cinema4D": true,
         "GDevelop": true,
         "PlayStation": true,
+        "arch": true,
         "aseprite": true,
         "firefox": true,
+        "hare": true,
         "mario": true,
         "microsoft": true,
         "mod": true,
+        "nix": true,
         "unity": true,
         "vip": true
       },
       "team": [
         {
           "id": "firefox",
-          "name": "fox",
+          "name": "firefox",
           "stats": {
-            "attack": 33,
-            "defense": 25
+            "attack": 36,
+            "defense": 27
           },
           "wild": false,
-          "xp": 73
+          "xp": 122
         },
         {
           "id": "PlayStation",
@@ -390,6 +394,36 @@
           },
           "wild": false,
           "xp": 0
+        },
+        {
+          "id": "Cinema4D",
+          "name": "C4D",
+          "stats": {
+            "attack": 3,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "nix",
+          "name": "NixOS",
+          "stats": {
+            "attack": 3,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "arch",
+          "name": "arch",
+          "stats": {
+            "attack": 2,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 1
         }
       ]
     },
@@ -571,6 +605,16 @@
           "stats": {
             "attack": 1,
             "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "hare",
+          "name": "foxplus",
+          "stats": {
+            "attack": 3,
+            "defense": 2
           },
           "wild": false,
           "xp": 0

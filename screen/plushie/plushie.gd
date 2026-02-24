@@ -58,8 +58,6 @@ func gain_xp(xp: int) -> void:
 			levels += 1
 			continue
 		break
-	print_debug(levels)
-	print_debug(levels)
 	Store.save()
 
 	var msg := "%s recieved %d XP." % [name, xp]
@@ -71,10 +69,12 @@ func gain_xp(xp: int) -> void:
 	Twitch.chat.send_message(msg)
 
 # ----------------------------------------------------------------------- Instance
+var nosave_instance: PlushieInstance = null
 func instantiate() -> PlushieInstance:
-	var instance: PlushieInstance = preload("res://screen/plushie/plushie.tscn").instantiate()
-	instance.load(self)
-	return instance
+	if nosave_instance == null or not is_instance_valid(nosave_instance):
+		nosave_instance = preload("res://screen/plushie/plushie.tscn").instantiate()
+		nosave_instance.load(self)
+	return nosave_instance
 
 func name_matches(name: String) -> bool:
 	if wild:

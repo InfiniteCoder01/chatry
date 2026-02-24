@@ -3,11 +3,12 @@ filename="$(basename -- "$1")"
 filename="${filename%.*}"
 echo "Converting $filename"
 mkdir -p "assets/plushies/$filename"
-magick "$1" \
+magick \
+    -background none \
     -density 500 \
+    "$1" \
     -bordercolor none -border 1 \
     -trim +repage \
-    -background none \
     -filter triangle -resize 512x \
     "assets/plushies/$filename/image.png"
 cp "$1" "assets/plushies/$filename/"
