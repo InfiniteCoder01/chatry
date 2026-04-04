@@ -102,7 +102,7 @@
             "defense": 22
           },
           "wild": false,
-          "xp": 90
+          "xp": 102
         },
         {
           "id": "rust",
@@ -262,6 +262,7 @@
         "Captain Onosa": true,
         "Cinema4D": true,
         "GDevelop": true,
+        "KDE": true,
         "PlayStation": true,
         "arch": true,
         "aseprite": true,
@@ -277,13 +278,13 @@
       "team": [
         {
           "id": "firefox",
-          "name": "firefox",
+          "name": "agentfox",
           "stats": {
-            "attack": 36,
-            "defense": 27
+            "attack": 54,
+            "defense": 40
           },
           "wild": false,
-          "xp": 122
+          "xp": 37
         },
         {
           "id": "PlayStation",
@@ -307,7 +308,7 @@
         },
         {
           "id": "GDevelop",
-          "name": "GDCopy",
+          "name": "gdevelop",
           "stats": {
             "attack": 3,
             "defense": 2
@@ -317,7 +318,7 @@
         },
         {
           "id": "mario",
-          "name": "mario",
+          "name": "funnyitalianmanbutgreen",
           "stats": {
             "attack": 2,
             "defense": 2
@@ -347,7 +348,7 @@
         },
         {
           "id": "3Ds max",
-          "name": "3Ds max",
+          "name": "Autodesk003",
           "stats": {
             "attack": 3,
             "defense": 1
@@ -357,17 +358,17 @@
         },
         {
           "id": "mario",
-          "name": "mario",
+          "name": "funnyitalianman",
           "stats": {
-            "attack": 2,
-            "defense": 1
+            "attack": 3,
+            "defense": 2
           },
           "wild": false,
-          "xp": 0
+          "xp": 3
         },
         {
           "id": "microsoft",
-          "name": "macrohard",
+          "name": "Plushie11",
           "stats": {
             "attack": 2,
             "defense": 2
@@ -397,7 +398,7 @@
         },
         {
           "id": "Cinema4D",
-          "name": "C4D",
+          "name": "DLang",
           "stats": {
             "attack": 3,
             "defense": 3
@@ -424,6 +425,16 @@
           },
           "wild": false,
           "xp": 1
+        },
+        {
+          "id": "KDE",
+          "name": "3dpro002",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
@@ -437,26 +448,6 @@
         {
           "id": "kast",
           "name": "kast",
-          "stats": {
-            "attack": 1,
-            "defense": 1
-          },
-          "wild": false,
-          "xp": 0
-        },
-        {
-          "id": "elm",
-          "name": "elm",
-          "stats": {
-            "attack": 1,
-            "defense": 1
-          },
-          "wild": false,
-          "xp": 0
-        },
-        {
-          "id": "Glenda",
-          "name": "Glenda",
           "stats": {
             "attack": 1,
             "defense": 1
@@ -537,7 +528,7 @@
             "defense": 108
           },
           "wild": false,
-          "xp": 158
+          "xp": 470
         },
         {
           "id": "racket",
@@ -618,6 +609,26 @@
           },
           "wild": false,
           "xp": 0
+        },
+        {
+          "id": "elm",
+          "name": "elm",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "Glenda",
+          "name": "Glenda",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
@@ -645,7 +656,7 @@
       "team": [
         {
           "id": "ruby",
-          "name": "ruby",
+          "name": "gem",
           "stats": {
             "attack": 2,
             "defense": 2
