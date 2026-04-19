@@ -73,7 +73,7 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 			var move := plushie.moves[args[0].substr(1)]
 			args.remove_at(0)
 			var plushies := non_viewer_plushies(data.chatter_user_login)
-			var victim := closest_plushie(plushies, plushie.soft_body.get_bones_center_position()) if args.is_empty() else find_plushie(plushies, " ".join(args))
+			var victim := closest_plushie(plushies, plushie.center()) if args.is_empty() else find_plushie(plushies, " ".join(args))
 			move.perform(self, plushie, victim)
 	elif type == "channel.channel_points_custom_reward_redemption.add":
 		if ["first", "second", "third"].count(PlushieLib.strip(data.reward.title)) > 0:
@@ -145,7 +145,7 @@ func find_plushie(plushies: Array[PlushieInstance], name: String) -> PlushieInst
 func closest_plushie(plushies: Array[PlushieInstance], to: Vector2) -> PlushieInstance:
 	var closest: PlushieInstance = null
 	for plushie in plushies:
-		if closest == null || plushie.soft_body.get_bones_center_position().distance_squared_to(to) < closest.soft_body.get_bones_center_position().distance_squared_to(to):
+		if closest == null || plushie.center().distance_squared_to(to) < closest.center().distance_squared_to(to):
 			closest = plushie
 	return closest
 

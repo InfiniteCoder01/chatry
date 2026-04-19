@@ -93,10 +93,10 @@ class Move:
 		var instance: Node2D = projectile.instantiate()
 		instance.caster = plushie.plushie
 		instance.chatter = plushie.chatter
-		instance.position = plushie.soft_body.get_bones_center_position() + Vector2(0, -150)
+		instance.position = plushie.center() + Vector2(0, -150)
 		instance.position += Vector2(randi_range(0, range), 0).rotated(randf_range(0, TAU))
 		
-		var impulse := victim.soft_body.get_bones_center_position() - instance.position
+		var impulse := victim.center() - instance.position
 		if apply_gravity: impulse.y -= 300
 		instance.apply_impulse(impulse)
 		screen.add_child(instance)
@@ -108,7 +108,7 @@ class Move:
 class Punch:
 	extends Move
 
-	func _init():
+	func _init() -> void:
 		aliases = ["attack", "fight", "physical"]
 
 	func perform(_screen: Screen, plushie: PlushieInstance, victim: PlushieInstance) -> void:
@@ -119,7 +119,7 @@ class Punch:
 class Shield:
 	extends Move
 
-	func _init():
+	func _init() -> void:
 		aliases = ["protect"]
 
 	func perform(_screen: Screen, plushie: PlushieInstance, _victim: PlushieInstance) -> void:

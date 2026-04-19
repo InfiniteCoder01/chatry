@@ -34,7 +34,7 @@ func _on_heat_message(message: Dictionary) -> void:
 		var cursor := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
 		if screen && moves.has("punch"):
 			for victim in screen.non_viewer_plushies(chatter.login):
-				if victim.soft_body.get_bones_center_position().distance_squared_to(cursor) < 130*130:
+				if victim.center().distance_squared_to(cursor) < 130*130:
 					moves["punch"].perform(screen, self, victim)
 					return
 
@@ -57,7 +57,7 @@ var moves: Dictionary[String, PlushieLib.Move] = {}
 func enable_shield(time: float) -> void:
 	shield = true
 	soft_body.set_instance_shader_parameter("opacity", 0.5)
-	await get_tree().create_timer(time).timeout
+	await screen.get_tree().create_timer(time).timeout
 	shield = false
 	soft_body.set_instance_shader_parameter("opacity", 1.0)
 
@@ -81,20 +81,22 @@ func config() -> PlushieConfig:
 	return plushie.config()
 
 func position_randomly(rect: Rect2) -> void:
-	soft_body.global_position = Vector2(
+	var pos = Vector2(
 		randf_range(
 			10,
 			rect.size.x - soft_body.texture.get_width() * soft_body.scale.x - 10
 		),
 		10
 	)
+	var origin = center()
+	for pb in soft_body.get_rigid_bodies():
+		pb.rigidbody.global_position += pos - origin
 
-func flee():
-	if not screen: return
+func flee() -> void:
+	if not is_inside_tree(): return
 	Twitch.chat.send_message("%s fled!" % plushie.name)
 	if plushie.wild: queue_free()
 	elif screen: screen.plushies.remove_child(self)
-	screen = null
 
 var catch_timeout: SceneTreeTimer = null
 func _ready() -> void:
@@ -120,7 +122,7 @@ func _ready() -> void:
 		if !plushie.wild: return
 		if !plushie.name_matches(" ".join(args)): return
 		if catch_timeout && catch_timeout.time_left > 0.0: return
-		catch_timeout = get_tree().create_timer(1.0)
+		catch_timeout = screen.get_tree().create_timer(1.0)
 		if randf() <= joints_max * 0.01 / float(health()) / sqrt(plushie.stats.attack):
 			Store.viewer(from_username, true).receive(plushie)
 			Store.save()
@@ -169,7 +171,7 @@ func attack(target: PlushieInstance) -> void:
 		rb.contact_monitor = true
 		rb.max_contacts_reported = 5
 
-func on_fire():
+func on_fire() -> bool:
 	for rb in soft_body.get_rigid_bodies():
 		if rb.rigidbody.fire.emitting: return true
 	return false

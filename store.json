@@ -98,11 +98,11 @@
           "id": "yang",
           "name": "yang",
           "stats": {
-            "attack": 27,
-            "defense": 22
+            "attack": 32,
+            "defense": 26
           },
           "wild": false,
-          "xp": 102
+          "xp": 48
         },
         {
           "id": "rust",
@@ -238,11 +238,11 @@
           "id": "infinite",
           "name": "Infinite",
           "stats": {
-            "attack": 65,
-            "defense": 58
+            "attack": 68,
+            "defense": 61
           },
           "wild": false,
-          "xp": 235
+          "xp": 316
         },
         {
           "id": "astro",
@@ -278,13 +278,13 @@
       "team": [
         {
           "id": "firefox",
-          "name": "agentfox",
+          "name": "neoboy",
           "stats": {
-            "attack": 54,
-            "defense": 40
+            "attack": 57,
+            "defense": 43
           },
           "wild": false,
-          "xp": 37
+          "xp": 212
         },
         {
           "id": "PlayStation",
@@ -368,7 +368,7 @@
         },
         {
           "id": "microsoft",
-          "name": "Plushie11",
+          "name": "michalows",
           "stats": {
             "attack": 2,
             "defense": 2
@@ -428,7 +428,7 @@
         },
         {
           "id": "KDE",
-          "name": "3dpro002",
+          "name": "kde",
           "stats": {
             "attack": 1,
             "defense": 1
@@ -522,13 +522,13 @@
         },
         {
           "id": "lua",
-          "name": "lua",
+          "name": "havefuntypingthislmao",
           "stats": {
-            "attack": 123,
-            "defense": 108
+            "attack": 127,
+            "defense": 111
           },
           "wild": false,
-          "xp": 470
+          "xp": 289
         },
         {
           "id": "racket",
@@ -594,11 +594,11 @@
           "id": "C",
           "name": "C",
           "stats": {
-            "attack": 1,
-            "defense": 1
+            "attack": 12,
+            "defense": 8
           },
           "wild": false,
-          "xp": 0
+          "xp": 45
         },
         {
           "id": "hare",

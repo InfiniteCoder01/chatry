@@ -23,7 +23,7 @@ func set_on_fire(temperature: float) -> void:
 	if self.temperature > 0.0: return
 	self.temperature = temperature
 	fire.emitting = true
-	await get_tree().create_timer(max(plushie.plushie.stats.defense / temperature * 0.3, 0.1) + randf() * 0.3).timeout
+	await plushie.screen.get_tree().create_timer(max(plushie.plushie.stats.defense / temperature * 0.3, 0.1) + randf() * 0.3).timeout
 	if !fire.emitting:
 		self.temperature = 0.0
 		return
@@ -34,5 +34,5 @@ func set_on_fire(temperature: float) -> void:
 		bone_b.set_on_fire(self.temperature)
 
 	fire.emitting = false
-	await get_tree().create_timer(2.0).timeout
+	await plushie.screen.get_tree().create_timer(2.0).timeout
 	alive = false
