@@ -30,6 +30,7 @@ func _on_heat_message(message: Dictionary) -> void:
 	if !message.has("id"): return
 	if !chatter: return
 	if message.id != chatter.id: return
+	if !get_viewport(): return
 	if message.type == "click":
 		var cursor := Vector2(message.x.to_float(), message.y.to_float()) * Vector2(get_viewport().size)
 		if screen && moves.has("punch"):
@@ -110,6 +111,7 @@ func _ready() -> void:
 		if not screen: return
 		if chatter == null || chatter.login != from_username: return
 		var force := Vector2(float(args[0]), float(args[1])).limit_length(5.0) * 2000
+		print_debug(force)
 		soft_body.apply_force(force)
 	)
 	Twitch.connect_command("PutOut", func _on_put_out(from_username: String, _info: TwitchCommandInfo, _args: PackedStringArray) -> void:

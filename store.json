@@ -55,6 +55,7 @@
         "firefox": true,
         "kast": true,
         "lvim": true,
+        "microsoft": true,
         "nix": true,
         "ocaml": true,
         "rust": true,
@@ -183,6 +184,16 @@
           },
           "wild": false,
           "xp": 0
+        },
+        {
+          "id": "microsoft",
+          "name": "slop",
+          "stats": {
+            "attack": 2,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
@@ -278,17 +289,17 @@
       "team": [
         {
           "id": "firefox",
-          "name": "neoboy",
+          "name": "havefuntypingthisfoxwillgetyourarw",
           "stats": {
-            "attack": 57,
-            "defense": 43
+            "attack": 60,
+            "defense": 46
           },
           "wild": false,
-          "xp": 212
+          "xp": 218
         },
         {
           "id": "PlayStation",
-          "name": "play",
+          "name": "p",
           "stats": {
             "attack": 1,
             "defense": 3
@@ -298,7 +309,7 @@
         },
         {
           "id": "Captain Onosa",
-          "name": "croc",
+          "name": "rayliblang",
           "stats": {
             "attack": 2,
             "defense": 2
@@ -308,7 +319,7 @@
         },
         {
           "id": "GDevelop",
-          "name": "gdevelop",
+          "name": "negativeGD",
           "stats": {
             "attack": 3,
             "defense": 2
@@ -318,7 +329,7 @@
         },
         {
           "id": "mario",
-          "name": "funnyitalianmanbutgreen",
+          "name": "mario",
           "stats": {
             "attack": 2,
             "defense": 2
@@ -328,7 +339,7 @@
         },
         {
           "id": "unity",
-          "name": "unity",
+          "name": "i<3u",
           "stats": {
             "attack": 1,
             "defense": 2
@@ -348,7 +359,7 @@
         },
         {
           "id": "3Ds max",
-          "name": "Autodesk003",
+          "name": "f1",
           "stats": {
             "attack": 3,
             "defense": 1
@@ -358,23 +369,13 @@
         },
         {
           "id": "mario",
-          "name": "funnyitalianman",
+          "name": "nwr",
           "stats": {
             "attack": 3,
             "defense": 2
           },
           "wild": false,
           "xp": 3
-        },
-        {
-          "id": "microsoft",
-          "name": "michalows",
-          "stats": {
-            "attack": 2,
-            "defense": 2
-          },
-          "wild": false,
-          "xp": 0
         },
         {
           "id": "mod",
@@ -398,7 +399,7 @@
         },
         {
           "id": "Cinema4D",
-          "name": "DLang",
+          "name": "f2",
           "stats": {
             "attack": 3,
             "defense": 3
@@ -408,7 +409,7 @@
         },
         {
           "id": "nix",
-          "name": "NixOS",
+          "name": "no",
           "stats": {
             "attack": 3,
             "defense": 2
@@ -418,23 +419,13 @@
         },
         {
           "id": "arch",
-          "name": "arch",
+          "name": "altwin",
           "stats": {
             "attack": 2,
             "defense": 1
           },
           "wild": false,
           "xp": 1
-        },
-        {
-          "id": "KDE",
-          "name": "kde",
-          "stats": {
-            "attack": 1,
-            "defense": 1
-          },
-          "wild": false,
-          "xp": 0
         }
       ]
     },
@@ -522,13 +513,13 @@
         },
         {
           "id": "lua",
-          "name": "havefuntypingthislmao",
+          "name": "😡",
           "stats": {
-            "attack": 127,
-            "defense": 111
+            "attack": 131,
+            "defense": 114
           },
           "wild": false,
-          "xp": 289
+          "xp": 236
         },
         {
           "id": "racket",
@@ -542,7 +533,7 @@
         },
         {
           "id": "nix",
-          "name": "nix",
+          "name": "InfiniteCoder01",
           "stats": {
             "attack": 2,
             "defense": 3
@@ -562,7 +553,7 @@
         },
         {
           "id": "helix",
-          "name": "helix",
+          "name": "🧬",
           "stats": {
             "attack": 3,
             "defense": 1
@@ -602,7 +593,7 @@
         },
         {
           "id": "hare",
-          "name": "foxplus",
+          "name": "kuko010",
           "stats": {
             "attack": 3,
             "defense": 2
@@ -662,7 +653,7 @@
             "defense": 2
           },
           "wild": false,
-          "xp": 0
+          "xp": 4
         }
       ]
     },
@@ -674,6 +665,23 @@
         {
           "id": "regex",
           "name": "RegEx",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    },
+    "themoonguyt_t": {
+      "plushiedex": {
+        "KDE": true
+      },
+      "team": [
+        {
+          "id": "KDE",
+          "name": "kgir",
           "stats": {
             "attack": 1,
             "defense": 1
