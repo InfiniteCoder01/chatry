@@ -111,7 +111,7 @@ func _ready() -> void:
 		if not screen: return
 		if chatter == null || chatter.login != from_username: return
 		var force := Vector2(float(args[0]), float(args[1])).limit_length(5.0) * 2000
-		print_debug(force)
+		if force.x != force.x || force.y != force.y: return
 		soft_body.apply_force(force)
 	)
 	Twitch.connect_command("PutOut", func _on_put_out(from_username: String, _info: TwitchCommandInfo, _args: PackedStringArray) -> void:

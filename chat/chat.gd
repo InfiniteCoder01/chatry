@@ -34,6 +34,8 @@ func _on_twitch_eventsub_event(type: StringName, data: Dictionary) -> void:
 		var sound := preload("res://assets/redeem.wav")
 		if PlushieLib.strip(data.reward.title) == "okletsgo":
 			sound = preload("res://assets/sounds/ok_lets_go.wav")
+		elif PlushieLib.strip(data.reward.title) == "heheboi":
+			sound = preload("res://assets/sounds/hehe_boi.wav")
 
 		create_alert.call().play_raw(
 			sprite_frames,

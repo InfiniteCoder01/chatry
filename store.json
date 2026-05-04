@@ -281,6 +281,7 @@
         "hare": true,
         "mario": true,
         "microsoft": true,
+        "minecraft": true,
         "mod": true,
         "nix": true,
         "unity": true,
@@ -289,13 +290,13 @@
       "team": [
         {
           "id": "firefox",
-          "name": "havefuntypingthisfoxwillgetyourarw",
+          "name": "kit",
           "stats": {
             "attack": 60,
             "defense": 46
           },
           "wild": false,
-          "xp": 218
+          "xp": 254
         },
         {
           "id": "PlayStation",
@@ -312,16 +313,6 @@
           "name": "rayliblang",
           "stats": {
             "attack": 2,
-            "defense": 2
-          },
-          "wild": false,
-          "xp": 0
-        },
-        {
-          "id": "GDevelop",
-          "name": "negativeGD",
-          "stats": {
-            "attack": 3,
             "defense": 2
           },
           "wild": false,
@@ -359,7 +350,7 @@
         },
         {
           "id": "3Ds max",
-          "name": "f1",
+          "name": "whoami",
           "stats": {
             "attack": 3,
             "defense": 1
@@ -426,6 +417,16 @@
           },
           "wild": false,
           "xp": 1
+        },
+        {
+          "id": "minecraft",
+          "name": "minecraft",
+          "stats": {
+            "attack": 2,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
@@ -676,6 +677,7 @@
     },
     "themoonguyt_t": {
       "plushiedex": {
+        "GDevelop": true,
         "KDE": true
       },
       "team": [
@@ -685,6 +687,16 @@
           "stats": {
             "attack": 1,
             "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "GDevelop",
+          "name": "ihatethisengine",
+          "stats": {
+            "attack": 3,
+            "defense": 2
           },
           "wild": false,
           "xp": 0
