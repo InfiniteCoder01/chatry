@@ -125,7 +125,7 @@ func _ready() -> void:
 		if !plushie.name_matches(" ".join(args)): return
 		if catch_timeout && catch_timeout.time_left > 0.0: return
 		catch_timeout = screen.get_tree().create_timer(1.0)
-		if randf() <= joints_max * 0.01 / float(health()) / sqrt(plushie.stats.attack):
+		if randf() <= pow(health(), -1.2) * 5.9 / pow(max(plushie.stats.defense, 1), 0.7):
 			Store.viewer(from_username, true).receive(plushie)
 			Store.save()
 			queue_free()

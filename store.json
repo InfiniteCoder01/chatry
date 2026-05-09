@@ -467,6 +467,7 @@
         "Glenda": true,
         "elm": true,
         "firefox": true,
+        "gnome": true,
         "hare": true,
         "helix": true,
         "kast": true,
@@ -632,6 +633,16 @@
           },
           "wild": false,
           "xp": 0
+        },
+        {
+          "id": "gnome",
+          "name": "gnome",
+          "stats": {
+            "attack": 1,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
@@ -654,8 +665,9 @@
     },
     "penguin_operat0r": {
       "plushiedex": {
-        "ruby": true,
-        "Cpp": true
+        "5thFunction": true,
+        "Cpp": true,
+        "ruby": true
       },
       "team": [
         {
@@ -677,6 +689,16 @@
           },
           "wild": false,
           "xp": 4
+        },
+        {
+          "id": "5thFunction",
+          "name": "5thFunction",
+          "stats": {
+            "attack": 2,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
