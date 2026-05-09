@@ -279,6 +279,7 @@
         "aseprite": true,
         "firefox": true,
         "hare": true,
+        "kodee": true,
         "mario": true,
         "microsoft": true,
         "minecraft": true,
@@ -292,11 +293,11 @@
           "id": "firefox",
           "name": "kit",
           "stats": {
-            "attack": 60,
-            "defense": 46
+            "attack": 63,
+            "defense": 48
           },
           "wild": false,
-          "xp": 254
+          "xp": 69
         },
         {
           "id": "PlayStation",
@@ -424,6 +425,16 @@
           "stats": {
             "attack": 2,
             "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "kodee",
+          "name": "kotlinMascot",
+          "stats": {
+            "attack": 2,
+            "defense": 2
           },
           "wild": false,
           "xp": 0
@@ -643,7 +654,8 @@
     },
     "penguin_operat0r": {
       "plushiedex": {
-        "ruby": true
+        "ruby": true,
+        "Cpp": true
       },
       "team": [
         {
@@ -652,6 +664,16 @@
           "stats": {
             "attack": 2,
             "defense": 2
+          },
+          "wild": false,
+          "xp": 4
+        },
+        {
+          "id": "Cpp",
+          "name": "C++",
+          "stats": {
+            "attack": 9,
+            "defense": 8
           },
           "wild": false,
           "xp": 4
