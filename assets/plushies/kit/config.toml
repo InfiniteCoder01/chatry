@@ -1,0 +1,3 @@
+aliases = ["firefox mascot"]
+groups = ["mascot"]
+moves = {3: "fire"}
