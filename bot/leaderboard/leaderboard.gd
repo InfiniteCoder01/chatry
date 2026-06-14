@@ -18,6 +18,7 @@ func _ready() -> void:
 	timer = get_tree().create_timer(1)
 
 func _process(_delta: float) -> void:
+	if timer == null: return
 	if timer.time_left > 0.0: return
 	timer = get_tree().create_timer(1)
 	

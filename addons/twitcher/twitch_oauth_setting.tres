@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="OAuthSetting" load_steps=4 format=3 uid="uid://ry64ckbckh6m"]
+[gd_resource type="Resource" script_class="OAuthSetting" format=3 uid="uid://ry64ckbckh6m"]
 
 [ext_resource type="Script" uid="uid://dcrliedgr6eol" path="res://addons/twitcher/lib/oOuch/crypto_key_provider.gd" id="1_54bgt"]
 [ext_resource type="Script" uid="uid://00xbijwpi8xa" path="res://addons/twitcher/lib/oOuch/oauth_setting.gd" id="2_wroyb"]

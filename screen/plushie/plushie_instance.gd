@@ -171,7 +171,7 @@ func attack(target: PlushieInstance) -> void:
 	for pb in soft_body.get_rigid_bodies():
 		var rb := pb.rigidbody as RigidBody2D
 		rb.contact_monitor = true
-		rb.max_contacts_reported = 5
+		rb.max_contacts_reported = 100
 
 func on_fire() -> bool:
 	for rb in soft_body.get_rigid_bodies():

@@ -249,11 +249,11 @@
           "id": "infinite",
           "name": "Infinite",
           "stats": {
-            "attack": 68,
-            "defense": 61
+            "attack": 72,
+            "defense": 64
           },
           "wild": false,
-          "xp": 316
+          "xp": 110
         },
         {
           "id": "astro",
@@ -278,6 +278,7 @@
         "PlayStation": true,
         "arch": true,
         "aseprite": true,
+        "cargo": true,
         "firefox": true,
         "hare": true,
         "kodee": true,
@@ -287,19 +288,21 @@
         "mod": true,
         "nix": true,
         "pikachu": true,
+        "steam": true,
+        "ubuntu": true,
         "unity": true,
         "vip": true
       },
       "team": [
         {
           "id": "firefox",
-          "name": "firefoxy",
+          "name": "lilfox",
           "stats": {
-            "attack": 63,
-            "defense": 48
+            "attack": 79,
+            "defense": 63
           },
           "wild": false,
-          "xp": 141
+          "xp": 295
         },
         {
           "id": "PlayStation",
@@ -333,7 +336,7 @@
         },
         {
           "id": "unity",
-          "name": "unity",
+          "name": "u",
           "stats": {
             "attack": 1,
             "defense": 2
@@ -349,7 +352,7 @@
             "defense": 1
           },
           "wild": false,
-          "xp": 0
+          "xp": 4
         },
         {
           "id": "3Ds max",
@@ -415,11 +418,11 @@
           "id": "arch",
           "name": "glass",
           "stats": {
-            "attack": 30,
-            "defense": 23
+            "attack": 33,
+            "defense": 25
           },
           "wild": false,
-          "xp": 124
+          "xp": 120
         },
         {
           "id": "minecraft",
@@ -460,6 +463,26 @@
           },
           "wild": false,
           "xp": 0
+        },
+        {
+          "id": "steam",
+          "name": "heatedwater",
+          "stats": {
+            "attack": 3,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "cargo",
+          "name": "gradle-rs",
+          "stats": {
+            "attack": 2,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
@@ -482,10 +505,28 @@
         }
       ]
     },
+    "naym1r": {
+      "plushiedex": {
+        "ubuntu": true
+      },
+      "team": [
+        {
+          "id": "ubuntu",
+          "name": "ubuntu",
+          "stats": {
+            "attack": 3,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    },
     "nigelwithrow": {
       "plushiedex": {
         "5thFunction": true,
         "C": true,
+        "FreePascal": true,
         "Glenda": true,
         "elm": true,
         "firefox": true,
@@ -497,13 +538,16 @@
         "lua": true,
         "markdown": true,
         "micro": true,
+        "microsoft": true,
         "nix": true,
         "nvim": true,
         "ocaml": true,
+        "pygame": true,
         "racket": true,
         "regex": true,
         "rust": true,
-        "tylis": true
+        "tylis": true,
+        "typescript": true
       },
       "team": [
         {
@@ -514,7 +558,7 @@
             "defense": 12
           },
           "wild": false,
-          "xp": 34
+          "xp": 38
         },
         {
           "id": "micro",
@@ -530,15 +574,15 @@
           "id": "lisp",
           "name": "lisp",
           "stats": {
-            "attack": 8,
-            "defense": 5
+            "attack": 10,
+            "defense": 7
           },
           "wild": false,
-          "xp": 25
+          "xp": 1
         },
         {
           "id": "ocaml",
-          "name": "((",
+          "name": "{",
           "stats": {
             "attack": 5,
             "defense": 3
@@ -550,21 +594,21 @@
           "id": "lua",
           "name": "😡",
           "stats": {
-            "attack": 143,
-            "defense": 125
+            "attack": 147,
+            "defense": 129
           },
           "wild": false,
-          "xp": 10
+          "xp": 414
         },
         {
           "id": "racket",
           "name": "racket",
           "stats": {
-            "attack": 5,
-            "defense": 3
+            "attack": 12,
+            "defense": 8
           },
           "wild": false,
-          "xp": 8
+          "xp": 5
         },
         {
           "id": "nix",
@@ -658,10 +702,60 @@
         },
         {
           "id": "gnome",
-          "name": "))",
+          "name": "}",
           "stats": {
             "attack": 1,
             "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "C",
+          "name": "C",
+          "stats": {
+            "attack": 3,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "pygame",
+          "name": "pygame",
+          "stats": {
+            "attack": 1,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "microsoft",
+          "name": "microsoft",
+          "stats": {
+            "attack": 3,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "typescript",
+          "name": "typescript",
+          "stats": {
+            "attack": 2,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "FreePascal",
+          "name": "FreePascal",
+          "stats": {
+            "attack": 20,
+            "defense": 10
           },
           "wild": false,
           "xp": 0
@@ -695,7 +789,7 @@
       "team": [
         {
           "id": "ruby",
-          "name": "gem",
+          "name": "rubin",
           "stats": {
             "attack": 2,
             "defense": 2
@@ -705,7 +799,7 @@
         },
         {
           "id": "Cpp",
-          "name": "C++",
+          "name": "cpp",
           "stats": {
             "attack": 9,
             "defense": 8
@@ -715,7 +809,7 @@
         },
         {
           "id": "5thFunction",
-          "name": "5thFunction",
+          "name": "func",
           "stats": {
             "attack": 2,
             "defense": 1
@@ -725,7 +819,7 @@
         },
         {
           "id": "telegram",
-          "name": "telegram",
+          "name": "tg",
           "stats": {
             "attack": 10,
             "defense": 10
