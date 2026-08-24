@@ -240,6 +240,7 @@
         "infinite": true,
         "kast": true,
         "micro": true,
+        "nvidia": true,
         "ocaml": true,
         "regex": true,
         "rust": true
@@ -253,7 +254,7 @@
             "defense": 64
           },
           "wild": false,
-          "xp": 110
+          "xp": 246
         },
         {
           "id": "astro",
@@ -274,12 +275,18 @@
         "Cinema4D": true,
         "FreePascal": true,
         "GDevelop": true,
+        "GIMP": true,
+        "Glenda": true,
         "KDE": true,
+        "Konqi": true,
+        "Minix": true,
         "PlayStation": true,
         "arch": true,
         "aseprite": true,
         "cargo": true,
         "firefox": true,
+        "godot": true,
+        "golang": true,
         "hare": true,
         "kodee": true,
         "mario": true,
@@ -287,22 +294,24 @@
         "minecraft": true,
         "mod": true,
         "nix": true,
+        "nvidia": true,
         "pikachu": true,
         "steam": true,
         "ubuntu": true,
         "unity": true,
-        "vip": true
+        "vip": true,
+        "zig": true
       },
       "team": [
         {
           "id": "firefox",
-          "name": "lilfox",
+          "name": "foxxy",
           "stats": {
-            "attack": 79,
-            "defense": 63
+            "attack": 86,
+            "defense": 69
           },
           "wild": false,
-          "xp": 295
+          "xp": 136
         },
         {
           "id": "PlayStation",
@@ -316,7 +325,7 @@
         },
         {
           "id": "Captain Onosa",
-          "name": "destroyedonosa",
+          "name": "onosa",
           "stats": {
             "attack": 2,
             "defense": 2
@@ -326,7 +335,7 @@
         },
         {
           "id": "mario",
-          "name": "gonemario",
+          "name": "mario",
           "stats": {
             "attack": 2,
             "defense": 2
@@ -346,7 +355,7 @@
         },
         {
           "id": "aseprite",
-          "name": "sprites",
+          "name": "art",
           "stats": {
             "attack": 1,
             "defense": 1
@@ -366,7 +375,7 @@
         },
         {
           "id": "mario",
-          "name": "nwr",
+          "name": "mario-mark-2",
           "stats": {
             "attack": 3,
             "defense": 2
@@ -418,11 +427,11 @@
           "id": "arch",
           "name": "glass",
           "stats": {
-            "attack": 33,
-            "defense": 25
+            "attack": 42,
+            "defense": 31
           },
           "wild": false,
-          "xp": 120
+          "xp": 50
         },
         {
           "id": "minecraft",
@@ -436,7 +445,7 @@
         },
         {
           "id": "kodee",
-          "name": "kotlinMascot",
+          "name": "kodee",
           "stats": {
             "attack": 2,
             "defense": 2
@@ -456,7 +465,7 @@
         },
         {
           "id": "FreePascal",
-          "name": "FreePascal",
+          "name": "fp",
           "stats": {
             "attack": 3,
             "defense": 2
@@ -466,7 +475,7 @@
         },
         {
           "id": "steam",
-          "name": "heatedwater",
+          "name": "steam",
           "stats": {
             "attack": 3,
             "defense": 2
@@ -476,13 +485,73 @@
         },
         {
           "id": "cargo",
-          "name": "gradle-rs",
+          "name": "cargo",
           "stats": {
             "attack": 2,
             "defense": 1
           },
           "wild": false,
           "xp": 0
+        },
+        {
+          "id": "GIMP",
+          "name": "GIMP",
+          "stats": {
+            "attack": 10,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "Minix",
+          "name": "Minix",
+          "stats": {
+            "attack": 10,
+            "defense": 20
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "godot",
+          "name": "gd",
+          "stats": {
+            "attack": 30,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "zig",
+          "name": "zig",
+          "stats": {
+            "attack": 30,
+            "defense": 10
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "Glenda",
+          "name": "Glenda",
+          "stats": {
+            "attack": 20,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "Konqi",
+          "name": "lizard",
+          "stats": {
+            "attack": 10,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 60
         }
       ]
     },
@@ -499,6 +568,23 @@
           "stats": {
             "attack": 1,
             "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        }
+      ]
+    },
+    "myzykyn": {
+      "plushiedex": {
+        "golang": true
+      },
+      "team": [
+        {
+          "id": "golang",
+          "name": "golang",
+          "stats": {
+            "attack": 1,
+            "defense": 2
           },
           "wild": false,
           "xp": 0
@@ -525,24 +611,37 @@
     "nigelwithrow": {
       "plushiedex": {
         "5thFunction": true,
+        "Bitcoin": true,
         "C": true,
         "FreePascal": true,
         "Glenda": true,
+        "OBS": true,
+        "OpenGL": true,
+        "chromium": true,
         "elm": true,
         "firefox": true,
+        "gitkraken": true,
         "gnome": true,
         "hare": true,
         "helix": true,
         "kast": true,
+        "lazarus": true,
+        "linux": true,
         "lisp": true,
+        "llvm": true,
         "lua": true,
         "markdown": true,
         "micro": true,
         "microsoft": true,
+        "mod": true,
         "nix": true,
+        "nvidia": true,
         "nvim": true,
         "ocaml": true,
+        "orco": true,
+        "plasma": true,
         "pygame": true,
+        "qbittorrent": true,
         "racket": true,
         "regex": true,
         "rust": true,
@@ -554,11 +653,11 @@
           "id": "rust",
           "name": "Rust",
           "stats": {
-            "attack": 13,
-            "defense": 12
+            "attack": 14,
+            "defense": 13
           },
           "wild": false,
-          "xp": 38
+          "xp": 56
         },
         {
           "id": "micro",
@@ -574,11 +673,11 @@
           "id": "lisp",
           "name": "lisp",
           "stats": {
-            "attack": 10,
-            "defense": 7
+            "attack": 14,
+            "defense": 10
           },
           "wild": false,
-          "xp": 1
+          "xp": 9
         },
         {
           "id": "ocaml",
@@ -594,11 +693,11 @@
           "id": "lua",
           "name": "😡",
           "stats": {
-            "attack": 147,
-            "defense": 129
+            "attack": 151,
+            "defense": 132
           },
           "wild": false,
-          "xp": 414
+          "xp": 562
         },
         {
           "id": "racket",
@@ -759,6 +858,176 @@
           },
           "wild": false,
           "xp": 0
+        },
+        {
+          "id": "llvm",
+          "name": "llvm",
+          "stats": {
+            "attack": 20,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "FreePascal",
+          "name": "FreePascal",
+          "stats": {
+            "attack": 20,
+            "defense": 10
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "helix",
+          "name": "helix",
+          "stats": {
+            "attack": 20,
+            "defense": 10
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "orco",
+          "name": "orco",
+          "stats": {
+            "attack": 3,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "OBS",
+          "name": "OBS",
+          "stats": {
+            "attack": 20,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "nvidia",
+          "name": "NVidia",
+          "stats": {
+            "attack": 30,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "FreePascal",
+          "name": "FreePascal",
+          "stats": {
+            "attack": 30,
+            "defense": 20
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "OpenGL",
+          "name": "OpenGL",
+          "stats": {
+            "attack": 30,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "Bitcoin",
+          "name": "Bitcoin",
+          "stats": {
+            "attack": 20,
+            "defense": 10
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "plasma",
+          "name": "works?",
+          "stats": {
+            "attack": 10,
+            "defense": 20
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "mod",
+          "name": "mod",
+          "stats": {
+            "attack": 50,
+            "defense": 50
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "linux",
+          "name": "linux",
+          "stats": {
+            "attack": 50,
+            "defense": 10
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "qbittorrent",
+          "name": "qbittorrent",
+          "stats": {
+            "attack": 15,
+            "defense": 15
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "lazarus",
+          "name": "lazarus",
+          "stats": {
+            "attack": 10,
+            "defense": 10
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "nvim",
+          "name": "nvim",
+          "stats": {
+            "attack": 10,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "gitkraken",
+          "name": "gitkraken",
+          "stats": {
+            "attack": 30,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "chromium",
+          "name": "chromium",
+          "stats": {
+            "attack": 20,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
@@ -783,13 +1052,23 @@
       "plushiedex": {
         "5thFunction": true,
         "Cpp": true,
+        "badcop": true,
+        "brave": true,
+        "forth": true,
+        "gitlab": true,
+        "holy C": true,
+        "kit": true,
+        "kuviman": true,
+        "mach": true,
+        "pikachu": true,
+        "regex": true,
         "ruby": true,
         "telegram": true
       },
       "team": [
         {
           "id": "ruby",
-          "name": "rubin",
+          "name": "ruby",
           "stats": {
             "attack": 2,
             "defense": 2
@@ -801,15 +1080,15 @@
           "id": "Cpp",
           "name": "cpp",
           "stats": {
-            "attack": 9,
-            "defense": 8
+            "attack": 15,
+            "defense": 12
           },
           "wild": false,
-          "xp": 4
+          "xp": 12
         },
         {
           "id": "5thFunction",
-          "name": "func",
+          "name": "fn5",
           "stats": {
             "attack": 2,
             "defense": 1
@@ -821,8 +1100,108 @@
           "id": "telegram",
           "name": "tg",
           "stats": {
+            "attack": 12,
+            "defense": 12
+          },
+          "wild": false,
+          "xp": 10
+        },
+        {
+          "id": "regex",
+          "name": "regex",
+          "stats": {
             "attack": 10,
             "defense": 10
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "kuviman",
+          "name": "kuviman",
+          "stats": {
+            "attack": 2,
+            "defense": 3
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "pikachu",
+          "name": "pikachu",
+          "stats": {
+            "attack": 20,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "forth",
+          "name": "forth",
+          "stats": {
+            "attack": 30,
+            "defense": 10
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "holy C",
+          "name": "holyc",
+          "stats": {
+            "attack": 30,
+            "defense": 20
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "badcop",
+          "name": "badcop",
+          "stats": {
+            "attack": 30,
+            "defense": 20
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "mach",
+          "name": "mach",
+          "stats": {
+            "attack": 30,
+            "defense": 10
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "brave",
+          "name": "brave",
+          "stats": {
+            "attack": 30,
+            "defense": 10
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "kit",
+          "name": "kit",
+          "stats": {
+            "attack": 30,
+            "defense": 10
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "gitlab",
+          "name": "gitlab",
+          "stats": {
+            "attack": 20,
+            "defense": 20
           },
           "wild": false,
           "xp": 0
