@@ -79,6 +79,7 @@ class Move:
 	var timer: SceneTreeTimer = null
 	func timeout(time: float) -> bool:
 		if timer && timer.time_left > 0.0: return true
+		if get_tree() == null: return true
 		timer = get_tree().create_timer(time)
 		return false
 			

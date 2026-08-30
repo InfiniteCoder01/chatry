@@ -11,7 +11,6 @@ script = ExtResource("2_emcgf")
 token_url = "https://id.twitch.tv/oauth2/token"
 authorization_url = "https://id.twitch.tv/oauth2/authorize"
 device_authorization_url = "https://id.twitch.tv/oauth2/device"
-cache_file = "user://auth.conf"
 client_id = "oiwroapnzpputm2e2ln8ebusqiggei"
+client_secret = "qCiHCjo+1EJp5xGXvEg2pXofMxEssyito90crKhrisc="
 _encryption_key_provider = SubResource("Resource_ss7yp")
-client_secret = "KcspHtQKUvy/UsdyD9o6fakxvW9VKt8CzKVw+J/5eBw="

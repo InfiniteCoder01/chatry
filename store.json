@@ -280,14 +280,17 @@
         "KDE": true,
         "Konqi": true,
         "Minix": true,
+        "OpenGL": true,
         "PlayStation": true,
         "arch": true,
         "aseprite": true,
         "cargo": true,
+        "chromium": true,
         "firefox": true,
         "godot": true,
         "golang": true,
         "hare": true,
+        "haskell": true,
         "kodee": true,
         "mario": true,
         "microsoft": true,
@@ -295,6 +298,7 @@
         "mod": true,
         "nix": true,
         "nvidia": true,
+        "perl": true,
         "pikachu": true,
         "steam": true,
         "ubuntu": true,
@@ -307,11 +311,11 @@
           "id": "firefox",
           "name": "foxxy",
           "stats": {
-            "attack": 86,
-            "defense": 69
+            "attack": 89,
+            "defense": 72
           },
           "wild": false,
-          "xp": 136
+          "xp": 351
         },
         {
           "id": "PlayStation",
@@ -431,7 +435,7 @@
             "defense": 31
           },
           "wild": false,
-          "xp": 50
+          "xp": 66
         },
         {
           "id": "minecraft",
@@ -552,6 +556,66 @@
           },
           "wild": false,
           "xp": 60
+        },
+        {
+          "id": "perl",
+          "name": "fred",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "chromium",
+          "name": "chromium",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "haskell",
+          "name": "old",
+          "stats": {
+            "attack": 1,
+            "defense": 1
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "OpenGL",
+          "name": "directx",
+          "stats": {
+            "attack": 1,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "OpenGL",
+          "name": "Vulkan",
+          "stats": {
+            "attack": 1,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "OpenGL",
+          "name": "OpenGL4",
+          "stats": {
+            "attack": 1,
+            "defense": 2
+          },
+          "wild": false,
+          "xp": 0
         }
       ]
     },
@@ -646,7 +710,8 @@
         "regex": true,
         "rust": true,
         "tylis": true,
-        "typescript": true
+        "typescript": true,
+        "vim": true
       },
       "team": [
         {
@@ -673,11 +738,11 @@
           "id": "lisp",
           "name": "lisp",
           "stats": {
-            "attack": 14,
-            "defense": 10
+            "attack": 20,
+            "defense": 15
           },
           "wild": false,
-          "xp": 9
+          "xp": 5
         },
         {
           "id": "ocaml",
@@ -693,11 +758,11 @@
           "id": "lua",
           "name": "😡",
           "stats": {
-            "attack": 151,
-            "defense": 132
+            "attack": 155,
+            "defense": 136
           },
           "wild": false,
-          "xp": 562
+          "xp": 287
         },
         {
           "id": "racket",
@@ -1022,6 +1087,16 @@
         {
           "id": "chromium",
           "name": "chromium",
+          "stats": {
+            "attack": 20,
+            "defense": 30
+          },
+          "wild": false,
+          "xp": 0
+        },
+        {
+          "id": "vim",
+          "name": "vim",
           "stats": {
             "attack": 20,
             "defense": 30

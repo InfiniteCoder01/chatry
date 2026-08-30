@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b3anpbk1jg36p"]
+[gd_scene format=3 uid="uid://b3anpbk1jg36p"]
 
 [ext_resource type="Script" uid="uid://dqyvcaoajt6yt" path="res://screen/screen.gd" id="1_pjsv7"]
 [ext_resource type="Script" uid="uid://cg2xqs2t3duc7" path="res://screen/window_border_walls.gd" id="2_jipth"]
@@ -10,16 +10,16 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_sc4t8"]
 radius = 1.0
 
-[node name="Screen" type="Node2D"]
+[node name="Screen" type="Node2D" unique_id=2011128372]
 script = ExtResource("1_pjsv7")
 
-[node name="Walls" type="StaticBody2D" parent="."]
+[node name="Walls" type="StaticBody2D" parent="." unique_id=988753363]
 script = ExtResource("2_jipth")
 
-[node name="Plushies" type="Node" parent="."]
+[node name="Plushies" type="Node" parent="." unique_id=486098029]
 unique_name_in_owner = true
 
-[node name="MouseFollower" type="RigidBody2D" parent="."]
+[node name="MouseFollower" type="RigidBody2D" parent="." unique_id=825989167]
 mass = 20.0
 gravity_scale = 0.0
 continuous_cd = 1
@@ -27,12 +27,12 @@ linear_damp = 20.0
 script = ExtResource("3_utr6i")
 metadata/_custom_type_script = "uid://da8gm883a08cc"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseFollower"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseFollower" unique_id=1719615363]
 shape = SubResource("CircleShape2D_sc4t8")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1915822114]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1395354610]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -42,7 +42,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_3286v")
 
-[node name="RightSide" type="MarginContainer" parent="CanvasLayer/Control"]
+[node name="RightSide" type="MarginContainer" parent="CanvasLayer/Control" unique_id=1859740368]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -51,13 +51,13 @@ offset_left = -426.0
 offset_bottom = 604.0
 grow_horizontal = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/RightSide"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/RightSide" unique_id=556480766]
 layout_mode = 2
 
-[node name="Leaderboard" parent="CanvasLayer/Control/RightSide/VBoxContainer" instance=ExtResource("6_o8j8g")]
+[node name="Leaderboard" parent="CanvasLayer/Control/RightSide/VBoxContainer" unique_id=1235512474 instance=ExtResource("6_o8j8g")]
 layout_mode = 2
 
-[node name="Chat" parent="CanvasLayer/Control/RightSide/VBoxContainer" instance=ExtResource("7_c2lc3")]
+[node name="Chat" parent="CanvasLayer/Control/RightSide/VBoxContainer" unique_id=1878144277 instance=ExtResource("7_c2lc3")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 600)
 layout_mode = 2

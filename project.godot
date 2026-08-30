@@ -16,7 +16,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="chatry"
 run/main_scene="res://screen/screen.tscn"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [audio]
@@ -51,7 +51,7 @@ window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/softbody2d/plugin.cfg", "res://addons/twitcher/plugin.cfg")
+enabled=PackedStringArray("res://addons/softbody2d/plugin.cfg", "res://addons/twitcher/plugin.cfg", "res://addons/wakatime/plugin.cfg")
 
 [input]
 

@@ -31,10 +31,9 @@ script = ExtResource("4_nquir")
 token_url = "https://id.twitch.tv/oauth2/token"
 authorization_url = "https://id.twitch.tv/oauth2/authorize"
 device_authorization_url = "https://id.twitch.tv/oauth2/device"
-cache_file = "user://auth.bot.conf"
 client_id = "oiwroapnzpputm2e2ln8ebusqiggei"
+client_secret = "qCiHCjo+1EJp5xGXvEg2pXofMxEssyito90crKhrisc="
 _encryption_key_provider = SubResource("Resource_54bgt")
-client_secret = "KcspHtQKUvy/UsdyD9o6fakxvW9VKt8CzKVw+J/5eBw="
 
 [sub_resource type="Resource" id="Resource_4utia"]
 script = ExtResource("3_are2j")
@@ -43,7 +42,6 @@ metadata/_custom_type_script = "uid://b3n3et8mebjcc"
 
 [sub_resource type="Resource" id="Resource_xyylq"]
 script = ExtResource("7_q542u")
-_identifier = "Bot"
 _cache_path = "user://bot_auth.conf"
 
 [sub_resource type="Resource" id="Resource_jcd2f"]
@@ -75,7 +73,6 @@ metadata/_custom_type_script = "uid://b3n3et8mebjcc"
 
 [sub_resource type="Resource" id="Resource_g44ll"]
 script = ExtResource("7_q542u")
-_identifier = "Broadcaster"
 metadata/_custom_type_script = "uid://b52xp7c23ucfk"
 
 [sub_resource type="Resource" id="Resource_y5e8h"]
@@ -197,7 +194,6 @@ oauth_setting = SubResource("Resource_68dwe")
 [node name="TwitchEventsub" type="Node" parent="Bot" unique_id=1539576614 node_paths=PackedStringArray("api")]
 script = ExtResource("6_g44ll")
 api = NodePath("../TwitchAPI")
-scopes = SubResource("Resource_4utia")
 
 [node name="TwitchMediaLoader" type="Node" parent="Bot" unique_id=1966780622 node_paths=PackedStringArray("api")]
 script = ExtResource("7_qpb44")
@@ -235,8 +231,8 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
 [node name="Plushie" type="Node" parent="Bot/Commands/Spawn" unique_id=1349481077 node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
-command = "plushie"
 aliases = Array[String](["plushy"])
+command = "plushie"
 description = "Summon a plushie. Might be from your team or just a wild one!"
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
@@ -259,20 +255,20 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
 [node name="AddForce" type="Node" parent="Bot/Commands/Control" unique_id=1622251750 node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
-command = "add_force"
 aliases = Array[String](["addforce", "jump"])
-description = "Go, plushie, go!"
 args_min = 2
 args_max = 2
+command = "add_force"
+description = "Go, plushie, go!"
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
 [node name="PutOut" type="Node" parent="Bot/Commands/Control" unique_id=822464727 node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
-command = "put_out"
 aliases = Array[String](["putout"])
-description = "Stop the plushie from burning"
 args_max = 0
+command = "put_out"
+description = "Stop the plushie from burning"
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
@@ -280,46 +276,45 @@ metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
 [node name="Team" type="Node" parent="Bot/Commands/Team_" unique_id=206863569 node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
+args_max = 1
 command = "team"
 description = "See what plushies you have"
-args_max = 1
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
 [node name="Rename" type="Node" parent="Bot/Commands/Team_" unique_id=1020573794 node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
-command = "rename"
 aliases = Array[String](["name"])
-description = "Rename a plushie from your team. Rename last plushie: !name <new name>; Rename any: !name <old name> <new name>"
 args_min = 1
 args_max = 2
+command = "rename"
+description = "Rename a plushie from your team. Rename last plushie: !name <new name>; Rename any: !name <old name> <new name>"
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
 [node name="Catch" type="Node" parent="Bot/Commands/Team_" unique_id=1550344349 node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
+args_min = 1
 command = "catch"
 description = "Catch a plushie"
-args_min = 1
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
 [node name="PlushieDex" type="Node" parent="Bot/Commands/Team_" unique_id=1392158524 node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
-command = "plushiedex"
 aliases = Array[String](["plushydex"])
+command = "plushiedex"
 description = "All the plushies you have ever had"
-args_max = 0
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
 [node name="Gift" type="Node" parent="Bot/Commands/Team_" unique_id=655634148 node_paths=PackedStringArray("eventsub")]
 script = ExtResource("18_68dwe")
-command = "gift"
 aliases = Array[String](["give"])
-description = "Gift your plushie to somebody, !gift <somebody> <plushie>"
 args_min = 2
 args_max = 2
+command = "gift"
+description = "Gift your plushie to somebody, !gift <somebody> <plushie>"
 eventsub = NodePath("../../../TwitchEventsub")
 metadata/_custom_type_script = "uid://bmluckfvgm1c2"
 
@@ -358,7 +353,6 @@ metadata/_custom_type_script = "uid://cw30cwveway65"
 script = ExtResource("6_g44ll")
 api = NodePath("../TwitchAPI")
 _subscriptions = Array[ExtResource("13_xyylq")]([SubResource("Resource_c0nbd"), SubResource("Resource_m45fd"), SubResource("Resource_3ow4j"), SubResource("Resource_nmfof"), SubResource("Resource_5gcrs")])
-scopes = SubResource("Resource_jfaip")
 metadata/_custom_type_script = "uid://blmhj3j00yk45"
 
 [node name="TwitchChat" type="Node" parent="Broadcaster" unique_id=1463349292 node_paths=PackedStringArray("media_loader", "eventsub", "api")]

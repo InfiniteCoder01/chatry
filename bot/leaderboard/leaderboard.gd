@@ -7,8 +7,10 @@ extends Control
 func update_label(idx: int, username: String) -> void:
 	var labels: Array[RichTextLabel] = [_1_st, _2_nd, _3_rd]
 	var colors: Array[String] = ["gold", "silver", "peru"]
+	var user := await Twitch.bot.get_user(username)
+	if not user: return
 	labels[idx].parse_bbcode("[color=%s]%s[/color]\n%d" % [
-		colors[idx], (await Twitch.bot.get_user(username)).display_name,
+		colors[idx], user.display_name,
 		Store.viewer(username).plushiedex.size()
 	])
 

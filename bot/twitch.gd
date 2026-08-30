@@ -16,10 +16,10 @@ var simple_commands: Dictionary[String, String] = {}
 var recent_chatters: Dictionary[String, bool]
 
 func _ready() -> void:
-	print("Authorize bot")
-	await bot.setup()
 	print("Authorize broadcaster")
 	await broadcaster.setup()
+	print("Authorize bot")
+	await bot.setup()
 	print("READY!")
 	PlushieInstance.connect_heat()
 	

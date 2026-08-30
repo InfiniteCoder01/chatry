@@ -160,7 +160,7 @@ var attack_target: PlushieInstance
 var attack_hits: int
 func attack(target: PlushieInstance) -> void:
 	var impulse := (target.center() - center())
-	var power := float(plushie.stats.attack) / target.plushie.stats.defense
+	var power := float(plushie.stats.attack) / max(target.plushie.stats.defense, 0.001) as float
 	if target.config().groups.has("cpus") || target.config().groups.has("embedded"):
 		power *= 1.3
 

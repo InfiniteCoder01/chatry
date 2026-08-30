@@ -72,9 +72,18 @@ func _ready() -> void:
 		
 		var msg := "Your team consists of %d plushies" % chatter.team.size()
 		if !chatter.team.is_empty():
-			msg += ": %s" % format_strings(chatter.team.map(func (plushie: Plushie) -> String:
-				return "%s (LVL %s)" % [plushie.name, plushie.level()]
-			))
+			msg += ": "
+			for i in range(chatter.team.size()):
+				if i > 0:
+					if i == chatter.team.size() - 1: msg += " and "
+					elif !msg.is_empty(): msg += ", "
+
+				var plushie := chatter.team[i]
+				msg += "%s (LVL %s)" % [plushie.name, plushie.level()]
+				if i % 20 == 19:
+					Twitch.chat.send_message(msg, info.original_message.message_id)
+					await get_tree().create_timer(0.1).timeout
+					msg = ""
 		msg += "! Use !team <team member> to see stats of a plushie. See !help for more."
 
 		Twitch.chat.send_message(msg, info.original_message.message_id)
@@ -96,9 +105,14 @@ func _ready() -> void:
 		save()
 	)
 
-	Twitch.connect_command("PlushieDex", func _on_plushiedex(from_username: String, info: TwitchCommandInfo, _args: PackedStringArray) -> void:
+	Twitch.connect_command("PlushieDex", func _on_plushiedex(from_username: String, info: TwitchCommandInfo, args: PackedStringArray) -> void:
 		var chatter := viewer(from_username)
-		Twitch.chat.send_message("You have caught %d/%d plushies!" % [chatter.plushiedex.size(), PlushieLib.all.size()], info.original_message.message_id)
+		if args.is_empty():
+			Twitch.chat.send_message("You have caught %d/%d plushies!" % [chatter.plushiedex.size(), PlushieLib.all.size()], info.original_message.message_id)
+		else:
+			var plushie := PlushieLib.find(" ".join(args))
+			if not plushie: return
+			Twitch.chat.send_message("You have%s caught %s before!" % ["" if chatter.plushiedex.has(plushie.name) else "n't", plushie.name])
 	)
 
 	Twitch.connect_command("Gift", func _on_gift(from_username: String, _info: TwitchCommandInfo, args: PackedStringArray) -> void:

@@ -48,6 +48,7 @@ func _notification(what: int) -> void:
 		NOTIFICATION_WM_WINDOW_FOCUS_IN:
 			get_window().mouse_passthrough = false
 		NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+			pass
 			get_window().mouse_passthrough = true
 
 # -------------------------------------------------------------------------- Twitch
